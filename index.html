@@ -27,6 +27,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 nav{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
 .tab{border:1px solid var(--ink);background:var(--paper);padding:2px 10px;font-size:14px;min-height:34px;box-shadow:2px 2px 0 var(--ink)}
 .tab:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}
+a.tab{display:inline-flex;align-items:center;text-decoration:none;color:var(--red)}
 #stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px 14px;font-size:13px}
 .st{display:grid;gap:3px}
 .st span{display:flex;justify-content:space-between;align-items:baseline}
@@ -143,7 +144,7 @@ textarea{width:100%;min-height:110px;font:13px/1.4 monospace;padding:8px;border:
     <div class="chop" aria-hidden="true">穆<br>席</div>
     <div class="r1">
       <span id="date"></span><span id="slot"></span><span id="wx"></span>
-      <nav><button class="tab" data-m="log">起居注</button><button class="tab" data-m="where">七人行蹤</button><button class="tab" data-m="save">存檔</button></nav>
+      <nav><a class="tab wl" href="https://sae709lu-creator.github.io/muxi/world/" target="_top">世界觀</a><button class="tab" data-m="log">起居注</button><button class="tab" data-m="where">七人行蹤</button><button class="tab" data-m="save">存檔</button></nav>
     </div>
     <div id="stats"></div>
   </header>
@@ -161,6 +162,7 @@ textarea{width:100%;min-height:110px;font:13px/1.4 monospace;padding:8px;border:
   <div class="setup">
     <div class="ttl"><h1>穆席王朝</h1><span>像素皇帝模擬器</span></div>
     <p class="hint" style="margin:0">二月二十八日，登基大典。今天起，這座宮城歸陛下管了。</p>
+    <p class="hint" style="margin:6px 0 0">想先認識這座宮城？<a href="https://sae709lu-creator.github.io/muxi/world/" target="_top" style="color:var(--red)">逛逛穆席世界觀</a></p>
     <div class="row" id="cont" hidden><button class="seal" id="bCont">續玩存檔<small id="contInfo"></small></button><button class="plank" id="bImp0">匯入存檔</button></div>
     <div class="sgrid">
       <div class="pvw"><canvas id="pv" width="20" height="30"></canvas></div>
@@ -1064,7 +1066,7 @@ function where(id){let w=WHERE[id][S.slot];if(w==='*')w=S.aff.du.tier>=2?'明宸
 function modal(title,html){$('#mt').textContent=title;$('#mb').innerHTML=html;$('#modal').hidden=false;$('#mx').focus();}
 $('#mx').onclick=()=>{$('#modal').hidden=true;};
 $('#modal').onclick=e=>{if(e.target.id==='modal')$('#modal').hidden=true;};
-document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
+document.querySelectorAll('button.tab').forEach(b=>b.onclick=()=>{
   const m=b.dataset.m;
   if(m==='log'){const rows=[{d:yearName(S.y)+dateStr()+'（今日）',t:S.today.length?S.today.join('；')+'。':'尚未記事。'}].concat(S.log);
     const fd=Object.values(S.found||{});
