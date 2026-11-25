@@ -1,6 +1,1118 @@
 <!DOCTYPE html>
-<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>穆席王朝</title>
-<style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f4efe4;color:#2d2823;font-family:'Noto Serif TC','Songti TC',serif;text-align:center}
-h1{writing-mode:vertical-rl;font-size:56px;letter-spacing:.2em;margin:0 auto 24px}a{display:inline-block;border:1.5px solid #2d2823;padding:8px 22px;color:inherit;text-decoration:none;letter-spacing:.3em}p{color:#6f655a}</style>
-</head><body><div><h1>穆席王朝</h1><p>皇帝模擬器整理中，即將開放。</p><a href="world/">先遊覽世界觀</a></div></body></html>
+<style>
+/* VOICE: 幽默的宮廷日常，像一本會動的起居注
+   IDEA: 宣紙冊頁上嵌著一扇像素宮窗；按鈕是木牌與朱印
+   PICTURE: 160×90 像素場景，有光影、煙、水波、落花；角色 16×24 描邊小人
+   COLOUR and TYPE: 宣紙 #f4efe4、墨 #2d2823、朱紅 #8f2a22、金 #a8834a；系統襯線字
+   LAYOUT: 上方冊頁抬頭、中間木框場景、下方對話卷或木牌，360px 可玩 */
+:root{color-scheme:light;--paper:#f4efe4;--paper2:#ebe2d0;--ink:#2d2823;--red:#8f2a22;--gold:#a8834a;--wood:#3e2c1c}
+*{box-sizing:border-box;min-width:0}
+html{background:#e8dfcd}
+body{margin:0;color:var(--ink);font:16px/1.6 'Noto Serif TC','Songti TC','Source Han Serif TC','PMingLiU',serif;overflow-x:clip;-webkit-tap-highlight-color:transparent;
+ background:var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .36 0 0 0 0 .22 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,.dlg:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+#app{max-width:780px;margin:0 auto;padding:10px 10px 28px}
+#top{position:relative;display:grid;gap:8px;padding:10px 14px 10px 62px;border:1px solid var(--ink);outline:3px double var(--ink);outline-offset:3px;background:rgba(251,247,238,.75);margin:4px}
+.chop{position:absolute;left:12px;top:50%;margin-top:-20px;width:40px;height:40px;background:var(--red);color:#f6eadb;display:grid;place-items:center;font-size:15px;line-height:1.05;text-align:center;font-weight:700;border-radius:3px;box-shadow:inset 0 0 0 2px var(--red),inset 0 0 0 3px #f6eadb;transform:rotate(-4deg)}
+.r1{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 12px}
+#date{font-weight:700;font-size:18px;letter-spacing:.04em}
+#slot b{color:var(--red)}
+#wx{color:#6b5f52}
+nav{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.tab{border:1px solid var(--ink);background:var(--paper);padding:2px 10px;font-size:14px;min-height:34px;box-shadow:2px 2px 0 var(--ink)}
+.tab:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}
+#stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px 14px;font-size:13px}
+.st{display:grid;gap:3px}
+.st span{display:flex;justify-content:space-between;align-items:baseline}
+.st b{font-variant-numeric:tabular-nums}
+.bar{height:8px;background:#ddd2bd;border:1px solid var(--ink);padding:1px}
+.bar i{display:block;height:100%;background:linear-gradient(#c9a560,var(--gold));transition:width .5s}
+.bar.low i{background:linear-gradient(#b8483a,var(--red))}
+.pips{display:flex;gap:2px;height:8px}
+.pips i{flex:1;background:#ddd2bd;border:1px solid var(--ink);transform:skewX(-12deg)}
+.pips i.on{background:#5e7d5a}
+#stage{position:relative;margin-top:16px;padding:7px;background:linear-gradient(135deg,#4e3822,#2e2014);border-radius:3px;box-shadow:0 0 0 1px #1a120a,4px 5px 0 rgba(45,40,35,.85);line-height:0}
+#stage::before{content:"";position:absolute;inset:4px;border:1px solid #a8834a;pointer-events:none;border-radius:2px}
+.cn{position:absolute;width:14px;height:14px;border:3px solid #c9a227;pointer-events:none;z-index:2}
+.cn.a{left:2px;top:2px;border-right:0;border-bottom:0}.cn.b{right:2px;top:2px;border-left:0;border-bottom:0}.cn.c{left:2px;bottom:2px;border-right:0;border-top:0}.cn.d{right:2px;bottom:2px;border-left:0;border-top:0}
+.view{position:relative;overflow:hidden;background:#000}
+#cv{width:100%;aspect-ratio:16/9;image-rendering:pixelated;image-rendering:crisp-edges;display:block}
+#loc{position:absolute;left:50%;top:0;transform:translateX(-50%);line-height:1.25;font-size:14px;letter-spacing:.2em;padding:4px 10px 4px 14px;background:#1e1814;color:#e8c860;border:2px solid #a8834a;border-top:0;box-shadow:0 2px 0 rgba(0,0,0,.4);white-space:nowrap}
+#fest{position:absolute;right:8px;top:8px;line-height:1.25;font-size:12px;padding:6px 4px;width:24px;writing-mode:vertical-rl;background:#f4efe4;color:var(--red);border:1px solid var(--red);box-shadow:2px 2px 0 rgba(0,0,0,.35)}
+#tip{position:absolute;transform:translate(-50%,-130%);line-height:1.2;font-size:13px;padding:3px 8px;background:#f4efe4;border:1px solid var(--ink);box-shadow:2px 2px 0 rgba(0,0,0,.4);white-space:nowrap;pointer-events:none}
+#tip[hidden]{display:none}
+#wipe{position:absolute;inset:0;background:#1a120c;opacity:0;pointer-events:none;transition:opacity .4s}
+#wipe.on{opacity:1;transition:none}
+#fade{position:absolute;inset:0;background:#0d0b0a;opacity:0;pointer-events:none;transition:opacity 1.2s;display:grid;place-items:center;color:#e9dcc0;font-size:16px;line-height:1.5;letter-spacing:.1em}
+#fade.on{opacity:1}
+#toast{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);display:flex;flex-wrap:wrap;justify-content:center;gap:4px;line-height:1.3;pointer-events:none;width:90%}
+#toast span{background:#f4efe4;color:var(--ink);border:1px solid var(--ink);font-size:13px;padding:2px 8px;animation:up 2.4s forwards;box-shadow:2px 2px 0 rgba(0,0,0,.4)}
+#toast span.neg{background:var(--red);color:#f6eadb;border-color:#5a1914}
+@keyframes up{0%{opacity:0;transform:translateY(6px)}12%{opacity:1;transform:none}80%{opacity:1}100%{opacity:0;transform:translateY(-4px)}}
+#panel{margin-top:16px;min-height:220px}
+.hint{font-size:14px;color:#6b5f52;margin:0 0 10px;display:flex;align-items:center;gap:8px}
+.hint::before{content:"";width:6px;height:6px;background:var(--red);transform:rotate(45deg);flex:none}
+.acts{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+.plank{position:relative;min-height:50px;padding:10px 12px 8px;border:2px solid #3e2a16;border-radius:5px 5px 7px 7px;color:#2a1e12;text-align:center;line-height:1.3;
+ background:repeating-linear-gradient(92deg,rgba(90,60,30,.0) 0 7px,rgba(90,60,30,.10) 7px 8px,rgba(90,60,30,0) 8px 19px,rgba(90,60,30,.07) 19px 20px),linear-gradient(#ddbf8e,#b8925e);
+ box-shadow:inset 0 1px 0 #f4e0b8,inset 0 -3px 0 #8a6a42,3px 3px 0 var(--ink);text-shadow:0 1px 0 rgba(255,240,210,.55)}
+.plank::before{content:"";position:absolute;left:50%;top:4px;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:#3e2a16;box-shadow:inset 0 1px 0 #000,0 1px 0 #f0d9b0}
+.plank small{display:block;font-size:12px;color:#5a4126;margin-top:2px}
+.plank:hover{filter:brightness(1.04)}
+.plank:active{transform:translate(2px,2px);box-shadow:inset 0 1px 0 #f0d9b0,inset 0 -3px 0 #8a6a42,1px 1px 0 var(--ink)}
+.plank[disabled]{opacity:.45;cursor:not-allowed}
+.seal{position:relative;min-height:50px;padding:9px 12px;border:0;background:var(--red);color:#f8ecdc;font-weight:700;letter-spacing:.18em;line-height:1.3;border-radius:4px 3px 5px 3px;
+ box-shadow:inset 0 0 0 3px var(--red),inset 0 0 0 4px #f1d9c4,inset 0 0 18px rgba(0,0,0,.25),3px 3px 0 var(--ink)}
+.seal small{display:block;font-weight:400;letter-spacing:0;font-size:12px;opacity:.9}
+.seal:hover{filter:brightness(1.08)}
+.seal:active{transform:translate(2px,2px);box-shadow:inset 0 0 0 3px var(--red),inset 0 0 0 4px #f1d9c4,1px 1px 0 var(--ink)}
+.seal[disabled]{opacity:.45}
+.back{background:none;border:1px dashed var(--ink);min-height:44px;padding:6px 14px}
+.dlg{position:relative;display:grid;grid-template-columns:88px minmax(0,1fr);gap:14px;align-items:start;padding:16px 16px 12px;border:1px solid var(--ink);outline:3px double var(--ink);outline-offset:2px;margin:4px;background:#fbf8f0;cursor:pointer;min-height:118px}
+.dlg::before,.dlg::after{content:"";position:absolute;width:14px;height:14px;border:2px solid var(--red);pointer-events:none}
+.dlg::before{left:5px;top:5px;border-right:0;border-bottom:0}.dlg::after{right:5px;bottom:5px;border-left:0;border-top:0}
+.dlg.narr{grid-template-columns:1fr;background:#f1e9d8}
+.dlg.narr p{color:#4b4238;font-size:16px;padding:0 10px}
+.pf{padding:4px;background:linear-gradient(135deg,#5a4126,#2e2014);border-radius:2px;box-shadow:2px 2px 0 var(--ink)}
+.por{display:block;width:80px;height:80px;image-rendering:pixelated;outline:1px solid #a8834a}
+.nm{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:2px}
+.nm span{background:var(--red);color:#f8ecdc;font-weight:700;font-size:15px;padding:1px 10px;letter-spacing:.08em;border-radius:2px}
+.nm small{color:#7a6a58;font-size:12px}
+.dlg p{margin:4px 0 0;font-size:17px;min-height:2.9em}
+.more{position:absolute;right:16px;bottom:8px;font-size:12px;color:var(--red);animation:bk 1s steps(2) infinite}
+@keyframes bk{50%{opacity:.2}}
+.opts{display:grid;gap:9px;margin-top:12px}
+.opts .plank{text-align:left;padding:10px 14px 10px 46px;min-height:48px}
+.opts .plank::before{display:none}
+.no{position:absolute;left:10px;top:50%;margin-top:-13px;width:26px;height:26px;display:grid;place-items:center;font-size:13px;background:var(--red);color:#f8ecdc;border-radius:3px;text-shadow:none;font-weight:700}
+.memo{position:relative;padding:16px 18px 16px 22px;background:#fbf8f0;border:1px solid var(--ink);outline:3px double var(--ink);outline-offset:2px;margin:4px;
+ background-image:repeating-linear-gradient(90deg,transparent 0 30px,rgba(143,42,34,.09) 30px 31px)}
+.memo::before{content:"奏";position:absolute;right:12px;top:10px;width:30px;height:30px;display:grid;place-items:center;border:2px solid var(--red);color:var(--red);font-weight:700;transform:rotate(6deg);opacity:.8}
+.memo small{color:var(--red);font-size:13px}
+.memo p{margin:4px 40px 0 0;font-size:17px}
+.seals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}
+.seals .seal{font-size:20px}
+#modal,#setup{position:fixed;inset:0;z-index:20;background:rgba(30,24,18,.6);display:grid;place-items:center;padding:12px}
+#modal[hidden],#setup[hidden]{display:none}
+.sheet,.setup{width:min(580px,100%);max-height:90vh;overflow:auto;background:var(--paper);border:1px solid var(--ink);outline:3px double var(--ink);outline-offset:3px;padding:18px 20px;box-shadow:8px 8px 0 rgba(0,0,0,.35)}
+.setup{width:min(640px,100%);max-height:94vh}
+.sheet h2{margin:0 0 12px;font-size:22px;color:var(--red);letter-spacing:.1em}
+.sheet h3{margin:16px 0 6px;font-size:16px}
+.loglist{margin:0;padding:0;list-style:none}
+.loglist li{padding:7px 0;border-bottom:1px dashed #c8baa0;font-size:15px}
+.loglist b{color:var(--red);margin-right:8px;white-space:nowrap}
+.who{display:grid;gap:8px}
+.who>div{display:grid;grid-template-columns:52px minmax(0,1fr);gap:12px;align-items:center;font-size:14px;padding-bottom:8px;border-bottom:1px dashed #c8baa0}
+.who canvas{width:52px;height:52px;image-rendering:pixelated;border:2px solid var(--wood)}
+.who b{font-size:15px}
+.tier{color:var(--gold);font-size:12px;margin-left:6px;border:1px solid var(--gold);padding:0 5px}
+textarea{width:100%;min-height:110px;font:13px/1.4 monospace;padding:8px;border:1px solid var(--ink);background:#fffdf8;color:var(--ink)}
+.row{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.ttl{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.ttl h1{margin:0;font-size:clamp(34px,8vw,48px);line-height:1.05;letter-spacing:.1em}
+.ttl span{color:var(--red)}
+.sgrid{display:grid;grid-template-columns:140px minmax(0,1fr);gap:18px;align-items:start;margin-top:14px}
+.pvw{padding:6px;background:linear-gradient(135deg,#4e3822,#2e2014);border-radius:3px;box-shadow:3px 3px 0 var(--ink)}
+#pv{display:block;width:128px;height:192px;image-rendering:pixelated}
+.fld{margin-bottom:14px}
+.fld label{display:block;font-size:14px;color:#6b5f52;margin-bottom:5px}
+.fld input,.fld select{font:inherit;font-size:16px;padding:8px;border:1px solid var(--ink);background:#fffdf8;color:var(--ink);min-height:44px}
+.fld input{width:100%}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{min-height:44px;padding:6px 16px;border:1px solid var(--ink);background:var(--paper);box-shadow:2px 2px 0 var(--ink)}
+.seg button.on{background:var(--red);color:#f6eadb;border-color:#5a1914}
+.sw{width:44px;height:44px;border:2px solid var(--ink);padding:0}
+.sw.on{outline:3px solid var(--red);outline-offset:2px}
+.swl{font-size:13px;color:#6b5f52;margin-top:5px}
+@media(max-width:600px){#stats{grid-template-columns:repeat(2,minmax(0,1fr))}#top{padding-left:56px}.chop{width:34px;height:34px;margin-top:-17px;font-size:13px;left:11px}
+ .sgrid{grid-template-columns:1fr}.pvw{justify-self:center}#pv{width:96px;height:144px}
+ .dlg{grid-template-columns:64px minmax(0,1fr);gap:10px;padding:14px 12px 12px}.por{width:56px;height:56px}.dlg p{font-size:16px}
+ .acts{grid-template-columns:repeat(2,minmax(0,1fr))}#loc{font-size:12px;letter-spacing:.12em}#fest{font-size:11px;width:21px}}
+@media(prefers-reduced-motion:reduce){#toast span,.more{animation:none}#fade,#wipe,.bar i{transition:none}}
+</style>
+</head>
+<body>
+<div id="app">
+  <header id="top">
+    <div class="chop" aria-hidden="true">穆<br>席</div>
+    <div class="r1">
+      <span id="date"></span><span id="slot"></span><span id="wx"></span>
+      <nav><button class="tab" data-m="log">起居注</button><button class="tab" data-m="where">七人行蹤</button><button class="tab" data-m="save">存檔</button></nav>
+    </div>
+    <div id="stats"></div>
+  </header>
+  <div id="stage">
+    <div class="view"><canvas id="cv" width="160" height="90"></canvas>
+    <div id="loc"></div><div id="fest"></div><div id="toast"></div><div id="tip" hidden></div><div id="wipe"></div><div id="fade"></div></div>
+    <i class="cn a"></i><i class="cn b"></i><i class="cn c"></i><i class="cn d"></i>
+  </div>
+  <section id="panel" aria-live="polite"></section>
+</div>
+
+<div id="modal" hidden><div class="sheet"><h2 id="mt"></h2><div id="mb"></div><div class="row"><button class="plank" id="mx">合上</button></div></div></div>
+
+<div id="setup">
+  <div class="setup">
+    <div class="ttl"><h1>穆席王朝</h1><span>像素皇帝模擬器</span></div>
+    <p class="hint" style="margin:0">二月二十八日，登基大典。今天起，這座宮城歸陛下管了。</p>
+    <div class="row" id="cont" hidden><button class="seal" id="bCont">續玩存檔<small id="contInfo"></small></button><button class="plank" id="bImp0">匯入存檔</button></div>
+    <div class="sgrid">
+      <div class="pvw"><canvas id="pv" width="20" height="30"></canvas></div>
+      <div>
+        <div class="fld"><label>稱號（臣下一律稱「陛下」）</label><div class="seg" id="gSeg"><button data-g="m" class="on">皇帝</button><button data-g="f">女皇</button></div></div>
+        <div class="fld"><label for="nm">名諱</label><input id="nm" maxlength="8" value="穆席昭" autocomplete="off"></div>
+        <div class="fld"><label>袍色</label><div class="seg" id="rSeg"></div><div class="swl" id="rName"></div></div>
+        <div class="fld"><label>千秋宴（陛下生辰）</label><div class="seg"><select id="bm" aria-label="月"></select><select id="bd" aria-label="日"></select></div></div>
+        <button class="seal" id="bStart">登基<small>開始新局</small></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+{
+const $=s=>document.querySelector(s);
+const R=n=>Math.floor(Math.random()*n);
+const pick=a=>a[R(a.length)];
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ───────── 曆法 ───────── */
+const SLOTS=[['卯時','早朝'],['辰巳','政務'],['午時','午膳'],['未申','自由時段'],['酉戌','晚間'],['亥時','就寢']];
+const MON=['正月','二月','三月','四月','五月','六月','七月','八月','九月','十月','冬月','臘月'];
+const DIG='一二三四五六七八九十';
+const dayName=d=>d<=10?'初'+DIG[d-1]:d<20?'十'+DIG[d-11]:d===20?'二十':d<30?'廿'+DIG[d-21]:'三十';
+const yearName=y=>y===1?'元年':(y<=10?DIG[y-1]:y)+'年';
+const dateStr=()=>MON[S.m-1]+dayName(S.d);
+const dIdx=(m,d)=>(m-1)*30+d-1;
+const FEST=[['歲元節',1,1],['萬燈節',1,15],['春禊節',3,3],['競武節',5,5],['結緣節',7,7],['望秋節',8,15],['定鼎節',9,9],['長陽節',11,22],['封印節',12,23]];
+function nextFest(){let best=null;const now=dIdx(S.m,S.d);
+  for(const [n,m,d] of FEST.concat([['千秋宴',S.bm,S.bd]])){const k=(dIdx(m,d)-now+360)%360;if(!best||k<best[1])best=[n,k];}return best;}
+const WX={w:['晴','晴','陰','小雪','雪'],sp:['晴','晴','陰','小雨','春雨'],su:['晴','炎熱','雷雨','晴'],au:['晴','秋高氣爽','陰','小雨']};
+const season=m=>m>=3&&m<=5?'sp':m>=6&&m<=8?'su':m>=9&&m<=10?'au':'w';
+
+/* ───────── 角色外觀 ───────── */
+const C={
+ xuan:{n:'穆席玄嶠',s:'玄嶠',t:'攝政王',tiers:['君臣','王府常客','寢院','眼罩'],
+  look:{skin:'#e6c3a0',hair:'#1c1a1f',style:'half',robe:'#2a2630',robe2:'#6a5a82',belt:'#a8834a',eye:'#2d2823',crown:'#b9bcc4',acc:['patch'],bg:'#b9b0c6',eyeT:'narrow'}},
+ ye:{n:'盛明野',s:'明野',t:'邊軍少將軍',tiers:['臣屬','演武場','私人'],
+  look:{skin:'#c58c5c',hair:'#151312',style:'high',robe:'#7a2222',robe2:'#1d1a1a',belt:'#1d1a1a',eye:'#3a2414',boot:'#1d1a1a',tie:'#b43a32',bg:'#dfae92'}},
+ zhuo:{n:'溫如琢',s:'如琢',t:'首輔',tiers:['朝政往來','茶室','內書房'],
+  look:{skin:'#efd2b5',hair:'#7a5236',style:'long',robe:'#e3e8e4',robe2:'#6f8f86',belt:'#6f8f86',eye:'#9a7650',acc:['jade'],bg:'#c4d6cc',eyeT:'narrow'}},
+ du:{n:'聞人渡',s:'聞人渡',t:'國師',tiers:['宮廷熟人','不請自來','觀星臺','髮繩'],
+  look:{skin:'#f0dcc8',hair:'#b9bcc0',style:'long',robe:'#1e1c22',robe2:'#4a4452',belt:'#a8834a',eye:'#d4a93a',acc:['bell'],bg:'#b2b8cf',eyeT:'sleepy'}},
+ qi:{n:'沈不器',s:'不器',t:'暗衛首領',tiers:['護衛','私人時間','對等'],
+  look:{skin:'#d9b08c',hair:'#3b2a22',style:'low',robe:'#17171b',robe2:'#34343c',belt:'#4a4a50',eye:'#55555c',acc:['blade','bracer','hicol'],bg:'#b8b2a8',eyeT:'narrow'}},
+ her:{n:'赫祈爾',s:'赫祈爾',t:'烏闌使節',tiers:['外交','使館','拆開'],
+  look:{skin:'#b08055',hair:'#2a1e18',style:'braids',robe:'#2f5a4c',robe2:'#b8913f',belt:'#b8913f',eye:'#3f9a5a',acc:['collar','earring'],bg:'#bccfb4'}},
+ shu:{n:'溫令姝',s:'令姝',t:'溫氏嫡女',tiers:['世家之女','[[茶宴座上客|手帕交]]','[[心意|姊妹]]'],
+  look:{skin:'#f2d8c2',hair:'#6e4630',style:'lady',robe:'#7a2a3a',robe2:'#d2a8b6',belt:'#a8834a',eye:'#5a3a2a',short:2,bg:'#dcbcc6',lash:1,lip:'#b8504c'}}
+};
+const CORE=Object.keys(C);
+const N={
+ guo:{n:'郭懷信',t:'御前總管',look:{skin:'#e8c8a8',hair:'#777',style:'hat',robe:'#6b4f2a',robe2:'#a8834a',belt:'#2d2823',eye:'#2d2823',short:1,eyeT:'narrow'}},
+ su:{n:'蘇昭蘭',t:'尚宮總領',look:{skin:'#efd4bc',hair:'#3a2e2a',style:'bun',robe:'#5a3446',robe2:'#c8a0b0',belt:'#a8834a',eye:'#2d2823',short:2,lash:1}},
+ jiang:{n:'姜霜',t:'御膳房掌事',look:{skin:'#eccfb4',hair:'#2a2420',style:'bun',robe:'#d9d4c8',robe2:'#8f2a22',belt:'#8f2a22',eye:'#2d2823',short:2,eyeT:'narrow'}},
+ ke:{n:'柯雲章',t:'御史中丞',look:{skin:'#e2c09e',hair:'#222',style:'hat',robe:'#7d2a22',robe2:'#a8834a',belt:'#2d2823',eye:'#2d2823'}},
+ he:{n:'賀雲箴',t:'戶部尚書',look:{skin:'#e6c6a6',hair:'#555',style:'hat',robe:'#2a4a5a',robe2:'#a8834a',belt:'#2d2823',eye:'#2d2823',short:1}},
+ pei:{n:'裴正則',t:'禮部尚書',look:{skin:'#ead0b6',hair:'#333',style:'hat',robe:'#4a3a5a',robe2:'#a8834a',belt:'#2d2823',eye:'#2d2823',eyeT:'narrow'}},
+ song:{n:'宋長淮',t:'兵部尚書',look:{skin:'#d4a880',hair:'#222',style:'hat',robe:'#3c4a38',robe2:'#a8834a',belt:'#2d2823',eye:'#2d2823'}},
+ bai:{n:'柏硯',t:'觀星臺道童',look:{skin:'#f0d8c0',hair:'#2a2420',style:'bun',robe:'#3a3640',robe2:'#8a8a94',belt:'#8a8a94',eye:'#2d2823',short:4}},
+ jz:{n:'江折',t:'暗衛副統領',look:{skin:'#dcb490',hair:'#1e1a18',style:'low',robe:'#22222a',robe2:'#3a3a44',belt:'#4a4a50',eye:'#3a3a40',acc:['blade'],eyeT:'narrow'}},
+ lian:{n:'連嬿',t:'令姝的侍女',look:{skin:'#f2dcc8',hair:'#3a2a22',style:'bun',robe:'#d8b4c0',robe2:'#7a2a3a',belt:'#7a2a3a',eye:'#3a2a22',short:3,lash:1}}
+};
+const ROBES=[['明黃','#c9a227','#8f2a22'],['玄青','#2f3e46','#b8913f'],['朱紅','#8f2a22','#d1a64e'],['月白','#e2e6e2','#6b8fa8']];
+function playerLook(g,ri){const r=ROBES[ri];return{skin:'#ecc9a6',hair:'#1c1a1f',style:g==='m'?'emperor':'empress',robe:r[1],robe2:r[2],belt:'#a8834a',eye:'#2d2823',bg:'#e2cf9a',lash:g==='f'?1:0,lip:g==='f'?'#b8504c':null};}
+const lookOf=id=>id==='me'?playerLook(S.g,S.robe):(C[id]||N[id]).look;
+
+/* ───────── 像素繪製 ───────── */
+const hex=h=>{const n=parseInt(h.slice(1),16);return[n>>16,(n>>8)&255,n&255];};
+const toHex=(r,g,b)=>'#'+((1<<24)|(r<<16)|(g<<8)|b).toString(16).slice(1);
+function shade(h,f){let[r,g,b]=hex(h);const t=f<0?0:255,p=Math.abs(f);return toHex(Math.round((t-r)*p+r),Math.round((t-g)*p+g),Math.round((t-b)*p+b));}
+function mix(a,b,t){const A=hex(a),B=hex(b);return toHex(...A.map((v,i)=>Math.round(v+(B[i]-v)*t)));}
+const LONG=['long','half','braids','lady'];
+function spriteRaw(ctx,ox,oy,s,ex,flip,blink){
+  oy+=(s.short||0);
+  const P=(x,y,w,h,c)=>{if(!c)return;ctx.fillStyle=c;ctx.fillRect(ox+(flip?16-x-w:x),oy+y,w,h);};
+  const H=s.hair,Hl=shade(H,.25),Hd=shade(H,-.3),K=s.skin,Kd=shade(K,-.15),Rb=s.robe,Rl=shade(Rb,.16),Rd=shade(Rb,-.28),R2=s.robe2,st=s.style,acc=s.acc||[];
+  const long=LONG.includes(st)||st==='empress';
+  if(st==='high'){P(11,0,2,2,H);P(12,2,2,7,H);P(13,8,1,3,Hd);P(12,2,1,5,Hl);}
+  if(st==='low'){P(11,8,2,2,H);P(12,10,1,5,Hd);}
+  if(long)P(4,8,8,9,Hd);
+  P(5,21,2,2,s.boot||'#2d2823');P(9,21,2,2,s.boot||'#2d2823');P(5,21,2,1,shade(s.boot||'#2d2823',.2));
+  P(4,11,8,10,Rb);P(3,17,10,4,Rb);P(4,11,2,10,Rl);P(10,11,2,10,Rd);P(3,18,1,2,Rl);P(12,17,1,3,Rd);
+  P(3,20,10,1,R2);P(7,12,2,8,shade(Rb,-.12));P(7,12,1,8,shade(R2,-.05));
+  P(6,10,4,1,'#f1ebdf');P(7,11,2,1,'#f1ebdf');P(5,10,1,2,R2);P(10,10,1,2,R2);P(6,11,1,1,R2);P(9,11,1,1,R2);
+  if(acc.includes('hicol')||acc.includes('collar')){P(6,10,4,2,R2);P(6,10,4,1,shade(R2,.2));}
+  P(4,15,8,1,s.belt);P(7,15,2,1,shade(s.belt,.35));
+  P(1,12,3,7,Rb);P(12,12,3,7,Rd);P(1,12,1,7,Rl);P(1,18,3,1,R2);P(12,18,3,1,R2);P(3,13,1,5,Rd);
+  P(2,19,2,1,K);P(12,19,2,1,Kd);
+  P(7,9,2,1,Kd);
+  P(5,3,6,6,K);P(6,9,4,1,K);P(4,5,1,3,K);P(11,5,1,3,Kd);P(10,5,1,4,Kd);
+  if(st==='hat'){P(4,0,8,3,'#2d2823');P(5,-1,6,1,'#2d2823');P(1,1,3,1,'#2d2823');P(12,1,3,1,'#2d2823');P(6,0,3,1,'#4a423c');P(4,3,1,2,H);P(11,3,1,2,H);P(5,3,6,1,'#2d2823');}
+  else{P(4,1,8,2,H);P(5,0,6,1,H);P(4,3,1,2,H);P(11,3,1,2,H);P(5,3,6,1,H);P(5,4,1,1,H);P(10,4,1,1,H);P(6,1,3,1,Hl);P(10,1,1,2,Hd);}
+  if(long){P(4,4,1,10,H);P(11,4,1,10,Hd);P(4,13,1,1,Hd);}
+  if(st==='low'){P(4,5,1,2,H);P(11,5,1,2,Hd);}
+  if(st==='half'){P(7,-1,2,1,H);P(6,0,4,1,s.crown||'#b9bcc4');P(7,0,1,1,'#e4e6ea');}
+  if(st==='braids'){const g='#e0b84a';P(4,9,1,1,g);P(11,11,1,1,g);P(4,12,1,1,g);P(11,8,1,1,g);}
+  if(st==='lady'||st==='bun'){P(6,-1,4,2,H);P(7,-1,2,1,Hl);}
+  if(st==='lady'){P(10,-1,1,1,'#e0b84a');P(11,0,1,1,'#fbf8f0');}
+  if(st==='high')P(11,1,1,1,s.tie||R2);
+  if(st==='emperor'){P(6,-2,4,2,'#c9a227');P(7,-3,2,1,'#e8c860');P(5,0,6,1,'#c9a227');P(6,-2,1,1,'#e8c860');}
+  if(st==='empress'){P(5,-2,6,2,H);P(10,-2,2,1,'#e8c860');P(4,-1,1,2,'#c9a227');P(11,-1,1,2,'#c9a227');P(7,0,2,1,'#b0402f');}
+  if(ex==='b'||ex==='s'){P(5,7,1,1,'#eba796');P(10,7,1,1,'#eba796');}
+  if(blink){P(6,6,1,1,Kd);P(9,6,1,1,Kd);}
+  else{P(6,6,1,1,s.eye);P(9,6,1,1,s.eye);}
+  const m=s.lip||'#a86a5a';
+  if(ex==='s'||ex==='b'){P(6,8,1,1,m);P(9,8,1,1,m);P(7,8,2,1,shade(m,.25));}else P(7,8,2,1,m);
+  if(acc.includes('patch')){P(8,5,3,2,'#141214');P(5,4,3,1,'#141214');}
+  if(acc.includes('jade')){P(10,0,2,1,'#5fa88a');P(6,16,1,2,'#5fa88a');}
+  if(acc.includes('bell'))P(5,16,1,2,'#d4a93a');
+  if(acc.includes('blade')){P(11,13,1,5,'#9aa0a8');P(11,13,1,1,'#d8dce0');}
+  if(acc.includes('bracer')){P(1,17,3,1,'#45454c');P(12,17,3,1,'#45454c');}
+  if(acc.includes('earring')){P(4,8,1,1,'#e0b84a');P(11,8,1,1,'#e0b84a');}
+}
+const OUT=[36,28,24];
+const sprCache={};
+function spriteImg(key,look,ex,flip,blink){
+  const k=key+'|'+ex+(flip?1:0)+(blink?1:0);
+  if(sprCache[k])return sprCache[k];
+  const a=document.createElement('canvas');a.width=20;a.height=30;const ax=a.getContext('2d');
+  spriteRaw(ax,2,4,look,ex,flip,blink);
+  const d=ax.getImageData(0,0,20,30).data;
+  const c=document.createElement('canvas');c.width=20;c.height=30;const x=c.getContext('2d');
+  const o=x.createImageData(20,30),b=o.data;
+  for(let yy=0;yy<30;yy++)for(let xx=0;xx<20;xx++){const i=(yy*20+xx)*4;if(d[i+3])continue;
+    for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){const X=xx+dx,Y=yy+dy;if(X<0||Y<0||X>=20||Y>=30)continue;if(d[(Y*20+X)*4+3]>200){b[i]=OUT[0];b[i+1]=OUT[1];b[i+2]=OUT[2];b[i+3]=255;break;}}}
+  x.putImageData(o,0,0);x.drawImage(a,0,0);
+  return sprCache[k]=c;
+}
+function drawCat(ctx,x,y,t){
+  const P=(a,b,w,h,c)=>{ctx.fillStyle=c;ctx.fillRect(x+a,y+b,w,h);};
+  P(1,22,12,1,'rgba(0,0,0,.2)');
+  const k='#1a1820',o='#3a3640';
+  P(3,16,8,6,k);P(2,17,1,5,k);P(10,13,4,5,k);P(10,12,1,1,k);P(13,12,1,1,k);P(4,16,5,1,o);
+  P(11,15,1,1,'#e8c24a');P(13,15,1,1,'#e8c24a');P(12,17,1,1,'#c88a9a');
+  const sw=Math.round(Math.sin(t/3)*1.5);P(1+sw,12,1,5,k);P(0+sw,11,2,1,k);
+  P(4,21,2,1,o);P(8,21,2,1,o);
+}
+function portrait(ctx,s,ex){
+  const P=(x,y,w,h,c)=>{if(!c)return;ctx.fillStyle=c;ctx.fillRect(x,y,w,h);};
+  const H=s.hair,Hl=shade(H,.28),Hd=shade(H,-.35),K=s.skin,Ks=shade(K,-.12),Kd=shade(K,-.24),Rb=s.robe,Rl=shade(Rb,.15),Rd=shade(Rb,-.3),R2=s.robe2,st=s.style,acc=s.acc||[];
+  const long=LONG.includes(st)||st==='empress',dk='#241c18',bg=s.bg||'#d9c9aa';
+  ctx.clearRect(0,0,48,48);P(0,0,48,48,bg);
+  for(let y=0;y<48;y+=2)for(let x=(y/2)%2*2;x<48;x+=4)P(x,y,1,1,shade(bg,-.07));
+  for(let dy=-19;dy<=19;dy++){const w=Math.round(Math.sqrt(361-dy*dy));P(24-w,20+dy,w*2,1,shade(bg,.18));}
+  if(long){P(10,14,28,34,Hd);P(11,16,2,30,H);}
+  if(st==='high'){P(31,1,4,4,H);P(33,4,5,10,H);P(34,14,5,12,H);P(35,26,4,7,Hd);P(34,5,1,20,Hl);P(37,12,1,14,Hd);}
+  if(st==='low'){P(32,24,5,15,Hd);P(33,25,1,12,H);}
+  P(3,37,42,11,Rb);P(3,37,7,11,Rl);P(38,37,7,11,Rd);P(10,38,1,10,shade(Rb,-.1));P(37,38,1,10,shade(Rb,.08));
+  P(19,28,10,9,K);P(19,28,10,3,Kd);P(26,28,3,9,Ks);
+  for(let i=0;i<8;i++){P(18+i,36+i,12-2*i>0?12-2*i:0,1,'#f1ebdf');P(16+i,36+i,2,1,R2);P(30-i,36+i,2,1,R2);}
+  P(16,36,2,1,shade(R2,.3));P(30,36,2,1,shade(R2,.3));
+  if(acc.includes('hicol')){P(17,31,14,6,Rd);P(17,31,14,1,shade(Rd,.3));P(23,32,2,5,R2);}
+  if(acc.includes('collar')){P(17,31,14,6,R2);P(17,31,14,1,shade(R2,.3));for(let i=18;i<30;i+=3)P(i,34,1,1,shade(R2,-.3));}
+  P(14,9,20,17,K);P(15,26,18,1,K);P(16,27,16,1,K);P(17,28,14,1,K);P(18,29,12,1,K);P(20,30,8,1,K);
+  P(31,12,3,14,Ks);P(30,26,3,1,Ks);P(29,27,3,1,Ks);P(27,28,3,1,Ks);P(25,29,3,1,Ks);
+  P(12,17,2,6,K);P(34,17,2,6,Ks);P(12,18,1,4,Ks);
+  if(st==='hat'){P(12,2,24,10,'#2a2420');P(14,0,20,2,'#2a2420');P(2,6,10,2,'#2a2420');P(36,6,10,2,'#2a2420');P(16,1,10,1,'#4a423c');P(12,11,24,1,'#3d3530');P(12,12,2,7,H);P(34,12,2,7,H);P(14,12,20,1,Ks);}
+  else{
+    P(13,4,22,7,H);P(15,2,18,2,H);P(18,1,12,1,H);
+    P(12,8,3,16,H);P(33,8,3,16,Hd);
+    P(14,11,20,2,H);P(14,13,4,3,H);P(15,16,2,2,H);P(20,13,3,2,H);P(25,13,2,2,H);P(29,13,5,3,H);P(31,16,2,3,H);
+    P(17,4,8,1,Hl);P(16,5,2,1,Hl);P(26,5,3,1,Hl);P(18,12,3,1,Hl);P(30,6,4,5,Hd);
+  }
+  if(long){P(11,22,4,22,H);P(33,22,4,22,Hd);P(12,24,1,16,Hl);}
+  if(st==='half'){P(21,0,6,4,H);P(19,1,10,3,s.crown||'#b9bcc4');P(20,1,8,1,'#e4e6ea');P(23,2,2,1,'#6a6e78');P(16,2,16,1,'#a8834a');}
+  if(st==='lady'||st==='bun'){P(18,0,12,4,H);P(20,0,8,1,Hl);}
+  if(st==='lady'){P(29,2,3,3,'#fbf8f0');P(30,2,1,1,'#fff');P(32,1,6,1,'#e0b84a');P(36,2,1,3,'#e0b84a');P(36,5,1,1,'#fbf8f0');}
+  if(st==='braids'){const g='#e0b84a';for(const [a,b] of [[11,30],[35,28],[12,38],[34,36],[11,24]])P(a,b,2,2,g);for(let y=24;y<44;y+=3){P(12,y,2,1,Hl);P(34,y+1,2,1,Hl);}}
+  if(st==='high'){P(31,2,4,3,s.tie||R2);P(33,5,1,3,s.tie||R2);}
+  if(st==='emperor'){P(18,0,12,4,'#c9a227');P(19,0,10,1,'#e8c860');P(22,1,4,2,'#8f2a22');P(13,2,22,1,'#c9a227');P(13,2,1,1,'#e8c860');P(34,2,1,1,'#e8c860');}
+  if(st==='empress'){P(16,0,16,4,H);P(14,2,20,2,'#c9a227');P(14,2,20,1,'#e8c860');P(23,0,2,2,'#e8c860');P(23,2,2,1,'#b0402f');P(13,4,1,5,'#c9a227');P(34,4,1,5,'#c9a227');P(13,9,1,1,'#b0402f');P(34,9,1,1,'#b0402f');}
+  P(16,15,5,1,Hd);P(27,15,5,1,Hd);
+  if(s.eyeT==='narrow'){P(16,16,1,1,Hd);P(31,16,1,1,Hd);}
+  const eyes=(x0,mirror)=>{
+    if(ex==='s'||ex==='b'){P(x0,18,1,1,dk);P(x0+1,17,3,1,dk);P(x0+4,18,1,1,dk);return;}
+    const T=s.eyeT||'round';
+    if(T==='round'){P(x0,17,5,1,dk);P(x0,18,1,2,'#f6f1e6');P(x0+4,18,1,2,'#f6f1e6');P(x0+1,18,3,2,s.eye);P(x0+2,18,1,2,shade(s.eye,-.45));P(mirror?x0+3:x0+1,18,1,1,'#fff');P(x0+1,20,3,1,Ks);}
+    else if(T==='narrow'){P(x0,18,5,1,dk);P(x0,19,1,1,'#f6f1e6');P(x0+4,19,1,1,'#f6f1e6');P(x0+1,19,3,1,s.eye);P(x0+2,19,1,1,shade(s.eye,-.45));P(x0+1,20,3,1,Ks);}
+    else{P(x0,17,5,1,Ks);P(x0,18,5,1,dk);P(x0+1,19,3,1,s.eye);P(x0,19,1,1,'#f6f1e6');P(x0+4,19,1,1,'#f6f1e6');P(x0+2,19,1,1,shade(s.eye,-.4));}
+    if(s.lash){mirror?P(x0+5,16,1,1,dk):P(x0-1,16,1,1,dk);}
+  };
+  eyes(16,false);eyes(27,true);
+  P(25,21,1,3,Ks);P(24,24,2,1,Kd);
+  const m=s.lip||'#a8625a';
+  if(ex==='s'||ex==='b'){P(20,26,1,1,m);P(21,27,6,1,m);P(27,26,1,1,m);P(22,28,4,1,shade(m,.3));}else{P(21,27,6,1,m);P(22,28,4,1,Ks);}
+  if(ex==='b'||ex==='s'){P(15,23,4,1,'#eba796');P(29,23,4,1,'#eba796');}
+  if(acc.includes('patch')){const pc='#141214';P(26,16,7,5,pc);P(27,17,4,1,'#3a3540');for(let i=0;i<13;i++)P(26-i,16-Math.floor(i/3),1,1,pc);P(33,17,2,1,pc);}
+  if(acc.includes('jade')){P(29,2,10,1,'#5fa88a');P(38,1,1,3,'#8fd0b4');P(38,4,1,4,'#6f8f86');}
+  if(acc.includes('bell')){P(40,41,3,3,'#d4a93a');P(40,41,1,1,'#f0d070');P(41,44,1,1,'#8a6a20');}
+  if(acc.includes('blade')){P(6,38,2,10,'#9aa0a8');P(6,38,1,10,'#d8dce0');}
+  if(acc.includes('earring')){P(12,23,1,3,'#e0b84a');P(35,23,1,3,'#e0b84a');}
+}
+
+/* ───────── 場景 ───────── */
+const W=160,HH=90;
+const SCN={
+ chengtian:{n:'承天殿',pos:{me:[72,32],a:[16,62],b:[128,62]},court:true},
+ chongzheng:{n:'崇政殿',pos:{me:[30,60],a:[100,60],b:[124,60]}},
+ mingchen:{n:'明宸宮',pos:{me:[36,62],a:[86,62],b:[112,62]}},
+ yuyuan:{n:'御苑・湖心亭',pos:{me:[32,62],a:[100,62],b:[124,62]},out:true},
+ garden:{n:'後花園',pos:{me:[32,62],a:[100,62],b:[124,62]},out:true}
+};
+const SKYS=sl=>sl===5?['#141a33','#2c335a']:sl===4?['#c9725a','#f2c48a']:sl===0?['#d9b4b4','#f4e2cc']:['#8fbcd4','#dcebe6'];
+const bgCache={};
+function bg(name,slot,wx){
+  const key=name+slot+wx;if(bgCache[key])return bgCache[key];
+  const c=document.createElement('canvas');c.width=W;c.height=HH;const x=c.getContext('2d');
+  const P=(a,b,w,h,col)=>{x.fillStyle=col;x.fillRect(a,b,w,h);};
+  const circ=(cx,cy,r,col)=>{for(let dy=-r;dy<=r;dy++){const w=Math.round(Math.sqrt(r*r-dy*dy));P(cx-w,cy+dy,w*2+1,1,col);}};
+  const grad=(y0,y1,c0,c1)=>{for(let y=y0;y<y1;y++){const t=Math.round((y-y0)/(y1-y0)*5)/5;P(0,y,W,1,mix(c0,c1,t));}};
+  const dith=(a,b,w,h,col)=>{x.fillStyle=col;for(let yy=b;yy<b+h;yy++)for(let xx=a+(yy%2);xx<a+w;xx+=2)x.fillRect(xx,yy,1,1);};
+  const night=slot===5,SK=SKYS(slot),cloudy=/陰|雨|雪/.test(wx);
+  if(name==='chengtian'){
+    P(0,0,W,64,'#6a1f19');for(let i=0;i<W;i+=20)P(i,10,1,54,'#58180f');dith(0,10,W,10,'#58180f');
+    P(0,0,W,10,'#2a211c');for(let i=0;i<W;i+=10){P(i+1,2,8,5,'#2f5a5a');P(i+2,3,6,3,'#3e7272');P(i+3,4,4,1,'#a8834a');P(i+4,3,2,3,'#e8c860');}P(0,9,W,1,'#a8834a');
+    P(48,14,64,44,'#a8834a');P(48,14,64,1,'#e8c860');P(50,16,60,40,'#6e1f18');P(52,18,56,36,'#8f2a22');
+    for(const [a,b] of [[56,22],[94,21],[58,46],[98,44],[76,48]]){P(a,b,5,1,'#c49a46');P(a+1,b+1,3,1,'#c49a46');P(a+4,b-1,1,1,'#c49a46');P(a,b-1,1,1,'#c49a46');}
+    for(let i=0;i<46;i++){const yy=32+Math.round(5*Math.sin(i/4.5));P(57+i,yy,1,2,'#d9b14a');if(i%5===0)P(57+i,yy-1,1,1,'#e8c860');}
+    P(100,26,5,4,'#d9b14a');P(103,25,2,1,'#e8c860');P(104,27,1,1,'#8f2a22');circ(80,24,2,'#e8c860');
+    for(const px of [6,28,124,146]){P(px,10,8,52,'#a3281e');P(px,10,2,52,'#c84434');P(px+6,10,2,52,'#6e1a14');for(let y=18;y<56;y+=9){P(px,y,8,2,'#b8913f');P(px,y,8,1,'#e0be5a');}P(px-1,10,10,4,'#a8834a');P(px-1,10,10,1,'#e8c860');P(px-2,58,12,4,'#cbb894');P(px-2,58,12,1,'#ece2c8');}
+    for(let r=0;r<4;r++)for(let i=-8;i<W;i+=16){P(i+(r%2)*8,64+r*7,16,7,r%2?'#a88654':'#b8956a');P(i+(r%2)*8,64+r*7,16,1,'#cdb084');P(i+(r%2)*8,64+r*7,1,7,'#9a7a4c');}
+    dith(56,64,48,26,'rgba(255,226,150,.22)');
+    P(44,52,72,12,'#c9b48a');P(44,52,72,1,'#ece0c2');P(40,56,80,4,'#bca77c');P(40,56,80,1,'#e4d6b4');P(36,60,84,4,'#b09c72');P(36,60,84,1,'#dccca8');P(36,63,84,1,'#8a7a56');
+    P(64,26,32,22,'#c9a227');P(64,26,32,2,'#e8c860');P(62,23,4,7,'#c9a227');P(94,23,4,7,'#c9a227');P(62,23,4,1,'#e8c860');P(94,23,4,1,'#e8c860');
+    P(68,30,24,13,'#a8841c');P(70,32,20,10,'#8f2a22');P(70,32,20,1,'#b8483a');for(let i=72;i<88;i+=4)P(i,36,2,2,'#b8483a');
+    P(60,36,5,10,'#b08a1e');P(95,36,5,10,'#b08a1e');P(60,36,5,1,'#e8c860');P(95,36,5,1,'#e8c860');
+    P(62,44,36,4,'#c9a227');P(62,44,36,1,'#e8c860');P(66,48,28,4,'#a8841c');
+    for(let y=64;y<HH;y++){const w=18+Math.floor((y-64)/1.6);P(80-w/2,y,w,1,'#8f2a22');P(80-w/2,y,1,1,'#c49a46');P(80+w/2-1,y,1,1,'#c49a46');}
+    for(let y=66;y<HH;y+=6)P(76,y,8,1,'#a3382c');
+    for(const bx of [46,108]){P(bx,46,6,5,'#7a5a2a');P(bx-1,45,8,1,'#c49a46');P(bx+1,51,1,2,'#5a4020');P(bx+4,51,1,2,'#5a4020');P(bx+1,44,4,1,'#a8834a');}
+  }else if(name==='chongzheng'){
+    P(0,0,W,64,'#dccbaa');dith(0,30,W,34,'#d2bf9c');
+    P(0,0,W,6,'#4e3822');P(0,6,W,1,'#7a5a3a');for(let i=4;i<W;i+=12)P(i,2,6,2,'#6e5034');
+    P(0,0,4,64,'#4e3822');P(W-4,0,4,64,'#4e3822');P(48,6,3,58,'#5e4428');P(112,6,3,58,'#5e4428');P(48,6,1,58,'#7a5a3a');P(112,6,1,58,'#7a5a3a');
+    P(8,12,36,36,'#4e3822');const win=night?'#2a3156':slot===4?'#f2c48a':slot===0?'#f4dcc8':'#eef2e6';P(10,14,32,32,win);
+    if(!night){P(10,34,32,12,mix(win,'#9ab3a8',.4));P(14,30,8,4,mix(win,'#9ab3a8',.3));}else{P(30,18,3,3,'#f4efe4');}
+    for(let i=14;i<46;i+=5)P(10,i,32,1,'#6e5034');for(let i=10;i<42;i+=5)P(i,14,1,32,'#6e5034');P(8,47,36,2,'#6e5034');P(8,47,36,1,'#8a6a48');
+    for(let i=0;i<4;i++){const sx=54+i*13;P(sx,12,12,42,'#4e3822');P(sx+1,13,10,40,'#f1e9d6');P(sx+1,13,10,1,'#fbf6ea');}
+    for(let xx=55;xx<106;xx++){const m=(xx-54)%13;if(m===0||m===12)continue;const h=Math.round(11+7*Math.sin(xx/6)+3*Math.sin(xx/2.3));for(let y=40-h;y<40;y++)P(xx,y,1,1,y<40-h+2?'#4e5a56':y<40-h+5?'#7c8a86':'#a8b2ae');}
+    dith(55,34,51,3,'#f1e9d6');for(let xx=56;xx<105;xx+=7)P(xx,46,4,1,'#b8c4c0');P(88,44,5,1,'#4e5a56');P(90,43,1,1,'#4e5a56');
+    P(118,10,34,54,'#5e4428');P(118,10,34,1,'#7a5a3a');
+    for(let r=0;r<4;r++){const sy=12+r*13;P(120,sy,30,10,'#3e2a18');const cols=['#8f2a22','#2f3e46','#a8834a','#5e7d5a','#d9c7a6','#6a4a6a'];
+      for(let k=0;k<8;k++){const bh=7+((k+r)%3);if((k+r)%4===3){P(121+k*3,sy+8,3,2,'#efe6d2');P(121+k*3,sy+8,1,2,'#c8b898');}else{P(121+k*3,sy+10-bh,2,bh,cols[(k+r*2)%6]);P(121+k*3,sy+10-bh,2,1,shade(cols[(k+r*2)%6],.25));}}
+      P(120,sy+10,30,2,'#6e5034');}
+    for(let r=0;r<6;r++){const y=64+r*5;P(0,y,W,5,r%2?'#86644a':'#8f6d50');P(0,y,W,1,'#a3805e');for(let i=(r*23)%40;i<W;i+=40)P(i,y,1,5,'#6e5038');}
+    P(46,54,68,4,'#6e4a2c');P(46,54,68,1,'#9a7048');P(48,58,64,6,'#4e321c');P(50,64,4,12,'#3e2614');P(106,64,4,12,'#3e2614');P(48,63,64,1,'#3e2614');
+    P(52,50,10,4,'#d9b14a');P(52,50,10,1,'#f0d070');P(53,47,8,3,'#c9a227');P(53,47,8,1,'#e8c860');P(54,45,6,2,'#d9b14a');
+    P(68,52,16,2,'#f8f4ea');P(68,52,16,1,'#fff');P(72,52,8,1,'#8a8070');P(88,51,7,3,'#2d2823');P(89,51,5,1,'#4a423c');
+    P(99,47,4,7,'#6e4a2c');P(99,47,4,1,'#8a6240');P(99,44,1,3,'#2d2823');P(101,43,1,4,'#2d2823');P(100,42,1,1,'#c9b896');P(106,51,4,3,'#8f2a22');P(106,51,4,1,'#b0402f');
+    P(150,74,6,8,'#7a5a3a');P(149,73,8,1,'#9a7048');circ(153,68,5,'#4a6a3a');circ(150,66,3,'#5e7d4a');circ(156,65,3,'#5e7d4a');
+  }else if(name==='mingchen'){
+    P(0,0,W,66,'#e6d2b0');dith(0,34,W,32,'#dcc6a2');
+    P(0,0,W,6,'#8f2a22');P(0,5,W,1,'#c9a227');for(let i=0;i<W;i+=8){P(i,6,8,2,'#8f2a22');P(i+2,8,4,1,'#8f2a22');P(i+3,9,2,2,'#c9a227');}
+    circ(30,30,16,'#5a3e24');circ(30,30,14,'#7a5a3a');
+    for(let dy=-13;dy<=13;dy++){const w=Math.round(Math.sqrt(169-dy*dy));P(30-w,30+dy,w*2+1,1,mix(SK[0],SK[1],(dy+13)/26));}
+    if(night)circ(35,24,3,'#f4efe4');else if(!cloudy){circ(24,22,3,'rgba(255,255,255,.7)');P(20,24,10,2,'rgba(255,255,255,.7)');}
+    for(let i=0;i<20;i++)P(18+i,40-Math.round(i*0.7+Math.sin(i/2)),1,1,'#3e2a18');
+    for(const [a,b] of [[22,36],[27,33],[33,30],[36,27],[25,35],[31,31]]){P(a,b,2,2,night?'#a06a80':'#f0a8b8');P(a,b,1,1,night?'#c08aa0':'#fff0f4');}
+    P(80,28,2,36,'#4e3822');P(76,63,10,2,'#4e3822');P(75,18,12,11,'#4e3822');P(76,19,10,9,'#f0d8a8');P(80,19,2,9,'#e8c890');P(75,18,12,1,'#8f2a22');P(75,28,12,1,'#8f2a22');
+    P(104,6,52,60,'#4a2e1a');P(106,8,48,56,'#3a2214');
+    P(108,44,44,12,'#c9a227');P(108,44,44,1,'#e8c860');P(110,40,12,5,'#f1ebdf');P(110,40,12,1,'#fff');
+    P(124,42,28,12,'#8f2a22');P(124,42,28,1,'#b8483a');for(let i=126;i<150;i+=6){P(i,46,3,3,'#b8483a');P(i+1,47,1,1,'#e8c860');}
+    P(104,56,52,10,'#5e3a20');P(104,56,52,1,'#7a5030');for(let i=108;i<154;i+=9)P(i,59,6,4,'#4a2e1a');
+    P(102,8,8,58,'#9a3a2e');P(102,8,2,58,'#c0503f');P(108,8,1,58,'#7a2a22');P(150,8,8,58,'#8a3026');P(156,8,2,58,'#6e2018');P(150,8,1,58,'#b0402f');
+    P(102,36,8,2,'#c9a227');P(150,36,8,2,'#c9a227');P(105,38,2,4,'#c9a227');P(153,38,2,4,'#c9a227');
+    P(100,5,60,4,'#8f2a22');P(100,8,60,1,'#c9a227');for(let i=102;i<158;i+=6)P(i,9,2,2,'#c9a227');
+    P(4,52,62,4,'#c9a227');P(4,52,62,1,'#e8c860');P(4,56,62,8,'#6e4a2c');P(4,56,62,1,'#9a7048');for(let i=8;i<62;i+=10){P(i,58,6,4,'#5a3a22');P(i+2,59,2,2,'#7a5030');}
+    P(2,42,6,14,'#6e4a2c');P(62,42,6,14,'#6e4a2c');P(2,42,6,1,'#9a7048');P(62,42,6,1,'#9a7048');
+    P(8,46,11,6,'#8f2a22');P(8,46,11,1,'#b8483a');P(8,48,1,2,'#c9a227');P(18,48,1,2,'#c9a227');
+    P(28,46,16,3,'#5a3a22');P(28,46,16,1,'#7a5030');P(30,49,2,3,'#4a2e1a');P(40,49,2,3,'#4a2e1a');P(33,42,6,4,'#e8e2d4');P(33,42,6,1,'#fff');P(34,41,4,1,'#c8c2b4');P(39,43,2,1,'#e8e2d4');P(30,44,2,2,'#e8e2d4');P(42,44,2,2,'#e8e2d4');
+    P(0,66,W,24,'#9c7650');for(let y=66;y<HH;y+=6)P(0,y,W,1,'#8a6644');for(let i=10;i<W;i+=31)P(i,66,1,24,'#8a6644');
+    P(22,70,116,18,'#8f2a22');P(24,72,112,14,'#7a2420');P(24,72,112,1,'#c49a46');P(24,85,112,1,'#c49a46');P(24,72,1,14,'#c49a46');P(135,72,1,14,'#c49a46');
+    for(let i=32;i<130;i+=12){P(i,77,4,4,'#a8483a');P(i+1,78,2,2,'#c49a46');}
+  }else if(name==='yuyuan'){
+    grad(0,44,SK[0],SK[1]);
+    if(night){for(let i=0;i<30;i++)P((i*53)%W,(i*29)%34,1,1,i%3?'#8890b0':'#f4efe4');circ(128,12,4,'#f4efe4');circ(130,11,3,SK[0]);}
+    else if(!cloudy){for(const [a,b,r] of [[30,12,4],[37,11,5],[44,13,3],[110,8,3],[116,7,4]])circ(a,b,r,'rgba(255,255,255,.75)');}
+    else P(0,0,W,44,'rgba(140,140,150,.25)');
+    const far=mix(SK[1],'#7a9a90',.45),near=mix(SK[1],'#4e6e64',.6);
+    for(let i=0;i<W;i++){const h=Math.round(10+5*Math.sin(i/11)+3*Math.sin(i/5));P(i,44-h,1,h,far);}
+    for(let i=0;i<W;i++){const h=Math.round(5+4*Math.sin(i/7+2));P(i,46-h,1,h,near);}
+    P(118,34,32,4,'#c9a227');P(116,33,36,1,'#a8841c');P(120,38,28,8,'#8f2a22');for(let i=121;i<147;i+=5)P(i,40,2,3,'#5a1914');P(116,33,2,1,'#c9a227');P(150,33,2,1,'#c9a227');
+    const wtop=night?'#2a405a':'#86b0bc',wbot=night?'#16263a':'#4a7888';
+    for(let y=44;y<HH;y++)P(0,y,W,1,mix(wtop,wbot,Math.round((y-44)/46*4)/4));
+    for(const [a,b] of [[12,52],[22,58],[130,50],[142,60],[116,66],[6,64]]){circ(a,b,2,night?'#2a4a3a':'#5e8e4a');P(a-1,b-1,1,1,night?'#3a5a4a':'#7eae6a');}
+    for(const [a,b] of [[22,56],[132,48],[118,64]]){P(a,b,2,2,'#e8a0b0');P(a,b,1,1,'#fff0f4');}
+    P(58,58,44,5,'#d8ccb0');P(58,58,44,1,'#f0e8d4');P(60,63,40,2,'#a89c80');dith(60,65,40,7,'rgba(140,40,30,.28)');
+    P(63,41,3,17,'#a3281e');P(94,41,3,17,'#a3281e');P(78,41,3,17,'#8a2018');P(63,41,1,17,'#c84434');P(94,41,1,17,'#c84434');
+    P(60,52,40,1,'#c84434');P(60,55,40,1,'#a3281e');for(let i=61;i<100;i+=4)P(i,52,1,4,'#a3281e');
+    P(54,40,52,1,'#8f2a22');
+    for(let r=0;r<11;r++){const y=39-r,w=58-r*5;if(w<4)break;P(80-w/2,y,w,1,r%2?'#3a4c56':'#2f3e46');}
+    for(let i=56;i<104;i+=4)P(i,32,1,8,'#45585f');
+    P(49,35,4,2,'#2f3e46');P(107,35,4,2,'#2f3e46');P(48,34,2,1,'#2f3e46');P(110,34,2,1,'#2f3e46');P(50,37,2,1,'#c9a227');P(108,37,2,1,'#c9a227');
+    P(79,24,2,5,'#c9a227');circ(80,23,1,'#e8c860');
+    P(0,68,W,1,'#f0ead8');for(let i=2;i<W;i+=8)P(i,68,2,6,'#e8e2d0');P(0,73,W,1,'#cfc6b0');
+    P(0,74,W,16,'#c0b294');P(0,74,W,1,'#e0d4b8');for(let r=0;r<3;r++)for(let i=(r%2)*8;i<W;i+=16){P(i,77+r*5,15,1,'#a89c7c');P(i,77+r*5,1,5,'#a89c7c');}
+    P(3,6,5,68,'#5a4630');P(4,6,1,68,'#6e5a40');P(0,4,20,5,night?'#2e4a2a':'#5e7d3a');P(2,2,14,3,night?'#2e4a2a':'#6e8e4a');
+  }else if(name==='garden'){
+    grad(0,30,SK[0],SK[1]);if(night)for(let i=0;i<18;i++)P((i*41)%W,(i*17)%22,1,1,'#8890b0');
+    P(0,30,W,30,'#8f2a22');dith(0,31,W,29,'#842620');for(let i=0;i<W;i+=40)P(i,31,1,29,'#7a221c');
+    P(0,24,W,6,'#c9a227');for(let i=0;i<W;i+=4){P(i,24,2,6,'#e0b840');P(i+3,24,1,6,'#a8841c');}P(0,23,W,1,'#8a6a18');P(0,30,W,1,'#5a1914');P(0,29,W,1,'#a8841c');
+    circ(80,46,14,'#ece4d0');const view=night?'#2e4030':'#a8c494';circ(80,46,12,view);P(66,52,29,8,view);P(68,52,25,8,view);
+    if(!night){circ(76,44,4,'#8fae7a');circ(84,42,5,'#86a472');P(79,46,2,8,'#6e5040');}
+    P(64,58,32,2,'#ece4d0');
+    P(0,60,W,30,night?'#3a4a3a':'#8fae7a');dith(0,60,W,30,night?'#334233':'#86a472');
+    for(let y=72;y<HH;y++){const w=40+(y-72)*3;P(80-w/2,y,w,1,night?'#5a5446':'#cbbb98');}
+    for(let i=0;i<40;i++)P(70+((i*37)%60)-((i%3)*10),74+((i*13)%16),2,1,night?'#4a4638':'#b8a882');
+    P(16,30,4,32,'#4a311c');P(17,30,1,32,'#6a4a30');for(let i=0;i<12;i++){P(18-i,34-Math.round(i*0.6),1,1,'#4a311c');P(19+i,38-Math.round(i*0.8),1,1,'#4a311c');}
+    for(const [a,b] of [[6,28],[10,26],[14,30],[22,28],[28,30],[26,26],[8,31],[30,32],[4,30],[20,25]]){P(a,b,3,2,night?'#a06a80':'#f0a8b8');P(a+1,b,1,1,night?'#c08aa0':'#fff0f4');}
+    P(124,40,24,24,'#8c8c86');P(126,37,16,4,'#a2a29c');P(130,44,4,4,'#5a5a54');P(140,52,3,3,'#5a5a54');P(126,40,2,20,'#a2a29c');P(144,40,4,24,'#6e6e68');
+    const fl=['#e86a6a','#f4efe4','#e8a0c8','#e8c24a'];
+    for(let i=0;i<4;i++){const fx=30+i*12+(i>1?40:0),fy=60+(i%2)*3;circ(fx+4,fy+2,4,night?'#2e4a2a':'#5e7d4a');for(let k=0;k<4;k++){P(fx+1+k*2,fy+(k%2)*2,2,2,fl[(i+k)%4]);}}
+  }
+  if(cloudy&&SCN[name].out)P(0,0,W,HH,'rgba(90,96,110,.14)');
+  if(slot===0)P(0,0,W,HH,'rgba(255,220,200,.08)');
+  if(slot===4)P(0,0,W,HH,'rgba(200,100,50,.15)');
+  if(slot===5)P(0,0,W,HH,'rgba(16,20,56,.44)');
+  return bgCache[key]=c;
+}
+function anim(ctx,name,slot,t){
+  const P=(a,b,w,h,col)=>{ctx.fillStyle=col;ctx.fillRect(a,b,w,h);};
+  const glow=(cx,cy,r,a)=>{const g=ctx.createRadialGradient(cx,cy,0,cx,cy,r);g.addColorStop(0,'rgba(255,200,120,'+a+')');g.addColorStop(1,'rgba(255,200,120,0)');ctx.fillStyle=g;ctx.fillRect(cx-r,cy-r,r*2,r*2);};
+  const fl=Math.sin(t/2)*.04+Math.sin(t/3.3)*.03;
+  if(name==='chengtian'){for(const bx of [48,110])for(let k=0;k<5;k++){const ph=(t*.6+k*5)%22;P(bx+Math.round(Math.sin((t*.6+k*5)/3)),43-ph,1,1,'rgba(230,220,210,'+(.45-ph/50)+')');}
+    if(slot===5){glow(49,40,22,.25+fl);glow(111,40,22,.25+fl);}}
+  if(name==='chongzheng'){if(slot>=1&&slot<=3){ctx.fillStyle='rgba(255,240,200,.12)';for(let y=48;y<HH;y++)ctx.fillRect(12+Math.round((y-48)*0.9),y,30,1);
+      for(let i=0;i<6;i++){P(18+((i*13+t*.3)%40),50+((i*7+t*.4)%34),1,1,'rgba(255,250,230,.7)');}}
+    if(slot>=4)glow(100,44,30,.3+fl);}
+  if(name==='mingchen'){glow(81,23,slot>=4?40:16,(slot>=4?.42:.18)+fl);P(80,22,2,2,'rgba(255,240,200,'+(.7+fl*3)+')');}
+  if(name==='yuyuan'){for(let i=0;i<14;i++){const xx=(i*29+t*(i%2?.5:-.4)+400)%W,yy=46+((i*13)%26);P(xx,yy,3+(i%3),1,slot===5?'rgba(160,180,220,.35)':'rgba(255,255,255,.45)');}
+    for(let s=0;s<9;s++){const sx=4+s*2,len=22+(s*7)%18;for(let y=0;y<len;y+=1){const dx=Math.round(Math.sin(t/7+s+y/9)*(y/12));P(sx+dx,8+y,1,1,slot===5?'#2e4a2a':(s%2?'#6e8e4a':'#86a85a'));}}}
+  if(name==='garden'){for(let i=0;i<12;i++){const xx=(i*37+t*.7)%W,yy=(i*19+t*(.8+(i%3)*.3))%HH;P(xx+Math.round(Math.sin((t+i*9)/5)*2),yy,2,1,'#f4b8c4');}
+    if(slot>=1&&slot<=3){const bx=110+Math.round(Math.sin(t/9)*20),by=50+Math.round(Math.sin(t/5)*6);P(bx,by,1,1,'#2d2823');P(bx-1-(t%4<2?1:0),by-1,1+(t%4<2?1:0),2,'#f4efe4');P(bx+1,by-1,1+(t%4<2?1:0),2,'#f4efe4');}}
+  if(SCN[name].out&&/雨|雪/.test(S.wx)){const snow=/雪/.test(S.wx);ctx.fillStyle=snow?'rgba(255,255,255,.9)':'rgba(200,220,235,.7)';
+    for(let i=0;i<54;i++){const px=(i*37+t*(snow?.6:2.2))%W,py=(i*53+t*(snow?1:4.5))%HH;ctx.fillRect(Math.round(px+(snow?Math.sin((t+i)/6):0)),Math.round(py),1,snow?1:3);}}
+}
+const cv=$('#cv'),cx=cv.getContext('2d');
+let scene='mingchen',cast=[],speaker=null,speakerEx='n',tick=0;
+function draw(){
+  const sl=S?S.slot:2;
+  cx.drawImage(bg(scene,sl,S?S.wx:'晴'),0,0);
+  if(!S)return;
+  anim(cx,scene,sl,tick);
+  const sc=SCN[scene],pos=sc.pos;
+  const put=(id,x,y,flip)=>{
+    if(id==='cat'){drawCat(cx,x,y,tick);return;}
+    const lk=lookOf(id),sh=lk.short||0;
+    cx.fillStyle='rgba(30,20,10,.25)';cx.fillRect(x+3,y+sh+22,10,2);cx.fillRect(x+4,y+sh+24,8,1);
+    const ph=(id.length*7+x)%37,blink=(tick+ph)%37<2;
+    const ex=id===speaker?speakerEx:'n';
+    const bob=((id===speaker&&tick%8<4)||(id==='me'&&walking&&tick%2))?-1:0;
+    const key=id==='me'?'me'+S.g+S.robe:id;
+    cx.drawImage(spriteImg(key,lk,ex,flip,blink),x-2,y-4+bob);
+  };
+  cast.forEach((id,i)=>{const p=i===0?pos.a:pos.b;put(id,p[0],p[1],sc.court?(i===1):true);});
+  if(walkMode)put('me',pX,WALK[scene],faceL);else put('me',pos.me[0],pos.me[1],false);
+  drawWalkUI();
+}
+setInterval(()=>{tick++;stepWalk();draw();},90);
+
+/* ───────── 自由走動與調查 ───────── */
+const WALK={chengtian:62,chongzheng:60,mingchen:62,yuyuan:62,garden:62};
+const LINK={chengtian:[null,'chongzheng'],chongzheng:['chengtian','mingchen'],mingchen:['chongzheng','yuyuan'],yuyuan:['mingchen','garden'],garden:['yuyuan',null]};
+const NIGHT=()=>S.slot===5,DAY=()=>S.slot>=1&&S.slot<=3,DUSK=()=>S.slot===4;
+/* 每個可調查的東西：名稱、範圍 [x,y,w,h]、內容（依序輪流）。k=第一次看到才算的發現，aff=順便親近，fx=每天一次的小效果 */
+const HS={
+ chengtian:[
+  {n:'龍椅',r:[60,22,40,30],t:['你坐上去。很硬，而且是冰的。難怪先帝晚年老是站著。','扶手的龍頭被摸得發亮。你也摸了一下。',{t:'椅墊底下壓著一張舊紙條：「坐直。」字跡很老了，像是蘇尚宮年輕時寫的。',k:'cushion',note:'龍椅下的舊紙條'}]},
+  {n:'金龍屏風',r:[48,13,64,10],t:['屏風上的金龍應該有五爪。你數了兩遍，左後腳只有四爪。','金龍的眼睛是一顆紅寶石。另一隻眼睛顏色淺一點，像是後來補的。']},
+  {n:'香爐',r:[43,40,12,12],t:['爐裡燃著沉香，煙一路往上走，到藻井就散了。',{t:'香灰裡埋著一顆糖。這手筆很像某位國師。',k:'ashcandy',aff:'du',note:'香爐裡的糖'}]},
+  {n:'香爐',r:[105,40,12,12],t:['另一只香爐。煙往左邊歪，殿門大概沒關緊。','爐腳刻著「定鼎」二字，是先帝那年鑄的。']},
+  {n:'東柱',r:[5,10,10,50],t:[{t:'柱子上有一道淺淺的刻痕，像是有人量過身高。旁邊刻著一個小小的「嶠」字。',k:'pillar',aff:'xuan',note:'柱子上的「嶠」字刻痕'},'刻痕比你想的還要低。那時候的攝政王，應該還是個孩子。']},
+  {n:'西柱',r:[145,10,10,50],t:['柱子背面貼著一張黃符：「此柱不倒」。落款是一隻簡筆畫的貓。','你把黃符撕下來，想了想，又貼了回去。萬一呢。']}
+ ],
+ chongzheng:[
+  {n:'書架',r:[118,10,34,52],t:[{t:'你抽出一本《農桑輯要》。第一頁就有賀尚書的眉批：「此處可省銀三兩。」',fx:{co:1}},
+    {t:'《烏闌語初階》。扉頁寫著：「陛下學會第一句，外臣就教第二句。」',k:'wulan',aff:'her',note:'赫祈爾送的《烏闌語初階》'},
+    '《昭京風物志》。有人在「南市點心鋪」那一頁折了角。',
+    {t:'《邊塞輿圖志》裡夾著一張字條：「棗泥酥三盒，記兵部帳上。——野」',k:'yenote',aff:'ye',note:'明野記在兵部帳上的點心單'},
+    {t:'一本手抄《棋經》，邊上寫滿批注，筆跡沉穩。最後一頁寫著：「你又輸了。」',k:'chess',aff:'xuan',note:'玄嶠批過的《棋經》'},
+    '《禮記》。翻得最舊的一頁是「君子不重則不威」，旁邊是裴尚書的批注：「陛下宜細讀」。']},
+  {n:'窗',r:[8,12,36,36],t:[{t:'窗外是文華館的屋簷，一隻麻雀蹲在上面，和你對看了一會兒。',cond:DAY},{t:'夕陽把窗格的影子拉得很長，一直拉到你腳邊。',cond:DUSK},
+    {t:'窗外黑了。文華館那邊還亮著一盞燈——如琢還沒走。',cond:()=>S.slot>=4,k:'zhuolamp',aff:'zhuo',note:'文華館夜裡的那盞燈'},{t:'天剛亮，窗紙是淡粉色的。',cond:()=>S.slot===0}]},
+  {n:'山水屏風',r:[54,12,51,40],t:['山水裡有一條小船。湊近看，船上的人在釣魚。','屏風是先帝的手筆，題款只有兩個字：「未竟」。']},
+  {n:'奏摺',r:[51,43,12,11],t:['最上面那份寫著「急」，下面那份寫著「十萬火急」，再下面那份只畫了一個哭臉——是賀尚書的。','你把奏摺疊整齊了。疊整齊並不會讓它變少。']},
+  {n:'硯台',r:[86,48,11,7],t:['墨還是濕的。不器說過，陛下批到第二份就會開始打瞌睡。','硯台底下刻著「勤政愛民」。刻得很深，像是刻的人很生氣。']},
+  {n:'筆筒',r:[97,41,7,14],t:[{t:'筆筒裡插著十二支筆，其中一支是糖葫蘆的竹籤。',k:'stick',aff:'du',note:'混在筆筒裡的糖葫蘆竹籤'}]},
+  {n:'小松',r:[145,58,15,24],t:[{t:'土上壓著一張字條：「每三日澆水一次，勿多。——琢」',k:'pine',aff:'zhuo',note:'如琢交代澆水的字條'},'你澆了一點水。澆完才想起來，今天好像不是第三天。']}
+ ],
+ mingchen:[
+  {n:'圓窗',r:[14,14,32,32],t:[{t:'月亮正好卡在圓窗正中間。你站了一會兒，看它慢慢移開。',cond:NIGHT},{t:'梅枝伸進來一點。你把它往外推，它又彈回來。',cond:()=>!NIGHT()},{t:'窗櫺上停著一隻黑貓，看你一眼就跳走了。',cond:()=>!NIGHT()}]},
+  {n:'燈籠',r:[74,17,14,13],t:['燈籠上畫著一隻兔子。是誰掛的？',{t:'燈罩內側寫著一行小字：「亥時後勿點宵夜。——姜」',k:'lamp',note:'姜霜藏在燈罩裡的警告'}]},
+  {n:'床',r:[104,8,52,50],t:['被子疊得像一塊豆腐。你一躺就壞了。',{t:'枕頭底下摸到一個空刀鞘。不器說，那是「以防萬一」。',k:'sheath',aff:'qi',note:'枕頭下的空刀鞘'}]},
+  {n:'暖榻',r:[2,40,26,24],t:[{t:'暖榻上多了一個枕頭，不是你的。枕頭上有一根淺灰色的頭髮。',cond:()=>S.aff.du.tier>=2,k:'pillow',aff:'du',note:'暖榻上不是你的枕頭'},'暖榻的縫裡卡著三張糖紙。',{t:'你在暖榻上躺了一下。很軟。',fx:{en:1}}]},
+  {n:'茶几',r:[28,40,18,12],t:['茶還是溫的。你沒叫人倒茶。',{t:'茶盞底下壓著一枚小小的綠寶石，看起來像是……順手留下的。',k:'emerald',aff:'her',note:'茶盞下的綠寶石'}]}
+ ],
+ yuyuan:[
+  {n:'湖',r:[24,44,36,22],t:[{t:'你撒了一把魚食。錦鯉擠成一團，最胖的那條是紅白相間的。',fx:{en:1}},'你丟了一顆石子，打了三個水漂。',{t:'有一條錦鯉一直跟著你。郭懷信說牠叫「國庫」，因為牠只進不出。',k:'koi',note:'名叫「國庫」的錦鯉'}]},
+  {n:'湖',r:[108,48,52,18],t:['荷葉底下有一隻青蛙。牠不太想理你。','水面映著天色，被風吹皺了。']},
+  {n:'湖心亭',r:[50,22,60,40],t:['亭柱上有人刻了一首歪詩，被蘇尚宮用紅漆塗掉了一半。','亭子裡的石凳是溫的。剛剛有人坐過。']},
+  {n:'柳樹',r:[0,0,24,62],t:['柳條掃過你的臉，有點癢。',{t:'柳樹底下露出一個酒罈的口，用泥封著。你決定假裝沒看到。',k:'wine',aff:'xuan',note:'柳樹下埋著的酒罈'}]},
+  {n:'遠處宮殿',r:[116,30,36,16],t:['那是文華館的屋頂。屋頂上好像有個人影，一晃就不見了——是江折在巡邏。']}
+ ],
+ garden:[
+  {n:'梅樹',r:[0,22,34,40],t:['你折了一枝梅，想了想，插在不器的護腕上。他沒拿下來。',{t:'樹枝上掛著一根紅髮帶，在風裡飄。',k:'ribbon',aff:'ye',note:'梅樹上的紅髮帶'}]},
+  {n:'太湖石',r:[122,34,28,30],t:[{t:'石頭的孔洞裡卡著一顆金色小珠子，像是辮子上的飾品。',k:'bead',aff:'her',note:'太湖石裡的金珠'},{t:'你對著石孔說了一句話。另一頭傳來回音，還有一聲很輕的「臣在」。',k:'echo',aff:'qi',note:'太湖石另一頭的「臣在」'}]},
+  {n:'月洞門',r:[66,32,28,26],t:['月洞門那一邊是另一座花園。聽說再過去還有一座。皇宮就是這樣。']},
+  {n:'花叢',r:[26,54,30,12],t:['一隻蝴蝶停在你的袖子上，停了很久。',{t:'花叢裡藏著一個空點心盒，盒蓋上寫著「兵部」。',k:'box',note:'花叢裡兵部的點心盒'}]},
+  {n:'花叢',r:[90,54,30,12],t:[{t:'你蹲下來聞了聞。香得讓人想睡午覺。',fx:{en:1}},'牡丹開得正好。蘇尚宮說這叢不能摘，摘了要寫進起居注。']}
+ ]
+};
+const FOUND_TOTAL=Object.values(HS).flat().reduce((n,h)=>n+h.t.filter(e=>e.k).length,0);
+let explore=false,walkMode=false,pX=40,tX=40,pend=null,faceL=false,walking=false;
+const tip=$('#tip');let tipT=null;
+function showTip(text,x,y){tip.textContent=text;tip.style.left=(x/W*100)+'%';tip.style.top=(y/HH*100)+'%';tip.hidden=false;clearTimeout(tipT);tipT=setTimeout(()=>tip.hidden=true,1600);}
+function canvasXY(e){const r=cv.getBoundingClientRect();return[(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*HH];}
+function hitHS(x,y){return(HS[scene]||[]).find(h=>x>=h.r[0]&&x<h.r[0]+h.r[2]&&y>=h.r[1]&&y<h.r[1]+h.r[3]);}
+function hitExit(x,y){const L=LINK[scene];if(y<56)return null;if(x<12&&L[0])return 0;if(x>148&&L[1])return 1;return null;}
+cv.addEventListener('click',e=>{
+  if(!explore||!S)return;
+  const [x,y]=canvasXY(e);
+  const ex=hitExit(x,y);
+  if(ex!==null){tX=ex===0?0:144;pend={exit:ex};showTip('往'+SCN[LINK[scene][ex]].n.split('・')[0],ex===0?16:144,70);return;}
+  const h=hitHS(x,y);
+  if(h){tX=clamp(Math.round(h.r[0]+h.r[2]/2-8),0,144);pend={h};showTip(h.n,h.r[0]+h.r[2]/2,h.r[1]);return;}
+  tX=clamp(Math.round(x-8),0,144);pend=null;
+});
+cv.addEventListener('mousemove',e=>{if(!explore||!S){cv.style.cursor='';return;}const [x,y]=canvasXY(e);cv.style.cursor=(hitHS(x,y)||hitExit(x,y)!==null)?'pointer':'';});
+function stepWalk(){
+  if(!walkMode)return;
+  if(pX!==tX){const d=Math.sign(tX-pX);faceL=d<0;pX+=d*Math.min(3,Math.abs(tX-pX));walking=true;return;}
+  walking=false;
+  if(pend&&explore){const p=pend;pend=null;if(p.h)examine(p.h);else goExit(p.exit);}
+}
+function drawWalkUI(){
+  if(!explore)return;
+  const hs=HS[scene]||[];if(hs.length){const i=Math.floor(tick/16)%hs.length,ph=tick%16,h=hs[i];
+    if(ph<9){const x=Math.round(h.r[0]+h.r[2]/2),y=h.r[1]+3,s=ph<3?1:ph<6?2:1;cx.fillStyle='rgba(255,236,160,.95)';cx.fillRect(x,y-s,1,s*2+1);cx.fillRect(x-s,y,s*2+1,1);cx.fillStyle='#fff';cx.fillRect(x,y,1,1);}}
+  const L=LINK[scene],on=tick%12<8;cx.fillStyle=on?'#f0d070':'#a8834a';
+  if(L[0]){for(let i=0;i<4;i++)cx.fillRect(5-i,74+i,1,1),cx.fillRect(5-i,80-i,1,1);cx.fillRect(2,77,1,1);}
+  if(L[1]){for(let i=0;i<4;i++)cx.fillRect(154+i,74+i,1,1),cx.fillRect(154+i,80-i,1,1);cx.fillRect(157,77,1,1);}
+}
+async function examine(h){
+  explore=false;
+  S.lk=S.lk||{};S.found=S.found||{};S.daily=S.daily||{};
+  const key=scene+h.n+h.r[0];
+  const ok=h.t.filter(e=>typeof e==='string'||!e.cond||e.cond());
+  if(!ok.length){explore=true;return;}
+  const n=S.lk[key]||0;S.lk[key]=n+1;
+  const e=ok[n%ok.length],o=typeof e==='string'?{t:e}:e;
+  await say('n','【'+h.n+'】'+o.t);
+  if(o.k&&!S.found[o.k]){S.found[o.k]=o.note;if(o.aff)addAff(o.aff,1);note('發現'+o.note);toast([['發現：'+o.note]]);}
+  if(o.fx){const today=S.y*400+dIdx(S.m,S.d)+'-'+key;if(!S.daily[key]||S.daily[key]!==today){S.daily[key]=today;fx(o.fx);}}
+  save();showActions();
+}
+async function goExit(dir){
+  explore=false;
+  const to=LINK[scene][dir];if(!to){explore=true;return;}
+  S.here=to;setScene(to,['qi']);pX=tX=dir===0?140:4;faceL=dir===0;
+  const sk=S.y*400+dIdx(S.m,S.d)+'-'+S.slot;
+  if(S.met!==sk&&Math.random()<.35){S.met=sk;await say('n','走著走著——');await visit(to);}
+  save();showActions();
+}
+
+/* ───────── 文字 ───────── */
+const tx=s=>String(s).replace(/\[\[([^|\]]*)\|([^\]]*)\]\]/g,(m,a,b)=>S.g==='m'?a:b).replace(/\{名\}/g,S.name);
+const emp=()=>S.g==='m'?'帝':'女帝';
+
+/* ───────── 召見對話（每人五段） ───────── */
+const D={
+xuan:[
+ {l:[['n','玄嶠進殿，行禮行得很慢。'],['xuan','陛下召本王，是政事，還是又想找人陪著偷懶？'],['xuan','本王老了，經不起你這樣折騰。']],
+  c:[['攤開北境輿圖，說是政事',[['xuan','……好。那本王陪你看到天黑。']],1,{co:1}],['直說是找人陪',[['xuan','倒是誠實。坐吧，別讓郭懷信看見。']],2]]},
+ {l:[['xuan','樞密院今日沒事。本王帶了一盤棋。'],['xuan','輸的人，替對方批三份摺子。']],
+  c:[['執黑先下',[['n','半個時辰後，你輸了。'],['xuan','三份。本王會挑最長的給你。']],2],['要他讓子',[['xuan','讓你九子，你也未必贏。……好，讓。'],['n','你還是輸了。他沒笑出聲，眼罩外那半張臉在笑。']],2],['把棋盤翻過來當茶几',[['xuan','……陛下真是治國奇才。'],['n','他還是把那杯茶喝完了。']],1]]},
+ {l:[['xuan','先帝在時，也愛在這個時辰找人說話。'],['xuan','本王那時還年輕，站在柱子後面聽。']],
+  c:[['問他當年聽到什麼',[['xuan','很多。大多不能告訴你。'],['xuan','有一句能：坐這個位子的人，最缺一個肯說實話的。']],2],['讓他坐下說，不必站',[['xuan','本王站了二十年，坐下反而不習慣。'],['n','但他還是坐下了。']],2]]},
+ {l:[['xuan','御史臺又參了本王一本，說本王攬權。'],['xuan','陛下怎麼看？']],
+  c:[['把參本遞給他，請他自己批',[['xuan','哈。讓被參的人批參本？柯雲章知道會氣死。'],['xuan','……本王留中。']],1,{co:-1}],['說：權留著，事做好',[['xuan','嗯。這句本王記下了。']],2,{co:1}],['說會找柯雲章喝茶',[['xuan','別嚇壞他。他是好官，只是嗓門大。']],1]]},
+ {l:[['xuan','本王府裡埋了一罈酒，十八年了。'],['xuan','本想留到本王咽氣那天再開。'],['xuan','……陛下若得空，休沐那日來王府。早點開，省得浪費。']],
+  c:[['答應休沐日去攝政王府',[['n','休沐那日，你去了攝政王府。長廊很長，酒很烈，他話很少。'],['xuan','下回來，本王把棋盤也擺上。']],3,0,'up'],['要他把酒帶進宮',[['xuan','酒進宮要過三道查驗，到你手上就只剩水了。'],['xuan','罷了，本王等你得空。']],1,0,'again']]}
+],
+ye:[
+ {l:[['ye','陛下！臣剛從演武場過來，一身汗味，先說聲抱歉！'],['ye','找臣什麼事？要打誰？']],
+  c:[['說不打誰，只是召他來',[['ye','啊？就……召臣來？'],['ye','那臣、臣站著就好！不對，坐著也行！']],2],['問他北境軍糧夠不夠',[['ye','不夠！但兵部說夠。陛下信臣的，對吧？']],1,{co:1}]]},
+ {l:[['ye','御膳房的棗泥酥，陛下吃過沒？'],['ye','臣上回路過偷看一眼，姜掌事拿勺子把臣趕出來。']],
+  c:[['讓人端一盤來',[['n','姜霜親自端來，臉很臭，盤子很滿。'],['ye','陛下最好了！臣分您一半——三分之一——好，一半。']],2],['讓他自己去跟姜掌事要',[['ye','陛下這是要臣送死。'],['ye','……好！臣去！要是沒回來，記得替燎原找個好主人。']],1]]},
+ {l:[['ye','燎原這兩天不肯吃草，一直盯著宮牆看。'],['ye','臣猜它想見陛下。真的，臣沒騙您。']],
+  c:[['去馬廄看燎原',[['n','燎原把頭擱在你肩上，鼻息噴了你一臉。'],['ye','看吧！它喜歡您！跟臣一樣——跟臣的眼光一樣！']],2],['說馬不會想人',[['ye','會的！它還記仇。上回宋尚書罵臣，它踢翻了宋尚書的轎子。']],1]]},
+ {l:[['ye','兵部說，邊軍今年冬衣要減三成。'],['ye','臣知道國庫緊。可陛下，北境的冬天會凍掉手指。']],
+  c:[['從內帑撥一筆給邊軍',[['ye','陛下！臣替將士們謝您！'],['ye','臣以後少吃點心，省下來的都還您！']],2,{tr:-4,pe:2}],['讓他跟賀尚書當面算帳',[['ye','賀尚書會拿算盤砸臣。'],['ye','……但臣去。數字對了，他就沒話說。']],1,{co:1}]]},
+ {l:[['ye','陛下，後天清晨演武場沒人。'],['ye','臣想跟您比一場。不比輸贏，就是想讓您看臣的槍。']],
+  c:[['答應清晨去演武場',[['n','那天清晨霧還沒散。他的槍很快，收槍時卻回頭看了你很久。'],['ye','陛下以後想看，演武場隨時給您留著！']],3,0,'up'],['說清晨起不來',[['ye','那臣等！等到陛下起得來的那天！']],1,0,'again']]}
+],
+zhuo:[
+ {l:[['zhuo','臣溫如琢，見過陛下。'],['zhuo','今日早朝臣當面駁了陛下。陛下召臣來，是要問罪？']],
+  c:[['問他駁得有沒有道理',[['zhuo','有。臣回去又想了一遍，還是有。'],['zhuo','……不過陛下肯問，臣很高興。']],2,{co:1}],['問他吃過午膳沒有',[['zhuo','……吃過了。'],['zhuo','但若陛下要賜膳，臣可以再吃一點。']],1]]},
+ {l:[['zhuo','文華館新修了一批典籍，臣想請陛下過目。'],['zhuo','另外，臣家茶室的新茶到了，也算典籍的一部分。']],
+  c:[['問茶怎麼算典籍',[['zhuo','《茶經》也是書。'],['zhuo','臣只是想，陛下批摺子累了，可以喝一點。']],2],['說只看典籍',[['zhuo','是，臣明白。'],['n','他陪你看了一個時辰的書，臨走時把一包茶葉留在案上。']],1]]},
+ {l:[['zhuo','令姝昨日又跟臣吵了一架。'],['zhuo','她說臣在朝上像塊石頭，下了朝像團棉花。']],
+  c:[['問他哪一句不服',[['zhuo','都服。所以才吵。']],2],['說令姝說得對',[['zhuo','……陛下也這麼覺得？那臣明日在朝上當一團棉花試試。'],['n','他沒有。隔天他照樣駁了你兩件事。']],1]]},
+ {l:[['zhuo','封印節前各部要交年帳，臣恐怕會很忙。'],['zhuo','這幾日陛下若有事，臣……也會很忙地過來。']],
+  c:[['讓他先回去歇著',[['zhuo','陛下體恤，臣領情。']],1,{co:1}],['說：那就多過來幾趟',[['zhuo','……臣遵旨。'],['n','他行禮時耳尖紅了。']],2]]},
+ {l:[['zhuo','休沐那日，溫府茶室有幾份地方志要請陛下看。'],['zhuo','純屬公務。'],['zhuo','……茶點臣會備好。']],
+  c:[['休沐日去溫府茶室',[['n','地方志只翻了兩頁，茶倒是續了五回。'],['zhuo','陛下下回休沐，臣再找幾份公務。']],3,0,'up'],['說公務在文華館辦就好',[['zhuo','是。'],['zhuo','那臣去找一份文華館辦不了的公務。']],1,0,'again']]}
+],
+du:[
+ {l:[['du','嗯……陛下找我？'],['du','我還以為是夢。是夢的話，我就繼續睡了——']],
+  c:[['讓他醒醒',[['du','醒了醒了。陛下想算什麼？國運、天象，還是……'],['du','算了，先給我一塊糖。']],1],['讓郭懷信端糖來',[['du','陛下懂我。'],['n','他吃了三塊，說了一句「今年春天會晚」，又睡著了。']],2]]},
+ {l:[['du','觀星臺的貓昨晚把柏硯的鞋叼走了。'],['du','柏硯哭著來找我，我睡著了。醒來才發現，鞋在我床上。']],
+  c:[['問那隻貓叫什麼',[['du','沒取名。取了名就……'],['du','算了。陛下幫它取一個？'],['n','你取了一個。他念了兩遍，點點頭。']],2],['派人把鞋送回去',[['du','不用。柏硯穿走了我的鞋，我現在沒鞋。'],['du','所以我光著腳來見陛下。']],1]]},
+ {l:[['du','陛下最近夜裡睡得好嗎？'],['du','我看了一眼天上——不，沒什麼。']],
+  c:[['追問他看到什麼',[['du','……一顆很亮的星，離紫微垣很近。'],['du','意思是，陛下身邊的人都很亮。就這樣。'],['n','他忽然很清醒地看了你一眼，然後打了個呵欠。']],2],['塞一顆糖給他',[['du','陛下真是好人。'],['du','那我不說了，免得陛下睡不著。']],1]]},
+ {l:[['du','明宸宮那張暖榻……'],['du','我可以借嗎？觀星臺太冷了。']],
+  c:[['說可以',[['du','陛下真好。'],['n','他當天下午就去了，一睡睡到晚膳。']],2],['說要排隊',[['du','排在誰後面？不器？他又不睡覺。']],1]]},
+ {l:[['du','長陽節要觀測天象，我得連守三夜。'],['du','陛下要不要來看一回星？'],['du','不來也行。來的話，我會醒著。']],
+  c:[['說那幾夜會去',[['du','嗯，我記住了。'],['du','……陛下別說出去，國師也有醒著等人的時候。']],2],['說太冷了',[['du','那我替陛下多看幾顆。']],1]]}
+],
+qi:[
+ {l:[['qi','陛下。'],['n','沈不器站在門邊，沒有要往裡走的意思。']],
+  c:[['讓他進來坐',[['qi','臣站著就好。坐下來，看不到門。']],1],['問他今天跟了多久',[['qi','從陛下起床。'],['qi','陛下今早翻了三次身，第四次才起。']],2]]},
+ {l:[['qi','陛下昨日翻牆。'],['qi','臣在牆下接著。']],
+  c:[['說下次會走正門',[['qi','陛下上個月也這麼說。']],2],['說翻牆是在考核護衛',[['qi','考核結果：臣接住了。'],['qi','陛下，臣能替您關門，不能替您批奏摺。']],1]]},
+ {l:[['qi','江折說臣該休假。'],['qi','臣不知道休假要做什麼。']],
+  c:[['問他平常喜歡做什麼',[['qi','……釣魚。'],['qi','魚不說話。']],2],['讓他去御苑湖邊釣魚，算當差',[['qi','那算當差，還是休假？'],['n','他想了很久沒想出答案，但還是去拿了釣竿。']],2]]},
+ {l:[['qi','陛下的奏摺，臣沒看。'],['qi','但第二份的墨暈開了。陛下批的時候在打瞌睡。']],
+  c:[['讓他別看那麼仔細',[['qi','看仔細是臣的差事。']],1],['承認打了瞌睡',[['qi','臣不會告訴郭總管。'],['qi','……臣會請郭總管讓陛下早點睡。']],2]]},
+ {l:[['qi','今日是臣的休沐日。'],['qi','但臣還是來了。習慣。']],
+  c:[['明確告訴他：今日不當差，坐下',[['n','他愣了一下。然後解下短刀放在桌上，坐了下來。'],['qi','……這樣，可以嗎？'],['qi','臣不太會。陛下教一下。']],3,0,'up'],['讓他照常站崗',[['qi','是。']],1,0,'again']]}
+],
+her:[
+ {l:[['her','外臣赫祈爾，見過陛下。'],['her','陛下召外臣來，是想談和約？還是想看看烏闌人長什麼樣子？']],
+  c:[['說是談和約',[['her','真無趣。不過陛下認真的樣子，外臣不討厭。']],1,{co:1}],['說是想看看',[['her','那陛下看清楚了嗎？要不要再靠近一點？']],2]]},
+ {l:[['her','今早外臣騎馬，只能在西使館和城門之間來回。和約規定的。'],['her','陛下覺得，一匹馬跑不遠，是馬的錯，還是籠子的錯？']],
+  c:[['說和約是兩國一起簽的',[['her','陛下說得對。外臣只是隨口問問。'],['her','……陛下總是答得很好，真讓人想多問幾句。']],2,{co:1}],['讓他在御苑騎一圈',[['her','御苑？陛下不怕裴尚書念您？'],['n','裴正則念了你半個時辰。赫祈爾騎完馬，帶回一枝杏花。']],2,{co:-1}]]},
+ {l:[['her','烏闌有句話：客人送的禮，要拿來招待客人。'],['n','他取下一枚綠寶石戒指，放在案上。'],['her','陛下收下，外臣下回來，就算陛下的客人了？']],
+  c:[['收下戒指',[['her','陛下收得真乾脆。外臣反而有點慌了呢？']],2],['推回去，說宮裡不收私禮',[['her','誰的規矩？陛下的，還是蘇尚宮的？'],['her','好吧，外臣先收著，等陛下改規矩。']],1]]},
+ {l:[['her','裴尚書說外臣的辮子太長，不合禮制。'],['her','陛下覺得呢？要外臣剪嗎？']],
+  c:[['說不必剪',[['her','陛下護著外臣？那外臣可要得寸進尺了。']],2],['說裴尚書管得真寬',[['her','哈。這句話外臣可以轉告他嗎？'],['her','開玩笑的。外臣不會出賣陛下——除非陛下想被出賣？']],1]]},
+ {l:[['her','西使館有座練箭場，鋪著從烏闌帶來的地毯。'],['her','和約只限外臣出行，可沒限陛下來訪，對吧？']],
+  c:[['答應找日子去西使館',[['n','那日你去了西使館。地毯很軟，箭靶很遠。他射完一箭，回頭問你要不要試。'],['her','下回外臣教陛下拉弓。要不要手把手，看陛下。']],3,0,'up'],['說要先問裴尚書',[['her','陛下真守規矩。外臣等著裴尚書點頭的那天。']],1,0,'again']]}
+],
+shu:[
+ {l:[['shu','臣女溫令姝，見過陛下。'],['shu','[[陛下召臣女進宮，是想看溫家的絲綢，還是想看溫家的人？|陛下召臣女進宮，是要做新衣裳？臣女帶了樣布。]]']],
+  c:[['說是想看絲綢',[['shu','[[那臣女今天就只當個賣布的。……陛下下回可要說真話。|陛下好眼光。這匹藕紫，臣女私心想留給陛下。]]']],1,{tr:1}],['問她哥哥近來好不好',[['shu','好得很。昨天在書房自言自語，練習怎麼在朝上駁陛下。'],['shu','陛下想看他出糗，臣女可以多說一點。']],2]]},
+ {l:[['shu','春禊節的茶宴，臣女正在籌辦。'],['shu','[[陛下若肯賞臉，臣女親自奉茶。|陛下若肯來，臣女替陛下留最好的位子，離那幾位囉嗦的世家夫人最遠。]]']],
+  c:[['說會去',[['shu','[[那臣女得換一件新衣裳了。|好！臣女這就去把座位排好。]]']],2],['說要看那天有沒有朝議',[['shu','陛下這話跟哥哥說得一模一樣。'],['shu','溫家的人，怎麼都把茶宴當政務排。']],1]]},
+ {l:[['shu','今年蠶絲收得少，臣女的商號把價錢壓住了。'],['shu','可別家想趁機漲價，賀尚書說戶部管不著。']],
+  c:[['讓戶部出面平抑絲價',[['shu','謝陛下。……臣女還以為要再多說幾句才行。']],2,{pe:2,tr:-1}],['說讓市場自己走',[['shu','陛下說得是。那臣女只好自己去跟他們吵了。'],['shu','放心，臣女吵架從沒輸過。']],1]]},
+ {l:[['shu','陛下覺得，臣女和哥哥，誰比較會說話？']],
+  c:[['說是令姝',[['shu','臣女就知道。回去要說給他聽。']],2],['說是如琢',[['shu','……陛下真是一點都不疼臣女。'],['shu','沒關係，下回臣女帶哥哥小時候的事來。']],1]]},
+ {l:[['shu','[[陛下，臣女想問一句不合規矩的話。|陛下，宮裡人人都叫您陛下。]]'],['shu','[[陛下可曾想過，身邊多一個能跟您吵架的人？|私下的時候，臣女能不能叫您一聲「姊姊」？]]']],
+  c:[['[[回答：想過|回答：可以]]',[['shu','[[那臣女記住了。臣女不急，陛下也別急著答。|姊姊。……好，以後在哥哥面前也這麼叫，氣死他。]]']],3,0,'up'],['[[說要再想想|說在外人面前不行]]',[['shu','[[臣女等得起。|那就只在沒人的時候。]]']],2,0,'again']]}
+]};
+const IDLE={
+ xuan:['今日樞密院的沙盤上，北境多了一場雪。','本王這把年紀，聽你說話比喝藥有用。','陛下又瘦了。姜霜那邊，本王去說。'],
+ ye:['臣今天射了二十箭，中了十九箭！剩下那箭，是燎原打噴嚏。','陛下，南市新開了一家點心鋪，臣替您試過了，好吃！','臣跑著來的！怕陛下等！'],
+ zhuo:['臣今日在朝上又駁了陛下一件事，私下來賠個禮。','這份摺子臣替陛下謄過了，字大一點，陛下看著不累。','陛下若覺得悶，臣這裡有一本地方志，寫得像話本。'],
+ du:['我剛醒。陛下這裡的暖榻比觀星臺的好。','今夜無雲，適合看星，也適合睡覺。','糖……陛下還有糖嗎？'],
+ qi:['陛下今日走了九千步，比昨日多。','門外沒人。臣看過了。','江折說臣話太少。臣覺得剛好。'],
+ her:['陛下今日的袍子很好看。外臣能這麼說嗎？','烏闌的冬天比這裡長，但沒有這裡熱鬧。','陛下又召見外臣，裴尚書要寫奏摺了吧？'],
+ shu:['商號新到一批雲錦，[[臣女替陛下留了一匹玄色的|臣女替姊姊留了一匹藕紫的]]。','哥哥今早出門時打翻了硯台，這事陛下別說是臣女講的。','蘇尚宮說臣女進宮太勤了。臣女說，是陛下召得勤。']
+};
+const TU={xuan:'攝政王府的門房不再通報，直接請你進長廊。',ye:'演武場的兵卒看到你，會自動讓出最好的位置。',zhuo:'溫府茶室多了一只只給你用的茶盞。',du:'明宸宮暖榻上多了一個不是你的枕頭。',qi:'不器休沐時，會把短刀解下來放在桌上。',her:'西使館的門衛學會用昭京話向你問好。',shu:'[[令姝送進宮的帖子不再署官銜，只署名字。|令姝私下改口叫你「姊姊」。]]'};
+const PLACES=[['chongzheng','崇政殿'],['yuyuan','御苑'],['mingchen','明宸宮']];
+
+/* ───────── 朝議事件 ───────── */
+const CE=[
+ {t:'北境冬衣',l:[['song','北境今冬大寒，邊軍冬衣請加撥三成。'],['he','國庫只撥得出一成。再多，明年春耕的種子錢就沒了。'],['ye','一成？剩下兩成的兵，抱著馬睡嗎？']],
+  c:[['加撥三成',[['he','……臣回去把算盤再打一遍。打碎為止。'],['ye','陛下聖明！']],{tr:-8,pe:3,co:1}],['撥一成，其餘讓邊軍以屯田收成抵',[['song','臣以為可行。'],['ye','……行吧。至少有一成是新的。']],{tr:-3,co:2}],['請江南商號捐棉衣，朝廷記功',[['he','不花國庫的錢，臣第一個贊成。'],['n','隔天，溫家商號第一個送來了棉衣。']],{tr:-1,pe:2}]]},
+ {t:'江南漕運',l:[['zhuo','運河淤塞，漕糧遲了半月。臣請先疏浚河道。'],['xuan','疏浚要兩年。先改走海運，三個月能到。'],['he','兩個都要錢。']],
+  c:[['疏浚河道',[['zhuo','臣領旨。'],['xuan','嗯。那這兩年，本王讓樞密院盯著糧價。']],{tr:-6,pe:2,co:1}],['先走海運',[['xuan','好。'],['zhuo','臣保留意見，但會照辦。']],{tr:-3,co:1}],['兩邊各做一半',[['he','陛下，兩邊各一半，就是兩邊都不夠。'],['n','殿上安靜了很久。']],{tr:-5,co:-2}]]},
+ {t:'禮部章程',l:[['pei','烏闌使節入朝，禮部擬了新章程：凡見駕，須三跪九叩。'],['her','外臣的膝蓋不太好呢？'],['ke','禮不可廢。']],
+  c:[['照章程辦',[['her','那外臣只好多練練了。陛下要看嗎？']],{co:2}],['改為立禮，免跪',[['pei','陛下……禮部擬了三個月。'],['her','陛下仁厚。外臣記下了。']],{co:-1,pe:1}],['請裴尚書先示範一遍三跪九叩',[['n','裴正則示範得一絲不苟，起身時扶了一下腰。'],['pei','……臣以為，可改為一跪三叩。']],{co:1}]]},
+ {t:'觀星臺漏雨',l:[['bai','啟稟陛下，觀星臺屋頂漏雨，國師的床都濕了。'],['du','……我其實睡哪都行。'],['he','觀星臺去年才修過。']],
+  c:[['撥銀修繕',[['bai','謝陛下！國師，快謝恩！'],['du','謝……嗯……']],{tr:-3}],['讓國師先睡明宸宮暖榻',[['du','陛下真好。'],['he','這倒是一文錢不用花。']],{co:-1},'du'],['讓工部先去查是誰修的',[['he','查出來，錢要追回來。'],['n','查出來是去年的工部郎中，追回了一半。']],{co:1,tr:1}]]}
+];
+
+/* ───────── 奏摺（三組） ───────── */
+const MS=[
+ [{f:'戶部尚書 賀雲箴',t:'宮中燈油一年耗銀三千兩，請裁減三成。',o:[[{tr:3},'准。明宸宮少了兩盞燈，夜裡暗了一點。'],[{tr:-1},'駁。賀尚書在戶部嘆了一下午的氣。'],[{},'留中。燈照樣點，賀尚書照樣記著。']]},
+  {f:'江州知府',t:'境內現白鹿兩頭，臣以為祥瑞，請建祠以彰聖德。',o:[[{tr:-3,pe:1},'准。祠建好了，白鹿再也沒出現過。'],[{co:2},'駁。柯雲章在朝上點了頭，難得。'],[{},'留中。白鹿表示無所謂。']]},
+  {f:'御史中丞 柯雲章',t:'攝政王府門客在城東強買民田，請旨查辦。',o:[[{co:2,pe:3},'准。三個門客被查辦。攝政王派人送來一句：「查得好。」'],[{co:-3,pe:-3},'駁。茶樓裡開始有人小聲議論。'],[{co:-1},'留中。柯雲章又寫了一份更長的。']]}],
+ [{f:'禮部尚書 裴正則',t:'孔廟年久失修，請撥銀二千兩增修。',o:[[{tr:-4,co:2},'准。讀書人寫了很多首詩誇陛下。'],[{tr:1,co:-1},'駁。裴尚書回去抄了一遍《禮記》平復心情。'],[{},'留中。']]},
+  {f:'兵部尚書 宋長淮',t:'北境戰馬老弱，請添購三百匹。',o:[[{tr:-5,co:1},'准。盛少將軍在兵部門口高興得轉了三圈。'],[{co:-1},'駁。宋尚書說：「那臣讓馬多吃點。」'],[{},'留中。']]},
+  {f:'南市商戶聯名',t:'夜市生意好，懇請放寬宵禁一個時辰。',o:[[{pe:4,co:-1,tr:1},'准。南市夜裡多了一個時辰的燈火。'],[{pe:-2,co:1},'駁。商戶們早早收了攤。'],[{},'留中。']]}],
+ [{f:'工部',t:'城南排水渠淤塞，雨季將至，請先行疏通。',o:[[{tr:-3,pe:3},'准。第一場春雨，城南沒有淹水。'],[{pe:-3},'駁。城南人家默默把家具墊高了。'],[{},'留中。']]},
+  {f:'御膳房掌事 姜霜',t:'懇請陛下勿再於亥時後點宵夜，御膳房人手實在不足。',o:[[{co:1},'准。姜掌事難得在御膳房笑了一下。'],[{},'駁。姜掌事把同一份奏摺又上了一遍，字更大。'],[{},'留中。今晚宵夜照點。']]},
+  {f:'觀星臺道童 柏硯',t:'國師三日未歸觀星臺，懇請陛下代為尋找。',o:[[{},'准。不器在你的暖榻上找到了國師，睡得很香。'],[{},'駁。柏硯哭著回去了。國師當晚自己回來了。'],[{},'留中。後來奏摺裡夾了一張糖紙。']]}]
+];
+
+/* ───────── 狀態 ───────── */
+const KEY='muxi_save_v1';
+let S=null;
+function fresh(g,name,robe,bm,bd){
+  const aff={};CORE.forEach(k=>aff[k]={tier:1,seen:0,pts:0});
+  return{v:1,g,name,robe,bm,bd,y:1,m:2,d:28,slot:0,tr:60,pe:60,co:60,en:8,wx:'晴',aff,skip:0,memo:0,court:0,today:[],log:[],warn:{tr:0,pe:0,co:0},morning:null,cnt:{}};
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function load(){try{const t=localStorage.getItem(KEY);if(!t)return null;const o=JSON.parse(t);return o&&o.v===1&&o.aff?o:null;}catch(e){return null;}}
+const enc=o=>btoa(unescape(encodeURIComponent(JSON.stringify(o))));
+const dec=s=>{const o=JSON.parse(decodeURIComponent(escape(atob(s.trim()))));if(!o||o.v!==1||!o.aff)throw 0;return o;};
+
+/* ───────── 介面 ───────── */
+const LBL={tr:'國庫',pe:'民心',co:'朝綱',en:'精力'};
+function hud(){
+  $('#date').textContent=yearName(S.y)+' '+dateStr();
+  $('#slot').innerHTML='<b>'+SLOTS[S.slot][0]+'</b>（'+SLOTS[S.slot][1]+'）';
+  $('#wx').textContent=S.wx;
+  $('#stats').innerHTML=['tr','pe','co'].map(k=>'<div class="st"><span>'+LBL[k]+'<b>'+S[k]+'</b></span><div class="bar'+(S[k]<25?' low':'')+'"><i style="width:'+S[k]+'%"></i></div></div>').join('')
+   +'<div class="st"><span>精力<b>'+S.en+'/10</b></span><div class="pips">'+Array.from({length:10},(_,i)=>'<i class="'+(i<S.en?'on':'')+'"></i>').join('')+'</div></div>';
+  const f=nextFest();$('#fest').textContent=f[1]===0?'今日 '+f[0]:f[0]+'・'+f[1]+'日後';
+  $('#loc').textContent=SCN[scene].n;
+}
+function toast(list){const t=$('#toast');list.forEach(([s,neg])=>{const e=document.createElement('span');e.textContent=s;if(neg)e.className='neg';t.appendChild(e);setTimeout(()=>e.remove(),2500);});}
+function fx(o){if(!o)return;const out=[];for(const k in o){if(!o[k])continue;const max=k==='en'?10:100;const before=S[k];S[k]=clamp(S[k]+o[k],0,max);const dlt=S[k]-before;if(dlt)out.push([LBL[k]+(dlt>0?' +':' −')+Math.abs(dlt),dlt<0]);}toast(out);hud();}
+function setScene(s,c){
+  if(s!==scene){pX=tX=s==='chengtian'?72:SCN[s].pos.me[0];pend=null;const w=$('#wipe');w.classList.add('on');requestAnimationFrame(()=>requestAnimationFrame(()=>w.classList.remove('on')));}
+  scene=s;cast=(c||[]).slice(0,2);speaker=null;hud();draw();
+}
+const panel=$('#panel');
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function nameOf(id){if(id==='n'||id==='cat')return null;return C[id]||N[id];}
+function exOf(text){return /[哈笑！]/.test(text)?'s':'n';}
+let typing=null;
+function dlg(who,text,opts,res){
+  text=tx(text);
+  if(typing){clearInterval(typing);typing=null;}
+  const o=nameOf(who);
+  if(o){if(!cast.includes(who)){cast=cast.concat(who).slice(-2);}speaker=who;speakerEx=exOf(text);}else speaker=null;
+  draw();
+  let h='<div class="dlg'+(o?'':' narr')+'" id="dl">';
+  if(o)h+='<div class="pf"><canvas class="por" width="48" height="48"></canvas></div><div class="db"><div class="nm"><span>'+esc(o.n)+'</span><small>'+esc(tx(o.t))+'</small></div><p id="tx"></p><span class="more" id="more" hidden>▼</span></div>';
+  else h+='<div class="db"><p id="tx"></p><span class="more" id="more" hidden>▼</span></div>';
+  h+='</div>';
+  if(opts)h+='<div class="opts" id="ops" hidden>'+opts.map((t,i)=>'<button class="plank" data-i="'+i+'"><span class="no">'+'壹貳參肆'[i]+'</span>'+esc(tx(t))+'</button>').join('')+'</div>';
+  panel.innerHTML=h;
+  if(o)portrait(panel.querySelector('.por').getContext('2d'),o.look,speakerEx);
+  const p=$('#tx'),d=$('#dl');let i=0,done=false;
+  const finish=()=>{if(typing){clearInterval(typing);typing=null;}p.textContent=text;
+    if(opts){const ops=$('#ops');ops.hidden=false;ops.querySelectorAll('button').forEach(b=>b.onclick=()=>res(+b.dataset.i));}
+    else $('#more').hidden=false;};
+  if(RM)finish();else typing=setInterval(()=>{i++;p.textContent=text.slice(0,i);if(i>=text.length)finish();},26);
+  d.tabIndex=0;
+  d.onclick=()=>{if(typing){finish();return;}if(opts||done)return;done=true;res();};
+  d.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();d.onclick();}};
+  d.focus({preventScroll:true});
+}
+const say=(w,t)=>new Promise(r=>dlg(w,t,null,r));
+const ask=(w,t,o)=>new Promise(r=>dlg(w,t,o,r));
+async function lines(arr){for(const [w,t] of arr)await say(w,t);}
+function menu(hint,items,back=true){
+  return new Promise(res=>{
+    panel.innerHTML='<p class="hint">'+esc(hint)+'</p><div class="acts">'+items.map((it,i)=>'<button class="'+(it.seal?'seal':'plank')+'" data-i="'+i+'"'+(it.off?' disabled':'')+'>'+esc(it.t)+(it.s?'<small>'+esc(it.s)+'</small>':'')+'</button>').join('')+'</div>'+(back?'<div class="row"><button class="back" id="bk">返回</button></div>':'');
+    panel.querySelectorAll('.acts button').forEach(b=>b.onclick=()=>res(+b.dataset.i));
+    if(back)$('#bk').onclick=()=>res(-1);
+  });
+}
+function memoAsk(m,i){
+  return new Promise(res=>{
+    panel.innerHTML='<p class="hint">奏摺 '+(i+1)+' / 3</p><div class="memo"><small>'+esc(m.f)+'</small><p>'+esc(m.t)+'</p></div><div class="seals"><button class="seal" data-i="0">准</button><button class="seal" data-i="1">駁</button><button class="seal" data-i="2">留中</button></div>';
+    panel.querySelectorAll('.seals button').forEach(b=>b.onclick=()=>res(+b.dataset.i));
+  });
+}
+const note=s=>S.today.push(s);
+
+/* ───────── 親近 ───────── */
+async function tierUp(id){const a=S.aff[id];if(a.tier>=2)return;a.tier=2;
+  await say('n','【'+C[id].s+'・'+tx(C[id].tiers[1])+'】'+tx(TU[id]));note(C[id].n+'親近一階');}
+const addAff=(id,n)=>{S.aff[id].pts+=n||0;};
+
+/* ───────── 行動 ───────── */
+async function doCourt(){
+  const h=await menu('往哪座殿上朝？',[{t:'承天殿',s:'大朝會'},{t:'崇政殿',s:'議政'}]);if(h<0)return false;
+  const hall=h===0?'chengtian':'chongzheng';
+  setScene(hall,[]);fx({en:-2});S.skip=0;
+  let i=S.court%CE.length;S.court++;const e=CE[i];
+  await say('guo','有事啟奏，無事退朝——');
+  await say('n','今日議：'+e.t+'。');
+  await lines(e.l);
+  const k=await ask('n','陛下要怎麼處置？',e.c.map(c=>c[0]));
+  const c=e.c[k];await lines(c[1]);fx(c[2]);if(c[3]){addAff(c[3],1);}
+  note('御'+SCN[hall].n.slice(0,3)+'議'+e.t);return true;
+}
+async function doSkip(){
+  const k=await menu('不上朝的話……',[{t:'繼續睡',s:'精力 +2'},{t:'溜去御苑',s:'精力 +1'}]);if(k<0)return false;
+  S.skip++;S.cnt.skip=(S.cnt.skip||0)+1;
+  setScene(k===0?'mingchen':'yuyuan',[]);
+  const g=['陛下，百官已在承天殿候著了……老奴就說陛下龍體微恙？','陛下，昨日老奴說您微恙，今日再說，御史臺要派太醫來了。','陛下……老奴的說辭，已經用完了。'];
+  await say('guo',g[Math.min(S.skip,3)-1]);
+  if(k===0){await say('n','你把被子拉過頭頂。');fx({en:2,co:-4});note('未上朝，高臥明宸宮');}
+  else{await say('qi','臣跟著。');await say('n','御苑的晨霧還沒散，湖面很靜。');fx({en:1,co:-4});note('未上朝，往御苑閒行');}
+  if(S.skip>=3&&S.skip%3===0){
+    await say('ke','臣柯雲章冒死上奏：陛下登基未久，已三日不朝。');
+    await say('ke','百官自卯時候到辰時，腿都站麻了。');
+    const r=await ask('n','御史臺的摺子遞上來了。',['准奏，答應明日上朝','留中不發']);
+    if(r===0){await say('ke','臣記下了。臣明日卯時親自站在第一排。');fx({co:2});}
+    else{await say('ke','……臣明日再上。');fx({co:-3});}
+    note('御史臺上摺勸諫');
+  }
+  return true;
+}
+async function doMemo(){
+  setScene('chongzheng',[]);fx({en:-2});
+  const set=MS[S.memo%MS.length];S.memo++;
+  for(let i=0;i<3;i++){const m=set[i];const k=await memoAsk(m,i);fx(m.o[k][0]);await say('n',m.o[k][1]);}
+  await say('qi','三份。陛下今日比昨日快。');
+  note('批閱奏摺三份');return true;
+}
+async function doSummon(){
+  const list=CORE.map(id=>({t:C[id].n,s:C[id].t+'・'+tx(C[id].tiers[S.aff[id].tier-1])}));
+  const k=await menu('召誰進宮？',list);if(k<0)return false;
+  const id=CORE[k];
+  const p=await menu('在哪裡召見'+C[id].s+'？',PLACES.map(x=>({t:x[1]})));if(p<0)return false;
+  setScene(PLACES[p][0],[id]);fx({en:-1});
+  await say('guo','宣——'+C[id].t+C[id].n+'覲見。');
+  const a=S.aff[id];
+  if(a.seen<D[id].length){
+    const d=D[id][a.seen];
+    for(let i=0;i<d.l.length-1;i++)await say(d.l[i][0],d.l[i][1]);
+    const last=d.l[d.l.length-1];
+    const r=await ask(last[0],last[1],d.c.map(c=>c[0]));
+    const c=d.c[r];await lines(c[1]);addAff(id,c[2]);fx(c[3]||null);
+    if(c[4]!=='again')a.seen++;
+    if(c[4]==='up')await tierUp(id);
+  }else{
+    const r=await ask(id,pick(IDLE[id]),['再聊一會兒','讓'+C[id].s+'退下']);
+    if(r===0){addAff(id,1);await say('n','又說了一陣閒話，時辰就過去了。');}
+  }
+  note('於'+PLACES[p][1]+'召見'+C[id].n);
+  return true;
+}
+/* 偷閒時來找陛下的人：[來的人, 開場台詞, 提問台詞, 選項[文字, 回應, 數值, 親近對象, 親近量]] */
+const VISIT=[
+ {id:'jiang',l:[['n','姜霜提著一只食盒，四處張望。']],q:['jiang','陛下。御膳房多了一碟桂花糕——不是給陛下做的，是做壞了。'],
+  c:[['接過來吃掉',[['jiang','……陛下吃得下就好。做壞的。'],['n','一點也不像做壞的。']],{en:1}],['讓她拿去給不器',[['qi','……臣不吃甜。'],['n','他把一整碟都吃完了。']],null,'qi',1]]},
+ {id:'su',l:[['su','陛下，原來您在這裡。']],q:['su','後宮禮制有一條：午後不可散髮見人。'],
+  c:[['把頭髮綁回去',[['su','陛下從善如流，臣欣慰。']],{co:1}],['問她這條是誰定的',[['su','……先帝的祖母。'],['su','她老人家頭髮少，看不得別人散著。']],null]]},
+ {id:'bai',l:[['bai','陛下！陛下有沒有看到國師？']],q:['bai','觀星臺的貓不見了，國師也不見了，臣懷疑他們一起跑了！'],
+  c:[['指向明宸宮的方向',[['bai','暖榻！臣早該想到！謝陛下！'],['n','柏硯跑遠了。過了一會兒，國師從你身後的樹後面探出頭。'],['du','……陛下出賣我。']],null,'du',1],
+    ['說沒看到',[['bai','嗚……那臣再去別處找。'],['n','柏硯跑遠後，國師從你身後的樹後面探出頭，懷裡抱著貓。'],['du','謝陛下。這份情，我拿糖還。']],null,'du',2]]},
+ {id:'ke',l:[['ke','陛下！臣找了您三座殿！']],q:['ke','臣有一本要參——參御膳房上個月多用了二十斤糖！'],
+  c:[['收下摺子',[['ke','陛下聖明。臣這就去查糖去了哪裡。'],['n','你大概知道糖去了哪裡。國師的袖子裡。']],{co:1}],['讓他先坐下喘口氣',[['ke','……謝陛下。臣的腿確實麻了。'],['ke','但參本臣還是要遞的。']],{co:1}]]},
+ {id:'he',l:[['n','賀雲箴抱著算盤，在不遠處的石凳上坐下。'],['he','陛下賞景，臣算帳，兩不耽誤。']],q:['he','陛下要不要猜猜，您這一個時辰值多少兩銀子？'],
+  c:[['問他算出來多少',[['he','……臣不敢說。'],['he','說了陛下就不肯偷閒了。臣也是會心疼人的。']],{en:1}],['讓他也歇一會兒',[['he','臣一歇，算盤就生氣。'],['n','但他還是把算盤放下了，看了一會兒風景。']],{tr:1}]]},
+ {id:'pei',l:[['pei','陛下，禮部擬了萬燈節的燈樣，請陛下挑一個。']],q:['pei','這是龍燈，這是蓮花燈，這是……禮部某位主事私自加進來的兔子燈。'],
+  c:[['挑龍燈',[['pei','陛下聖明，合乎禮制。']],{co:1}],['挑兔子燈',[['pei','……臣遵旨。禮部會替兔子燈擬一個典故。'],['n','後來禮部真的擬出來了，引經據典，長達三頁。']],{pe:1}]]},
+ {id:'song',l:[['song','陛下，臣不是來告狀的。']],q:['song','但盛少將軍又把兵部的點心吃光了。連臣藏在抽屜裡的也是。'],
+  c:[['讓御膳房給兵部多備一份',[['song','陛下寬厚。臣替他謝恩。'],['n','遠處傳來明野的聲音：「謝陛下——！」']],{tr:-1},'ye',1],['罰明野抄一卷兵書',[['song','臣這就去傳話。'],['n','傍晚兵部送來一卷字跡龍飛鳳舞的兵書，最後一行寫著：「還是想吃點心。」']],{co:1},'ye',1]]},
+ {id:'jz',l:[['jz','屬下江折，見過陛下。統領讓屬下來換班。']],q:['jz','統領說，他去拿陛下的披風。天要涼了。'],
+  c:[['問不器多久回來',[['jz','一炷香。統領說的一炷香，通常是半炷香。'],['n','半炷香後，不器拿著披風回來了。']],null,'qi',1],['說自己不冷',[['jz','屬下會轉告統領。'],['jz','……但統領大概還是會拿來。']],null,'qi',1]]},
+ {id:'lian',l:[['lian','奴婢連嬿，是溫家小姐的侍女。']],q:['lian','小姐讓奴婢送帖子進宮，說要親手交給陛下。'],
+  c:[['收下帖子拆開',[['n','[[帖子上寫：「春寒，陛下添衣。——令姝」|帖子上寫：「姊姊，今天的雲像哥哥生氣的臉。——令姝」]]'],['lian','小姐說陛下不必回。……但回了，她會很高興。']],null,'shu',2],['讓她帶一句話回去',[['lian','奴婢記下了。小姐一定會笑。']],null,'shu',1]]},
+ {id:'xuan',l:[['xuan','本王路過。']],q:['xuan','……本王這把年紀，路過這裡要繞三里路。'],
+  c:[['請他坐下歇腳',[['xuan','好。坐一會兒。'],['n','他坐下後就沒再說話，陪你看了好一會兒風景。']],null,'xuan',2],['問他真的是路過嗎',[['xuan','不是。']],null,'xuan',1]]},
+ {id:'ye',l:[['n','牆頭上冒出一個人頭。'],['ye','陛下！臣抄近路，翻牆進來的！']],q:['ye','不器沒攔臣。他說陛下也常翻。'],
+  c:[['讓他下來',[['n','他跳下來，落地很漂亮，然後髮帶被一根樹枝勾住了。'],['ye','……陛下沒看到。']],null,'ye',2],['問他找自己什麼事',[['ye','沒事！就是想看看陛下在幹嘛！'],['ye','看到了！那臣回兵部了！']],null,'ye',1]]},
+ {id:'zhuo',l:[['zhuo','臣路過。']],q:['zhuo','……順便帶了三份摺子。'],
+  c:[['讓他放下就好',[['zhuo','是，臣不打擾陛下。'],['n','他把摺子放下，又把最上面那份換到最下面——那份最長。']],{co:1},'zhuo',1],['讓他坐下陪著看',[['zhuo','臣遵旨。'],['n','三份摺子看了很久，主要是他一直在解釋第一份裡的典故。']],{co:1,en:-1},'zhuo',2]]},
+ {id:'du',l:[['du','陛下也在這裡？']],q:['du','這片樹影很適合睡覺。我分陛下一半。'],
+  c:[['坐到樹影下',[['n','他真的睡著了。睡著之前，往你那邊挪了一點點。']],{en:1},'du',2],['問他今天怎麼醒著',[['du','柏硯在找我。醒著比較好躲。']],null,'du',1]]},
+ {id:'her',l:[['her','外臣迷路了。']],q:['her','和約只說外臣不能出城，可沒說不能在宮裡迷路，對吧？'],
+  c:[['派人送他回使館',[['her','陛下真是不近人情呢？'],['her','那外臣明天再迷路一次。']],{co:1},'her',1],['讓他陪著走一段',[['her','陛下帶路？外臣榮幸。'],['n','走了一段才發現，他對路熟得很。']],null,'her',2]]},
+ {id:'cat',l:[['n','一隻黑貓跳上石桌，盯著你看。']],q:['n','是觀星臺那隻貓。牠的尾巴慢慢地擺。'],
+  c:[['伸手摸牠',[['n','牠讓你摸了三下，第四下咬了你一口，不痛。']],{en:1}],['等牠自己走開',[['n','牠沒走，在你腿上睡著了。過了一會兒，柏硯哭著找來了。'],['bai','原來在陛下這裡……']],{en:1},'du',1]]},
+ {id:'guo',l:[['guo','陛下，老奴不是來催的。']],q:['guo','老奴只是剛好站在這裡。站在這裡，剛好看得到陛下。'],
+  c:[['讓他也坐',[['guo','老奴不敢。……那老奴靠著柱子。'],['n','他靠著柱子打了個盹。']],null],['說待會兒就回去',[['guo','陛下慢慢來。老奴剛好站在這裡。']],{co:1}]]}
+];
+async function visit(sc){
+  const rec=S.vrec||(S.vrec=[]);
+  const fit=VISIT.filter(v=>SCN[sc].out||!['ye','du','cat','he'].includes(v.id));
+  const pool=fit.filter(v=>!rec.includes(v.id));
+  const v=pick(pool.length?pool:fit);
+  rec.push(v.id);if(rec.length>6)rec.shift();
+  setScene(sc,v.id==='cat'?['cat']:[]);
+  await lines(v.l);
+  const r=await ask(v.q[0],v.q[1],v.c.map(c=>c[0]));
+  const c=v.c[r];await lines(c[1]);fx(c[2]);if(c[3])addAff(c[3],c[4]);
+  const nm=v.id==='cat'?'觀星臺的黑貓':(C[v.id]||N[v.id]).n;
+  note('於'+SCN[sc].n+'偷閒，'+nm+'來訪');
+}
+async function doRest(){
+  const k=await menu('去哪裡偷閒？',[{t:'御苑湖心亭'},{t:'後花園'},{t:'明宸宮暖榻'},{t:'宮裡隨便走走',s:'比較容易遇到人'}]);if(k<0)return false;
+  const sc=k===3?pick(['yuyuan','garden']):['yuyuan','garden','mingchen'][k];setScene(sc,[]);
+  fx({en:3});
+  const r=Math.random();
+  if(k===2&&r<(S.aff.du.tier>=2?.5:.35)){
+    await say('n','暖榻上已經有人了。');
+    await say('du','……嗯。');
+    const c=await ask('n','聞人渡蜷在上面睡午覺，銅鈴擱在枕邊。',['讓他睡，自己坐到另一頭','把他叫醒','放一顆糖在他手邊']);
+    if(c===0){await say('n','他翻了個身，把一半的毯子分給你。');addAff('du',2);if(S.aff.du.tier<2)await tierUp('du');}
+    else if(c===1){await say('du','陛下回來了？那我挪一點……一點點。');addAff('du',1);}
+    else{await say('n','他沒睜眼，手卻準確地摸到了糖。');await say('du','……謝陛下。');addAff('du',1);}
+    note('暖榻偷閒，遇國師');return true;
+  }
+  if(k===0&&r<.25){
+    await say('n','你走到湖心亭時，沈不器早就站在亭外了。');
+    await say('qi','臣先到，看過了，沒人。');
+    const c=await ask('qi','陛下偷懶，三回有兩回來這裡。',['讓他也進亭子坐','問他怎麼不攔著']);
+    if(c===0){await say('n','他坐在欄杆上，背對著湖，面對著你。');addAff('qi',2);}
+    else{await say('qi','臣攔得住陛下，攔不住陛下想偷懶。');addAff('qi',1);}
+    note('湖心亭偷閒');return true;
+  }
+  if(k===1&&r<.2){
+    await say('n','花叢後面傳來窸窸窣窣的聲音。');
+    const c=await ask('ye','陛、陛下！臣沒在偷吃！這是……兵部的點心！',['伸手要一塊','問他怎麼在後花園']);
+    if(c===0){await say('ye','給！這塊最甜，臣特地留的——臣是說，剛好剩的！');addAff('ye',2);}
+    else{await say('ye','來找陛下的！……順便吃點心。');addAff('ye',1);}
+    note('後花園偷閒，遇少將軍');return true;
+  }
+  if(k!==2&&Math.random()<(k===3?.9:.6)){await visit(sc);return true;}
+  await say('n',pick(['四下很靜。你什麼都沒做，精力回來了一些。','風把幾片花瓣吹到你袖子上。','遠處傳來郭懷信找人的聲音，越來越遠。','你數了一會兒湖裡的錦鯉，數到第十一條就亂了。']));
+  note('於'+SCN[sc].n+'偷閒');
+  return true;
+}
+async function doMeal(){
+  const k=await menu('午膳',[{t:'照常用膳',s:'精力 +2'},{t:'臨時加菜',s:'精力 +3・國庫 −1'}]);if(k<0)return false;
+  setScene('mingchen',[]);
+  if(k===0){await say('n',pick(['四菜一湯，清淡合宜。','今日有一道蟹粉豆腐，你多吃了半碗。','你吃得很快，郭懷信在旁邊欲言又止。']));fx({en:2});note('午膳');}
+  else{await say('jiang','……臨時加菜。');await say('jiang','陛下要的，臣做。下回請早一個時辰說。');fx({en:3,tr:-1});note('午膳臨時加菜，姜霜不悅');}
+  return true;
+}
+async function doSleep(){
+  const ok=CORE.filter(id=>S.aff[id].tier>=2);
+  const items=[{t:'獨自就寢',s:'精力回滿',seal:true}].concat(ok.map(id=>({t:'留'+C[id].s,s:C[id].t})));
+  const k=await menu(ok.length?'就寢。今夜要留人嗎？':'就寢。',items,false);
+  setScene('mingchen',[]);
+  if(k===0){await say('guo','陛下安寢。');await say('n','郭懷信退出去，帶上了門。門外有很輕的腳步聲，是不器。');endDay(null);return;}
+  const id=ok[k-1];setScene('mingchen',[id]);
+  if(id==='shu'&&S.g==='f'){
+    await say('shu','姊姊，臣女今晚不回府了，陪您說話。');
+    await say('n','你們聊到燭火燒盡，聊到如琢小時候尿過床。');
+    endDay(id);return;
+  }
+  await say(id,{xuan:'本王老了，留下可以，話先說在前頭。',ye:'臣、臣留下！臣去把靴子脫了！',zhuo:'……臣遵旨。臣去吩咐，明早的朝服送到明宸宮。',du:'嗯。那我今晚不去觀星臺了。',qi:'臣把門關上。今晚不守門。',her:'和約沒說外臣幾時得回使館。陛下也沒說，對吧？',shu:'陛下……臣女的簪子，替臣女取下來好嗎？'}[id]);
+  const f=$('#fade');f.textContent='燭火熄滅，帳子垂下。';f.classList.add('on');
+  await new Promise(r=>setTimeout(r,1800));
+  await say('n','——');
+  f.classList.remove('on');f.textContent='';
+  endDay(id);
+}
+function endDay(comp){
+  const T=emp();
+  if(comp){S.cnt[comp]=(S.cnt[comp]||0)+1;
+    if(comp==='shu'&&S.g==='f')note('與溫令姝夜話至天明');
+    else note(T+'留'+C[comp].t+C[comp].n+'宿明宸宮');}
+  S.log.unshift({d:yearName(S.y)+dateStr(),t:S.today.length?S.today.join('；')+'。':'無事。'});S.log=S.log.slice(0,120);
+  S.today=[];S.d++;if(S.d>30){S.d=1;S.m++;if(S.m>12){S.m=1;S.y++;}}
+  S.slot=0;S.here=null;S.en=comp?9:10;S.morning=comp;S.wx=pick(WX[season(S.m)]);
+  S.tr=clamp(S.tr+1,0,100);
+  for(const k in S.warn)if(S.warn[k]>0)S.warn[k]--;
+  save();morning();
+}
+async function morning(){
+  setScene('mingchen',S.morning?[S.morning]:[]);hud();
+  const c=S.morning;S.morning=null;
+  if(c){
+    const g=(c==='shu'&&S.g==='f')?'姊姊，天亮了。臣女得回府，不然哥哥要來宮裡要人了。':{xuan:'天亮了。本王去樞密院，你再睡一會兒。',ye:'陛下早！臣去演武場了，晚上——晚上再來！',zhuo:'臣先去文華館。早膳臣讓姜掌事備了清淡的。',du:'……再睡一下。就一下。',qi:'臣去換班。……今日不換也行。',her:'外臣該回使館了。昨夜的事，裴尚書會寫進奏摺嗎？',shu:'臣女先回府了。這事哥哥不能知道——算了，他一定會知道。'}[c];
+    await say(c,g);
+    await say('n','起居注記：'+S.log[0].t.split('；').pop());
+  }
+  const f=nextFest();if(f[1]===0)await say('guo','陛下，今日是'+f[0]+'。'+(f[0]==='千秋宴'?'宮裡上下給陛下賀壽。':'節慶的熱鬧，老奴已經讓人備著了。'));
+  if(S.tr<25&&!S.warn.tr){S.warn.tr=3;await say('he','陛下！國庫……國庫裡只剩老鼠了！');
+    const r=await ask('he','臣不是哭窮，臣是真的窮。',['答應宮中節流','讓他再撐一撐']);if(r===0)fx({tr:4,pe:-1});else await say('he','……臣撐。臣回去把算盤珠子也賣了。');}
+  if(S.pe<25&&!S.warn.pe){S.warn.pe=3;await say('n','茶樓說書人換了段子：「新帝不問民間事」。');
+    const r=await ask('guo','陛下，這話都傳到宮門口了。',['下旨減免一成賦稅','暫且不理']);if(r===0)fx({pe:5,tr:-4});}
+  if(S.co<25&&!S.warn.co){S.warn.co=3;await say('ke','臣柯雲章，參——參陛下。');
+    const r=await ask('ke','朝綱廢弛，臣不敢不言。',['收下摺子，答應整頓','讓他回去']);if(r===0)fx({co:5,en:-1});else await say('ke','臣明日再來。');}
+  save();showActions();
+}
+async function run(fn){
+  const done=await fn();
+  if(done===false){showActions();return;}
+  if(S.slot<5){S.slot++;}S.here=null;
+  if(S.en<=0&&S.slot<5){await say('guo','陛下精力已盡，老奴斗膽，請陛下歇著。');note('精力不濟，提早歇下');S.slot=5;}
+  save();showActions();
+}
+function showActions(){
+  const sl=S.slot;
+  const def=S.here||['chengtian','chongzheng','mingchen','yuyuan','mingchen','mingchen'][sl];
+  setScene(def,sl===0||sl===5?[]:['qi']);
+  const A=[];
+  const en=c=>S.en<c;
+  if(sl===0){A.push({t:'上朝',s:'精力 −2',seal:true,off:en(2),f:doCourt});A.push({t:'不上朝',s:'朝綱 −4',f:doSkip});}
+  if(sl===1){A.push({t:'批奏摺',s:'精力 −2',seal:true,off:en(2),f:doMemo});A.push({t:'召見',s:'精力 −1',off:en(1),f:doSummon});A.push({t:'偷閒',s:'精力 +3',f:doRest});}
+  if(sl===2){A.push({t:'用膳',seal:true,f:doMeal});A.push({t:'召見',s:'精力 −1',off:en(1),f:doSummon});A.push({t:'偷閒',s:'精力 +3',f:doRest});}
+  if(sl===3||sl===4){A.push({t:'召見',s:'精力 −1',off:en(1),f:doSummon});A.push({t:'偷閒',s:'精力 +3',f:doRest});A.push({t:sl===4?'挑燈批摺':'批奏摺',s:'精力 −2',off:en(2),f:doMemo});}
+  if(sl===5){A.push({t:'就寢',s:'換日',seal:true,f:doSleep});}
+  const hint=SLOTS[sl][0]+'・'+SLOTS[sl][1]+(sl===0?'。郭懷信在寢殿外候著。':sl===5?'。燈已經點上了。':'。陛下要做什麼？');
+  walkMode=true;explore=true;
+  menu(hint+'　點畫面可以走動，發光的東西點了可以看看。',A,false).then(i=>{explore=false;walkMode=false;pend=null;if(i<0)return;if(sl===5){doSleep();return;}run(A[i].f);});
+}
+
+/* ───────── 彈出視窗 ───────── */
+const WHERE={xuan:['承天殿（朝會）','樞密院','樞密院','崇政殿','攝政王府長廊','攝政王府書房（對著沙盤）'],ye:['演武場','兵部','兵部','兵部','南市酒樓','少將軍府'],zhuo:['承天殿（朝會）','文華館','文華館','文華館','文華館（挑燈）','溫府'],du:['觀星臺（補眠）','觀星臺（補眠）','觀星臺（補眠）','*','觀星臺','觀星臺（觀測）'],qi:['陛下身邊','陛下身邊','陛下身邊','陛下身邊','陛下身邊','寢殿門外'],her:['城外馬道（晨騎）','西使館','西使館','西使館・練箭場','西使館','西使館'],shu:['溫府南院','商號','商號','溫府南院','溫府南院','溫府南院']};
+function where(id){let w=WHERE[id][S.slot];if(w==='*')w=S.aff.du.tier>=2?'明宸宮暖榻（不請自來）':'觀星臺（補眠）';return w;}
+function modal(title,html){$('#mt').textContent=title;$('#mb').innerHTML=html;$('#modal').hidden=false;$('#mx').focus();}
+$('#mx').onclick=()=>{$('#modal').hidden=true;};
+$('#modal').onclick=e=>{if(e.target.id==='modal')$('#modal').hidden=true;};
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
+  const m=b.dataset.m;
+  if(m==='log'){const rows=[{d:yearName(S.y)+dateStr()+'（今日）',t:S.today.length?S.today.join('；')+'。':'尚未記事。'}].concat(S.log);
+    const fd=Object.values(S.found||{});
+    modal('起居注','<ul class="loglist">'+rows.map(r=>'<li><b>'+esc(r.d)+'</b>'+esc(r.t)+'</li>').join('')+'</ul><h3>宮中拾遺（'+fd.length+' / '+FOUND_TOTAL+'）</h3><p class="hint">'+(fd.length?esc(fd.join('、')):'還沒發現什麼。四處走走，點點看那些發光的東西。')+'</p>');}
+  if(m==='where'){modal('七人行蹤・'+SLOTS[S.slot][0],'<div class="who">'+CORE.map(id=>'<div><canvas width="48" height="48" data-p="'+id+'"></canvas><span><b>'+esc(C[id].n)+'</b><span class="tier">'+esc(tx(C[id].tiers[S.aff[id].tier-1]))+'</span><br>'+esc(where(id))+'</span></div>').join('')+'</div>');
+    document.querySelectorAll('[data-p]').forEach(c=>portrait(c.getContext('2d'),C[c.dataset.p].look,'n'));}
+  if(m==='save'){modal('存檔','<p class="hint">每個時段結束會自動存在這台瀏覽器。要換裝置，把下面這段文字複製起來，到另一邊貼上匯入。</p><textarea id="ex" readonly>'+esc(enc(S))+'</textarea><div class="row"><button class="plank" id="cp">複製存檔</button></div><h3>匯入存檔</h3><textarea id="im" placeholder="把存檔文字貼在這裡"></textarea><div class="row"><button class="plank" id="ip">匯入</button><button class="back" id="nw">重新開局</button></div><p class="hint" id="msg"></p>');
+    $('#cp').onclick=async()=>{const t=$('#ex');try{await navigator.clipboard.writeText(t.value);$('#msg').textContent='已複製。';}catch(e){t.select();$('#msg').textContent='請長按或 Ctrl+C 複製選取的文字。';}};
+    $('#ip').onclick=()=>{try{S=dec($('#im').value);save();$('#modal').hidden=true;showActions();toast([['已匯入存檔']]);}catch(e){$('#msg').textContent='這段文字讀不出存檔，請確認有完整貼上。';}};
+    $('#nw').onclick=()=>{$('#modal').hidden=true;openSetup();};}
+});
+
+/* ───────── 開局 ───────── */
+let G='m',RI=0;
+const pv=$('#pv').getContext('2d');
+function prev(){pv.clearRect(0,0,20,30);pv.fillStyle='#e9dfcc';pv.fillRect(0,0,20,30);pv.fillStyle='rgba(30,20,10,.2)';pv.fillRect(5,27,10,2);pv.drawImage(spriteImg('pv'+G+RI,playerLook(G,RI),'s',false,false),0,1);$('#rName').textContent=ROBES[RI][0];}
+$('#rSeg').innerHTML=ROBES.map((r,i)=>'<button class="sw'+(i?'':' on')+'" data-r="'+i+'" style="background:'+r[1]+'" aria-label="'+r[0]+'"></button>').join('');
+$('#rSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>{RI=+b.dataset.r;$('#rSeg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));prev();});
+$('#gSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>{G=b.dataset.g;$('#gSeg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));prev();});
+$('#bm').innerHTML=MON.map((m,i)=>'<option value="'+(i+1)+'">'+m+'</option>').join('');
+$('#bd').innerHTML=Array.from({length:30},(_,i)=>'<option value="'+(i+1)+'">'+dayName(i+1)+'</option>').join('');
+$('#bm').value='6';$('#bd').value='16';
+function openSetup(){const sv=load();$('#cont').hidden=!sv;if(sv)$('#contInfo').textContent=sv.name+'・'+yearName(sv.y)+MON[sv.m-1]+dayName(sv.d);$('#setup').hidden=false;prev();}
+$('#bCont').onclick=()=>{const sv=load();if(!sv)return;S=sv;$('#setup').hidden=true;showActions();};
+$('#bImp0').onclick=()=>{
+  $('#setup').hidden=true;S=S||fresh('m','穆席昭',0,6,16);
+  modal('匯入存檔','<textarea id="im2" placeholder="把存檔文字貼在這裡"></textarea><div class="row"><button class="plank" id="ip2">匯入</button></div><p class="hint" id="msg2"></p>');
+  $('#ip2').onclick=()=>{try{S=dec($('#im2').value);save();$('#modal').hidden=true;showActions();}catch(e){$('#msg2').textContent='這段文字讀不出存檔，請確認有完整貼上。';}};
+  $('#mx').onclick=()=>{$('#modal').hidden=true;$('#mx').onclick=()=>{$('#modal').hidden=true;};if(!load())openSetup();else showActions();};
+};
+$('#bStart').onclick=async()=>{
+  const name=$('#nm').value.trim()||'穆席昭';
+  S=fresh(G,name,RI,+$('#bm').value,+$('#bd').value);
+  $('#setup').hidden=true;save();
+  setScene('chengtian',[]);
+  await say('n','二月二十八日，承天殿。鐘鼓響了九聲。');
+  await say('guo','吉時已到——'+(G==='m'?'新帝':'女皇')+'登基！');
+  await say('n','百官跪了一地。站在最前面的攝政王，跪得最慢。');
+  await say('xuan','臣穆席玄嶠，恭賀陛下。……本王這把老骨頭，往後就交給你了。');
+  await say('qi','陛下。臣沈不器，往後跟著您。');
+  await say('qi','您去哪，臣去哪。翻牆也是。');
+  note(emp()+'登基於承天殿');
+  S.slot=1;save();showActions();
+};
+const sv0=load();
+if(sv0){S=null;openSetup();}else openSetup();
+draw();
+}
+</script>
+</body>
+</html>
