@@ -1,0 +1,2524 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-time="day">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>穆席王朝｜世界觀</title>
+<style>:root{
+  --paper:#f4efe4; --paper2:#ece4d3; --ink:#2d2823; --red:#8f2a22; --gold:#a8834a; --muted:#6f655a;
+  --serif:'Noto Serif TC','Songti TC','Noto Serif CJK TC',serif;
+  /* 地圖色票（白天・設色） */
+  --m-bg:#f4efe4; --m-ink:#3a2f27; --glow:rgba(214,160,60,.85);
+  --g:#e9e0cb; --pl:#efe9dc; --gd:#e2e1c4; --rk1:#cbbfa8; --rk2:#efe6d4;
+  --ms:#e3ddd0; --me:#d4cdbe; --mt:#f5f2eb;
+  --ws:#b5493c; --we:#943a30;
+  --rs:#e3b660; --re:#c79542; --rn:#d6a64f; --rw:#dcae58; --rt:#c99a4a;
+  --hs:#a2a7a2; --he:#848a86; --hn:#939994; --hw:#9aa09b;
+  --qs:#efe6d3; --qe:#dbcfb8;
+  --gs:#ad4a3e; --ge:#8e3a31; --gt:#cdbb9c; --door:#3d2a24;
+  --win:transparent;
+  --t1:#7f9b74; --t2:#6d8a64; --t3:#93ab85; --mg:#eef0e8; --gk:#e6c45c; --bl:#ecbdb7; --wl:#bccb93;
+  --wt:#aac4c1; --wood:#b48c5e; --herb:#a2a96c; --sand:#e8d9b4; --redf:#b5493c; --grn:#55805e; --bz:#7d7458;
+  --quilt:#7393b3; --tent:#f0e6cf; --tent2:#d8c39a; --altar:#ece2c8; --stall:#c9574a; --rock:#bdb6a6; --cat:#2a2522; --lan:#d9503f;
+  --d-osm:#df9f2c; --d-ginkgo:#d49d22; --d-blossom:#e3889a; --d-mag:#ffffff;
+  --ml:#c9c6b2; --mr:#a9a893; --snow:#fbfaf6; --pad:#c9d39c; --grass:#d6dcaa; --north:#e2e2d6; --horse:#8a6a48;
+  --rsD:#c48f3e; --reD:#a3742f; --wsD:#8f352b; --hsD:#868c88; --gL:#f4eedf; --shade:rgba(70,45,25,.16); --grain:.55;
+}
+/* 夜晚 */
+html[data-time="night"]{
+  --m-bg:#1e2331; --m-ink:#d9d0bb; --glow:rgba(255,206,110,.9);
+  --g:#2f3544; --pl:#353b4a; --gd:#2f3a3a; --rk1:#2a2f3c; --rk2:#1e2331;
+  --ms:#4a4f5c; --me:#3d424e; --mt:#575c69;
+  --ws:#6b3a37; --we:#552e2c;
+  --rs:#7b6744; --re:#64543a; --rn:#715f40; --rw:#766341; --rt:#6a5939;
+  --hs:#4b505a; --he:#3f434c; --hn:#464b54; --hw:#4a4f58;
+  --qs:#4a4a50; --qe:#3d3d44;
+  --gs:#653836; --ge:#512d2c; --gt:#4f4a48; --door:#120f10;
+  --win:rgba(255,196,92,.88);
+  --t1:#36493f; --t2:#2f4038; --t3:#3c5045; --mg:#5d6466; --gk:#6e6234; --bl:#5f4851; --wl:#435040;
+  --wt:#2b3d4d; --wood:#5a4a3a; --herb:#4b4f39; --sand:#4b4637; --redf:#7a3a35; --grn:#2f4a3a; --bz:#4a4538;
+  --quilt:#3a4b60; --tent:#5d574b; --tent2:#4c4639; --altar:#5a5647; --stall:#6d3a35; --rock:#454a52; --cat:#0d0c0c; --lan:#ff7a4d;
+  --d-osm:#8d6a2a; --d-ginkgo:#8a6c20; --d-blossom:#8a5862; --d-mag:#a9adb0;
+  --ml:#3e4452; --mr:#323743; --snow:#8f96a3; --pad:#36433a; --grass:#334033; --north:#3a3f4b; --horse:#3e3227;
+  --rsD:#5a4a31; --reD:#4a3e2b; --wsD:#4a2725; --hsD:#383c45; --gL:#383e4d; --shade:rgba(0,0,0,.25); --grain:.35;
+}
+/* 白描：只留墨線 */
+.mapwrap[data-mode="line"]{
+  --g:var(--m-bg); --pl:var(--m-bg); --gd:var(--m-bg); --rk1:var(--m-bg); --rk2:var(--m-bg);
+  --ms:var(--m-bg); --me:var(--m-bg); --mt:var(--m-bg); --ws:var(--m-bg); --we:var(--m-bg);
+  --rs:var(--m-bg); --re:var(--m-bg); --rn:var(--m-bg); --rw:var(--m-bg); --rt:var(--m-bg);
+  --hs:var(--m-bg); --he:var(--m-bg); --hn:var(--m-bg); --hw:var(--m-bg); --qs:var(--m-bg); --qe:var(--m-bg);
+  --gs:var(--m-bg); --ge:var(--m-bg); --gt:var(--m-bg); --door:var(--m-bg);
+  --t1:var(--m-bg); --t2:var(--m-bg); --t3:var(--m-bg); --mg:var(--m-bg); --gk:var(--m-bg); --bl:var(--m-bg); --wl:var(--m-bg);
+  --wt:var(--m-bg); --wood:var(--m-bg); --herb:var(--m-bg); --sand:var(--m-bg); --redf:var(--m-bg); --grn:var(--m-bg); --bz:var(--m-bg);
+  --quilt:var(--m-bg); --tent:var(--m-bg); --tent2:var(--m-bg); --altar:var(--m-bg); --stall:var(--m-bg); --rock:var(--m-bg); --cat:var(--m-ink);
+  --d-osm:transparent; --d-ginkgo:transparent; --d-blossom:transparent; --d-mag:transparent;
+  --ml:var(--m-bg); --mr:var(--m-bg); --snow:var(--m-bg); --pad:var(--m-bg); --grass:var(--m-bg); --north:var(--m-bg); --horse:var(--m-bg);
+  --rsD:var(--m-bg); --reD:var(--m-bg); --wsD:var(--m-bg); --hsD:var(--m-bg); --gL:var(--m-bg); --shade:transparent;
+}
+html[data-time="night"] .mapwrap[data-mode="line"]{ --win:rgba(255,196,92,.5); }
+
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);-webkit-font-smoothing:antialiased}
+body{line-height:1.75;overflow-x:hidden}
+button{font-family:inherit;cursor:pointer}
+a{color:inherit}
+
+/* ---------- 首屏 ---------- */
+.hero{min-height:100svh;display:grid;place-items:center;position:relative;overflow:hidden;padding:48px 20px}
+.hero .bgsvg{position:absolute;inset:auto 0 0 0;width:100%;height:46%;opacity:.55;pointer-events:none}
+.hero-inner{position:relative;display:flex;flex-direction:column;align-items:center;gap:30px}
+.title-row{display:flex;flex-direction:row-reverse;align-items:flex-start;gap:22px}
+.title{writing-mode:vertical-rl;font-size:clamp(54px,10vw,104px);font-weight:700;letter-spacing:.18em;margin:0;line-height:1}
+.subtitle{writing-mode:vertical-rl;font-size:clamp(15px,2.2vw,19px);letter-spacing:.35em;color:var(--muted);margin-top:.6em}
+.seal{background:var(--red);color:var(--paper);font-weight:700;border-radius:3px;display:inline-grid;place-items:center;line-height:1.05;text-align:center}
+.title-row .seal{width:46px;height:46px;font-size:16px;align-self:flex-end;margin-bottom:6px}
+.entries{display:flex;gap:18px}
+.entry{border:1.5px solid var(--ink);background:transparent;padding:10px 28px;font-size:18px;letter-spacing:.4em;padding-right:calc(28px - .4em);position:relative;transition:.2s}
+.entry::after{content:"";position:absolute;inset:3px;border:.5px solid var(--ink);pointer-events:none}
+.entry:hover,.entry:focus-visible{background:var(--ink);color:var(--paper)}
+.scrollhint{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);font-size:12px;color:var(--muted);letter-spacing:.3em}
+
+/* ---------- 區塊 ---------- */
+section{padding:56px 20px}
+.wrap{max-width:1180px;margin:0 auto}
+.sec-title{display:flex;align-items:center;gap:12px;margin:0 0 22px;font-size:24px;letter-spacing:.25em}
+.sec-title::before{content:"";width:10px;height:10px;background:var(--red);transform:rotate(45deg)}
+.sec-title small{font-size:13px;letter-spacing:.1em;color:var(--muted);font-weight:400}
+
+.today{max-width:620px;margin:0 auto;border:1px solid var(--ink);padding:22px 26px 18px;position:relative;background:var(--paper)}
+.today::before{content:"";position:absolute;inset:4px;border:.5px solid rgba(45,40,35,.5);pointer-events:none}
+.today h3{margin:0 0 6px;font-size:15px;letter-spacing:.3em;color:var(--red)}
+.today p{margin:0 0 10px;font-size:17px}
+.today .more{border:none;background:none;color:var(--muted);font-size:13px;padding:0;text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- 地圖 ---------- */
+.maphead{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:flex-start;gap:12px 22px;margin-bottom:10px}
+.tabs{display:flex;gap:4px}
+.tab{border:1px solid var(--ink);background:transparent;padding:6px 18px;font-size:17px;letter-spacing:.3em;padding-right:calc(18px - .3em)}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+.tab:disabled{opacity:.4;cursor:not-allowed}
+.tools{display:flex;gap:6px;flex-wrap:wrap}
+.seg{display:inline-flex;border:1px solid var(--ink)}
+.seg button{border:none;background:transparent;padding:4px 12px;font-size:14px;letter-spacing:.15em}
+.seg button[aria-pressed="true"]{background:var(--red);color:var(--paper)}
+.mapwrap{position:relative;height:min(76vh,780px);min-height:380px;background:var(--m-bg);border:1px solid var(--ink);overflow:hidden;touch-action:none;transition:background .5s}
+.mapwrap::before{content:"";position:absolute;inset:5px;border:.5px solid var(--m-ink);opacity:.45;pointer-events:none;z-index:2}
+.mapwrap svg{width:100%;height:100%;display:block;cursor:grab;user-select:none;-webkit-user-select:none}
+.mapwrap svg.drag{cursor:grabbing}
+.zoom{position:absolute;right:14px;bottom:14px;display:flex;flex-direction:column;gap:4px;z-index:3}
+.zoom button{width:36px;height:36px;border:1px solid var(--m-ink);background:var(--m-bg);color:var(--m-ink);font-size:18px;line-height:1}
+.maphint{position:absolute;left:14px;bottom:12px;font-size:12px;color:var(--m-ink);opacity:.6;z-index:3;letter-spacing:.1em}
+.mapcorner{position:absolute;left:14px;top:12px;z-index:3;color:var(--m-ink);font-size:13px;letter-spacing:.3em;opacity:.8}
+
+/* SVG 樣式 */
+.world path,.world ellipse,.world line{stroke:var(--m-ink);stroke-linecap:round;stroke-linejoin:round}
+.world .nf{fill:none}
+.fp{fill:var(--m-bg)} .fg{fill:url(#g-g)} .fpl{fill:url(#g-pl)} .fgd{fill:var(--gd)} .frk{fill:url(#rockgrad)}
+.fms{fill:var(--ms)} .fme{fill:var(--me)} .fmt{fill:var(--mt)} .fws{fill:url(#g-ws)} .fwe{fill:url(#g-we)}
+.frs{fill:url(#g-rs)} .fre{fill:url(#g-re)} .frn{fill:url(#g-rn)} .frw{fill:url(#g-rw)} .frt{fill:var(--rt)}
+.fhs{fill:url(#g-hs)} .fhe{fill:url(#g-he)} .fhn{fill:url(#g-hn)} .fhw{fill:url(#g-hw)} .fqs{fill:var(--qs)} .fqe{fill:var(--qe)}
+.fgs{fill:var(--gs)} .fge{fill:var(--ge)} .fgt{fill:var(--gt)} .fdoor{fill:var(--door)}
+.win{fill:var(--win);transition:fill .5s}
+.ft1{fill:var(--t1)} .ft2{fill:var(--t2)} .ft3{fill:var(--t3)} .fmg{fill:var(--mg)} .fgk{fill:var(--gk)} .fbl{fill:var(--bl)} .fwl{fill:var(--wl)}
+.fwt{fill:var(--wt)} .fwood{fill:var(--wood)} .fherb{fill:var(--herb)} .fsand{fill:var(--sand)} .fred{fill:var(--redf)} .fgrn{fill:var(--grn)} .fbz{fill:var(--bz)}
+.fquilt{fill:var(--quilt)} .ftent{fill:var(--tent)} .ftent2{fill:var(--tent2)} .faltar{fill:var(--altar)} .fstall{fill:var(--stall)} .frock{fill:var(--rock)} .fcat{fill:var(--cat)}
+.flan{fill:var(--lan)}
+.fml{fill:var(--ml)} .fmr{fill:var(--mr)} .fsnow{fill:var(--snow)} .fpad{fill:var(--pad)} .fgrass{fill:var(--grass)} .fnorth{fill:var(--north)} .fhorse{fill:var(--horse)}
+.world .dot-osm{stroke:var(--d-osm)} .world .dot-ginkgo{stroke:var(--d-ginkgo)} .world .dot-blossom{stroke:var(--d-blossom)} .world .dot-mag{stroke:var(--d-mag)}
+html[data-time="night"] .lant .flan{filter:drop-shadow(0 0 6px #ff9a55)}
+.loc{cursor:pointer;outline:none}
+.loc path{transition:filter .25s}
+.loc.hot,.loc:focus-visible{filter:drop-shadow(0 0 5px var(--glow)) drop-shadow(0 0 14px var(--glow))}
+.loc.sel{filter:drop-shadow(0 0 4px var(--glow))}
+.tag{pointer-events:none;transition:opacity .2s}
+.tag rect{fill:var(--m-bg);stroke:var(--red);transition:fill .2s}
+.tag rect.i{fill:none}
+.tag.hot rect.i{stroke:var(--paper)}
+.tag text{fill:var(--red);font-family:var(--serif);font-weight:700}
+.tag{opacity:.85}
+.tag.hot{opacity:1}
+.tag.hot rect.o{fill:var(--red)} .tag.hot text{fill:var(--paper)}
+html[data-time="night"] .tag rect.o{fill:#262b38} html[data-time="night"] .tag text{fill:#e9a28f} html[data-time="night"] .tag rect{stroke:#c46a55}
+html[data-time="night"] .tag.hot rect.o{fill:#c46a55} html[data-time="night"] .tag.hot text{fill:#1e2331}
+
+/* ---------- 卷軸面板 ---------- */
+.scroll{position:fixed;top:0;right:0;height:100%;width:min(430px,100%);z-index:50;transform:translateX(105%);transition:transform .45s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;filter:drop-shadow(-6px 0 18px rgba(0,0,0,.18))}
+.scroll.open{transform:none}
+.roller{height:20px;flex:none;background:linear-gradient(#5a3e2a,#3b281b 60%,#5a3e2a);border-radius:10px;margin:0 -6px;position:relative}
+.roller::before,.roller::after{content:"";position:absolute;top:2px;width:14px;height:16px;border-radius:4px;background:#a8834a}
+.roller::before{left:-4px}.roller::after{right:-4px}
+.sheet{flex:1;overflow:auto;background:var(--paper);background-image:linear-gradient(90deg,rgba(168,131,74,.08),transparent 8%,transparent 92%,rgba(168,131,74,.08));padding:26px 26px 40px;border-left:1px solid #cdbf9f;border-right:1px solid #cdbf9f;overscroll-behavior:contain}
+.close{position:absolute;top:28px;right:16px;border:1px solid var(--ink);background:var(--paper);width:34px;height:34px;font-size:18px;line-height:1;z-index:2}
+.p-name{font-size:32px;margin:0;letter-spacing:.12em;line-height:1.3;padding-right:40px}
+.p-sub{color:var(--red);font-size:14px;letter-spacing:.2em;margin:4px 0 16px}
+.pic{margin:0 0 18px;position:relative;background:var(--paper2);border:1px solid #cdbf9f;aspect-ratio:4/3;overflow:hidden}
+.pic img{width:100%;height:100%;object-fit:cover;display:block}
+.pic .ph{display:none;position:absolute;inset:0;place-items:center;color:var(--muted);font-size:22px;letter-spacing:.4em;background:repeating-linear-gradient(45deg,transparent 0 12px,rgba(168,131,74,.07) 12px 13px)}
+.pic.fail img{display:none}.pic.fail .ph{display:grid}
+.p-sec{margin:20px 0 0}
+.p-sec h4{margin:0 0 8px;font-size:14px;letter-spacing:.35em;color:var(--red);display:flex;align-items:center;gap:8px}
+.p-sec h4::after{content:"";flex:1;height:.5px;background:#cdbf9f}
+.p-sec p{margin:0 0 6px}
+.people{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid #bfae8a;background:transparent;border-radius:999px;padding:2px 10px 2px 2px;font-size:14px}
+.chip[aria-pressed="true"]{border-color:var(--red);background:rgba(143,42,34,.07)}
+.av{width:28px;height:28px;border-radius:50%;overflow:hidden;background:var(--paper2);display:grid;place-items:center;font-size:12px;color:var(--red);border:1px solid #cdbf9f;flex:none;position:relative}
+.av img{width:100%;height:100%;object-fit:cover;object-position:50% 14%;position:absolute;inset:0}
+.who{margin-top:10px;font-size:15px;color:var(--muted);min-height:0}
+.dn{display:grid;gap:6px}
+.dn div{display:flex;gap:10px;opacity:.6;cursor:pointer}
+.dn div.on{opacity:1}
+.dn b{flex:none;cursor:pointer;background:transparent;font-family:inherit;color:inherit;padding:0;width:24px;height:24px;display:grid;place-items:center;border:1px solid var(--ink);font-size:13px;font-weight:400;margin-top:3px}
+.dn div.on b{background:var(--ink);color:var(--paper)}
+.exp-btns{display:flex;flex-wrap:wrap;gap:8px}
+.btn{border:1px solid var(--ink);background:transparent;padding:6px 14px;font-size:15px;letter-spacing:.08em}
+.btn:hover,.btn:focus-visible{background:var(--ink);color:var(--paper)}
+.btn.red{border-color:var(--red);color:var(--red)} .btn.red:hover{background:var(--red);color:var(--paper)}
+.result{margin-top:12px;border:1px solid #cdbf9f;background:rgba(255,255,255,.35);padding:14px 16px;font-size:16px;position:relative;animation:pop .35s ease}
+.result:empty{display:none}
+.result .meta{font-size:12px;color:var(--muted);letter-spacing:.2em;margin-bottom:4px}
+.result .poem{font-size:18px;letter-spacing:.15em;line-height:2;margin:4px 0 8px}
+.result .row{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.result .meet{display:flex;gap:12px;align-items:flex-start}
+.result .meet .av{width:52px;height:52px;font-size:18px}
+@keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.goto{margin-top:16px}
+
+/* ---------- 人物譜 ---------- */
+.roster{display:flex;align-items:flex-start;gap:14px;overflow-x:auto;padding:6px 2px 14px;scroll-snap-type:x mandatory}
+.person{flex:none;width:112px;border:none;background:transparent;padding:0;text-align:center;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;color:inherit}
+.person .ring{width:96px;height:96px;margin:0 auto 6px;border-radius:50%;padding:3px;border:1px solid var(--ink);transition:.2s}
+.person .av{width:100%;height:100%;font-size:26px;border:none}
+.person .nm{font-size:16px;letter-spacing:.1em}
+.person .tt{font-size:12px;color:var(--muted);line-height:1.4}
+.person[aria-pressed="true"] .ring{border-color:var(--red);box-shadow:0 0 0 2px var(--red)}
+.pcard{border:1px solid var(--ink);padding:20px 22px;margin-top:6px;display:grid;grid-template-columns:auto 1fr;gap:18px;animation:pop .3s ease}
+.pcard[hidden]{display:none}
+.pcard .big{width:120px;height:160px;border:1px solid #cdbf9f;overflow:hidden;background:var(--paper2);position:relative;display:grid;place-items:center;font-size:40px;color:var(--red)}
+.pcard .big img{width:100%;height:100%;object-fit:cover;object-position:50% 10%;position:absolute;inset:0}
+.pcard h3{margin:0;font-size:24px;letter-spacing:.12em}
+.pcard .t{color:var(--red);font-size:14px;letter-spacing:.15em}
+.pcard .q{font-size:17px;margin:10px 0 6px;padding-left:12px;border-left:2px solid var(--red)}
+.pcard .m{font-size:13px;color:var(--muted)}
+.haunts{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;align-items:center;font-size:14px}
+
+/* ---------- 頁尾 ---------- */
+footer{padding:60px 20px 80px;text-align:center}
+.plaque-wrap{display:inline-flex;flex-direction:column;align-items:center;text-decoration:none;color:var(--ink)}
+.plaque-wrap .ropes{width:150px;height:34px}
+.plaque{background:linear-gradient(#a3794b,#8a6239);border:2px solid #4b3220;border-radius:4px;padding:12px 26px;color:#f7ecd4;box-shadow:inset 0 0 0 3px #b98d5a,inset 0 0 0 4px #4b3220,0 6px 14px rgba(0,0,0,.15);transform-origin:50% -34px;transition:transform .3s}
+.plaque-wrap:hover .plaque,.plaque-wrap:focus-visible .plaque{animation:sway 1.2s ease-in-out}
+@keyframes sway{0%,100%{transform:rotate(0)}30%{transform:rotate(3deg)}65%{transform:rotate(-2deg)}}
+.plaque b{display:block;font-size:22px;letter-spacing:.3em;padding-left:.3em}
+.plaque small{font-size:11px;letter-spacing:.2em;opacity:.85}
+.px{display:inline-block;width:18px;height:14px;vertical-align:-2px;margin-right:6px;image-rendering:pixelated;background:
+ linear-gradient(#f2c14e,#f2c14e) 0 6px/18px 8px no-repeat,
+ linear-gradient(#f2c14e,#f2c14e) 0 0/4px 6px no-repeat,
+ linear-gradient(#f2c14e,#f2c14e) 7px 0/4px 6px no-repeat,
+ linear-gradient(#f2c14e,#f2c14e) 14px 0/4px 6px no-repeat}
+.footnote{margin-top:16px;color:var(--muted);font-size:15px;letter-spacing:.15em}
+.colophon{margin-top:40px;font-size:12px;color:var(--muted);letter-spacing:.2em}
+
+/* ---------- 手機 ---------- */
+@media (max-width:720px){
+  section{padding:40px 14px}
+  .scroll{top:auto;bottom:0;height:80svh;width:100%;transform:translateY(105%);filter:drop-shadow(0 -6px 18px rgba(0,0,0,.2))}
+  .scroll .roller{margin:0}
+  .sheet{padding:20px 18px 36px}
+  .close{top:26px}
+  .mapwrap{height:66svh;min-height:340px}
+  .maphead{align-items:stretch}
+  .tab{padding:5px 12px;font-size:15px}
+  .seg button{padding:4px 9px;font-size:13px}
+  .pcard{grid-template-columns:1fr}
+  .pcard .big{width:100px;height:130px}
+  .p-name{font-size:28px}
+  .maphint{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- 歲時 ---------- */
+.festsel{display:inline-flex;align-items:center;border:1px solid var(--ink);font-size:14px}
+.festsel span{padding:4px 8px;background:var(--ink);color:var(--paper);letter-spacing:.15em}
+.festsel select{border:none;background:transparent;font:inherit;font-size:14px;padding:4px 6px;color:var(--ink);cursor:pointer}
+.feststrip{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;border:1px solid var(--red);border-bottom:none;padding:8px 14px;font-size:15px;background:rgba(143,42,34,.05)}
+.feststrip[hidden]{display:none}
+.feststrip b{color:var(--red);letter-spacing:.2em;font-size:17px}
+.feststrip .d{color:var(--muted);font-size:13px;letter-spacing:.1em}
+.feststrip button{margin-left:auto;border:1px solid var(--red);background:transparent;color:var(--red);font-size:13px;padding:2px 10px}
+.fred2{fill:var(--we)} .fyel{fill:#d9a93a} .fbl2{fill:#e9a4b0} .fknot{fill:#c8323a}
+.world .tassel{stroke:#c8323a} .world .goldtxt{stroke:#e5c16a}
+.halo{fill:url(#halograd);stroke:none!important;opacity:0;transition:opacity .5s}
+html[data-time="night"] .halo{opacity:.9}
+.beam{fill:url(#beamgrad);stroke:none!important;opacity:.55;animation:pulse 3.2s ease-in-out infinite}
+.aglow{fill:url(#halograd);stroke:none!important;animation:pulse 3.2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.25}}
+html[data-fest="fengyin"] .loc[data-id="chongzheng"] .win,html[data-fest="fengyin"] .loc[data-id="wenhua"] .win,html[data-fest="fengyin"] .loc[data-id="huangcheng"] .win{fill:rgba(255,196,92,.88)}
+/* 換色：春、秋、雪 */
+html[data-time="day"][data-fest="chunxi"]{--t1:#ecb9c1;--t2:#e2a2ae;--t3:#f2cbd1;--bl:#f0b3bd;--wl:#c7d79d}
+html[data-time="night"][data-fest="chunxi"]{--t1:#6a4b57;--t2:#5d404b;--t3:#755461}
+html[data-time="day"][data-fest="wangqiu"]{--t1:#d99a48;--t2:#c47e38;--t3:#e5b164;--wl:#d7c07a;--gk:#f2c23e;--gd:#e6d9b2;--pad:#dcc27a}
+html[data-time="night"][data-fest="wangqiu"]{--t1:#6e4e2c;--t2:#5f4226;--t3:#7a5833}
+html[data-time="day"][data-fest="changyang"]{--g:#f6f5f1;--pl:#f8f7f3;--gd:#f3f4ef;--grass:#eef0ea;--north:#f5f5f2;--pad:#eceee6;--sand:#f1efe8;
+  --rs:#f3efe6;--re:#dcd6c9;--rn:#efeae0;--rw:#e8e2d6;--rt:#ece7dd;--hs:#f1f2f0;--he:#d6d9d6;--hn:#e9ebe8;--hw:#e3e5e2;
+  --t1:#6f8a78;--t2:#5f7a69;--t3:#7f9886;--wl:#a9b8a4;--ml:#e9eae6;--mr:#cfd2cd;--wt:#c6d6d8;--rsD:#d8d1c2;--reD:#c4bdaf;--hsD:#cdd0cd;--gL:#fcfcfa}
+html[data-time="night"][data-fest="changyang"]{--g:#565c6c;--pl:#5c6272;--gd:#565c6a;--grass:#535a66;--north:#5a6070;--rs:#6c7180;--re:#5a5f6d;--rn:#666b79;--rw:#62677a;--hs:#6a6f7d;--he:#585d6a;--ml:#666b78;--mr:#555a66;--rsD:#585d6b;--reD:#4b505c;--hsD:#555a66;--gL:#626879}
+/* 畫面特效 */
+.fx{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1}
+.fx i{position:absolute;display:block}
+.fx .snow{top:-12px;width:5px;height:5px;border-radius:50%;background:#fff;box-shadow:0 0 2px rgba(60,60,60,.25);animation:fall linear infinite}
+.fx .petal{top:-12px;width:9px;height:5px;border-radius:70% 0 70% 0;background:#eeb1bc;animation:fall linear infinite}
+.fx .petal.red{background:#d64a52;width:6px;height:6px;border-radius:50% 50% 50% 0}
+.fx .sky{bottom:-24px;width:11px;height:14px;border-radius:45% 45% 30% 30%;background:radial-gradient(circle at 50% 40%,#ffe39a,#e46a2e);box-shadow:0 0 12px 4px rgba(255,170,80,.55);animation:rise linear infinite}
+.fx .fw{width:110px;height:110px;border-radius:50%;opacity:0;background:repeating-conic-gradient(from 0deg,rgba(255,206,110,.95) 0 3deg,transparent 3deg 22deg);-webkit-mask:radial-gradient(circle,transparent 30%,#000 32%,#000 48%,transparent 50%);mask:radial-gradient(circle,transparent 30%,#000 32%,#000 48%,transparent 50%);animation:burst 3s ease-out infinite}
+.fx .fw.r{background:repeating-conic-gradient(from 8deg,rgba(235,90,80,.95) 0 3deg,transparent 3deg 20deg)}
+.fx .moon{top:34px;right:90px;width:74px;height:74px;border-radius:50%;background:radial-gradient(circle at 42% 40%,#fffbe8,#f0dc9c 70%);box-shadow:0 0 40px 14px rgba(255,236,170,.45)}
+@keyframes fall{to{transform:translate(var(--dx,30px),900px) rotate(540deg)}}
+@keyframes rise{0%{opacity:0}10%{opacity:1}85%{opacity:1}100%{transform:translate(var(--dx,20px),-900px);opacity:0}}
+@keyframes burst{0%{transform:scale(.2);opacity:0}8%{opacity:1}60%{opacity:.9}100%{transform:scale(1.25);opacity:0}}
+@media (max-width:720px){.fx .moon{right:30px;width:52px;height:52px}.feststrip{font-size:14px}}
+.p-sec.fest-on p{background:rgba(143,42,34,.07);border-left:2px solid var(--red);padding:6px 10px}
+.p-sec h4 .now{order:2;font-size:12px;letter-spacing:.1em;background:var(--red);color:var(--paper);padding:0 8px;border-radius:2px}
+
+/* ---------- 質感 ---------- */
+.ishadow{fill:url(#shadowgrad);stroke:none!important}
+.mapwrap[data-mode="line"] .ishadow{display:none}
+.cshadow{fill:var(--shade);stroke:none!important}
+.paper{position:absolute;inset:0;pointer-events:none;z-index:1;opacity:var(--grain);mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .42  0 0 0 0 .34  0 0 0 0 .24  0 0 0 .16 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),
+  url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='900' height='900'><filter id='w'><feTurbulence type='fractalNoise' baseFrequency='.006' numOctaves='3' seed='7'/><feColorMatrix values='0 0 0 0 .62  0 0 0 0 .5  0 0 0 0 .34  0 0 0 .5 -.12'/></filter><rect width='100%' height='100%' filter='url(%23w)'/></svg>")}
+html[data-time="night"] .paper{mix-blend-mode:soft-light}
+body{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .42  0 0 0 0 .34  0 0 0 0 .24  0 0 0 .07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <svg class="bgsvg" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <g fill="none" stroke="#2d2823" stroke-linecap="round">
+      <path d="M0,330 C120,250 190,300 260,240 C320,190 380,260 450,230 C520,200 560,120 640,170 C700,210 760,250 840,200 C920,150 980,210 1060,190 C1120,175 1160,220 1200,210" stroke-width="1.4" opacity=".55"/>
+      <path d="M0,370 C150,320 260,350 380,300 C470,262 560,320 680,290 C800,260 900,330 1020,300 C1100,280 1160,310 1200,300" stroke-width="1.2" opacity=".4"/>
+      <path d="M560,170 l-10,40 M600,150 l-6,30 M680,185 l8,36 M300,215 l-8,34 M1000,200 l6,28" stroke-width=".8" opacity=".35"/>
+      <path d="M140,120 c10,-14 30,-12 30,0 c0,8 -10,10 -14,4 c-3,-4 2,-8 6,-6 M170,120 c8,-10 26,-8 24,4 M120,126 h110 M150,132 h110" stroke-width="1.1" opacity=".55"/>
+      <path d="M930,90 c-10,-14 -30,-12 -30,0 c0,8 10,10 14,4 c3,-4 -2,-8 -6,-6 M900,90 c-8,-10 -26,-8 -24,4 M950,96 h-110 M920,102 h-110" stroke-width="1.1" opacity=".55"/>
+    </g>
+  </svg>
+  <div class="hero-inner">
+    <div class="title-row">
+      <h1 class="title">穆席王朝</h1>
+      <div class="subtitle">立國百餘年，新帝初立。</div>
+      <span class="seal" aria-hidden="true">穆席<br>之寶</span>
+    </div>
+    <div class="entries">
+      <button class="entry" data-enter="palace">入宮</button>
+      <button class="entry" data-enter="city">遊京</button>
+    </div>
+  </div>
+  <div class="scrollhint">往下・展卷</div>
+</header>
+
+<section aria-labelledby="today-h">
+  <div class="today">
+    <h3 id="today-h">今日穆席</h3>
+    <p id="today-text"></p>
+    <button class="more" id="today-more">再聽一則</button>
+  </div>
+</section>
+
+<section id="maps" aria-label="地圖">
+  <div class="wrap">
+    <div class="maphead">
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" data-map="palace" aria-selected="true">宮城</button>
+        <button class="tab" role="tab" data-map="city" aria-selected="false">昭京</button>
+        <button class="tab" role="tab" data-map="empire" aria-selected="false">帝國</button>
+      </div>
+      <div class="tools">
+        <div class="seg" role="group" aria-label="晝夜">
+          <button data-time-btn="day" aria-pressed="true">晝</button><button data-time-btn="night" aria-pressed="false">夜</button>
+        </div>
+        <label class="festsel"><span>歲時</span><select id="festsel" aria-label="歲時"></select></label>
+        <div class="seg" role="group" aria-label="畫法">
+          <button data-mode-btn="color" aria-pressed="true">設色</button><button data-mode-btn="line" aria-pressed="false">白描</button>
+        </div>
+      </div>
+    </div>
+    <div class="feststrip" id="feststrip" hidden></div>
+    <div class="mapwrap" id="mapwrap" data-mode="color">
+      <div class="fx" id="fx" aria-hidden="true"></div>
+      <div class="paper" aria-hidden="true"></div>
+      <div class="mapcorner" id="mapcorner"></div>
+      <svg id="mapsvg" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="可點選的地圖"></svg>
+      <div class="zoom"><button id="zin" aria-label="放大">＋</button><button id="zout" aria-label="縮小">－</button><button id="zfit" aria-label="全圖" style="font-size:13px">全</button></div>
+      <div class="maphint">拖曳移動・滾輪縮放・點選地塊進入</div>
+    </div>
+  </div>
+</section>
+
+<section id="roster" aria-labelledby="roster-h">
+  <div class="wrap">
+    <h2 class="sec-title" id="roster-h">人物譜 <small>點頭像看介紹，點地名跳到地圖</small></h2>
+    <div class="roster" id="roster-row"></div>
+    <div class="pcard" id="pcard" hidden></div>
+  </div>
+</section>
+
+<footer>
+  <a class="plaque-wrap" href="../" id="sim-link" aria-label="皇帝模擬器">
+    <svg class="ropes" viewBox="0 0 150 34" aria-hidden="true"><path d="M75,2 L30,34 M75,2 L120,34" stroke="#4b3220" stroke-width="2" fill="none"/><circle cx="75" cy="3" r="3" fill="#a8834a"/></svg>
+    <div class="plaque"><b><span class="px"></span>皇帝模擬器</b><small>EMPEROR SIMULATOR</small></div>
+  </a>
+  <div class="footnote">想親自當一天皇帝？</div>
+  <div class="colophon">穆席王朝・世界觀圖志</div>
+</footer>
+
+<aside class="scroll" id="scroll" aria-hidden="true" aria-labelledby="p-title">
+  <div class="roller"></div>
+  <div class="sheet" id="sheet"></div>
+  <div class="roller"></div>
+  <button class="close" id="close" aria-label="收起卷軸">×</button>
+</aside>
+
+<script>
+/* ============================================================
+   穆席王朝｜內容資料
+   要改文字、加小體驗結果，只要改這個區塊。
+   ============================================================ */
+const IMG = "https://cdn.caveduck.io/cdn-cgi/image/f=auto,w=800/";
+const DATA = {
+  images: {
+    hall7:   IMG + "charim/28aa24d3-78c6-42a0-b93c-f472e3ee09ea?v=9670a6",
+    throne:  IMG + "charim/743f6867-e9e1-4c10-8a1f-88d011d355e7?v=99267c",
+    court:   IMG + "charim/afab5a39-e9f7-44f9-9e2a-e6909b0db40c?v=b068b1",
+    desk:    IMG + "charim/32410024-e183-4eed-a72e-a8b1ad5a49ba?v=0e8f79",
+    bedNight:IMG + "charim/ae61872e-87db-4f78-9dff-c806383b1bcb?v=8ce1bd",
+    city:    IMG + "charim/d1ccf247-75c0-40c6-8fa0-3f2167ca9ee5?v=37d0a5",
+    bedDawn: IMG + "charim/44d9bad5-6709-4bb3-a822-8aea84c99fcc?v=27e7d9",
+    lake:    IMG + "charim/8fc2d373-e224-4f6e-9185-36a6acebcd14?v=cb1bc2",
+    market:  IMG + "charim/c2085eb2-1d67-4a1e-b34d-d3360d1b573a?v=9b379f",
+    stars:   IMG + "charim/75c90680-10d0-4bd1-b81a-43f2bb7adf9b?v=e786b4",
+  },
+
+  /* ---------- 七人 ---------- */
+  chars: {
+    xuanqiao: { name: "穆席玄嶠", title: "攝政王・主持樞密院", age: "四十三歲", look: "黑色長髮半束，左眼戴黑眼罩",
+      quote: "本王老了，經不起你這樣折騰。",
+      intro: "先帝託付的攝政王，話不多，沙盤上的小旗比朝臣還聽他的話。",
+      avatar: IMG + "charim-standard/22eaf92a-c094-43a4-982d-c98d388cb116?v=91c2d0",
+      haunts: [["palace", "chongzheng"], ["city", "shezheng"], ["palace", "chengtian"]] },
+    mingye: { name: "盛明野", title: "邊軍少將軍", age: "二十七歲", look: "小麥色膚，黑色高馬尾",
+      quote: "陛下，我想先說給你聽。",
+      intro: "在北境長大，笑起來像正午的太陽，射箭比說話準。",
+      avatar: IMG + "charim-standard/58ef51f8-efea-4122-84a6-0cc010f209c0?v=fecc8b",
+      haunts: [["city", "shaojiang"], ["palace", "chengtian"], ["palace", "chengming"]] },
+    ruzhuo: { name: "溫如琢", title: "首輔", age: "三十四歲", look: "茶棕色長髮，青玉髮簪",
+      quote: "有幾件地方奏事，臣想當面稟報。",
+      intro: "內閣之首，溫文周到，事事想在陛下前頭，燈總是最晚熄。",
+      avatar: IMG + "charim-standard/6b41d08a-f2bc-4ed3-915a-78719d01c9c2?v=81ebc4",
+      haunts: [["palace", "wenhua"], ["palace", "chongzheng"], ["city", "wenfu"]] },
+    wenrendu: { name: "聞人渡", title: "國師", age: "年歲不可考", look: "淺灰長髮，金瞳",
+      quote: "明天會下雨……陛下記得帶傘。",
+      intro: "懶洋洋的，卻總比所有人先知道明天的天氣。常不請自來，佔著明宸宮的暖榻。",
+      avatar: IMG + "charim-standard/5cee5d3d-1baf-4377-af12-feeeb7162ea0?v=40b442",
+      haunts: [["city", "guanxing"], ["palace", "mingchen"]] },
+    buqi: { name: "沈不器", title: "暗衛首領", age: "三十五歲", look: "冷深褐色低馬尾，墨黑勁裝",
+      quote: "陛下，臣能替您關門，不能替您批奏摺。",
+      intro: "永遠在陛下三步之內，又永遠像不在那裡。",
+      avatar: IMG + "charim-standard/56c9e67b-0af9-42c4-a35d-3ebd4f4549d2?v=095994",
+      haunts: [["palace", "wubei"], ["city", "jinwei"], ["palace", "mingchen"]] },
+    heqier: { name: "赫祈爾", title: "烏闌質子兼使節", age: "三十三歲", look: "橄欖色膚，綠眼，編辮綴金飾",
+      quote: "陛下今夜留我在宮中，明日朝臣又要如何議論？",
+      intro: "在昭京的第四年。笑著說話，話裡永遠留一半。",
+      avatar: IMG + "charim-standard/7133b5d7-4eca-4345-8bc2-4c2dbb47167f?v=87a437",
+      haunts: [["city", "xishiguan"], ["city", "nanshi"], ["palace", "jingan"]] },
+    lingshu: { name: "溫令姝", title: "溫氏嫡女・絲綢商號東家", age: "二十六歲", look: "茶栗色長髮，珍珠金簪",
+      quote: "陛下，您確定要聽實話？",
+      intro: "首輔的妹妹，說話比哥哥直，算盤比哥哥快。",
+      avatar: IMG + "charim-standard/f42f4cd3-33f3-4643-adb2-b4fbdc4660c7?v=a19449",
+      haunts: [["city", "wenfu"], ["city", "nanshi"], ["city", "nanhe"]] },
+  },
+
+  /* ---------- 常在各處的其他人（無頭像） ---------- */
+  npcs: {
+    jiangzhe: { name: "江折", intro: "武備署的禁衛，沈不器的副手，巡夜時最怕御苑那幾隻鵝。" },
+    linting: { name: "林渟", intro: "文華館的閣臣，替首輔整理卷宗，常被分不到桂花糖。" },
+    shangshu: { name: "六部尚書", intro: "六位老大人。吵架時各說各話，一起嘆氣時倒是很整齊。" },
+    guohuaixin: { name: "郭懷信", intro: "明宸宮內侍總管，什麼都管得住，就是管不住國師。" },
+    jiangshuang: { name: "姜霜", intro: "御膳房掌勺，記得陛下每一樣口味，也記得每一個偷吃的人。" },
+    yeqingci: { name: "葉清辭", intro: "太醫院院判，敢對皇室直言醫囑，連攝政王都被他念過少熬夜。" },
+    tangjing: { name: "唐靖", intro: "少將軍府的副將，負責把少將軍從演武場拖回來吃飯。" },
+    qianahe: { name: "錢阿禾", intro: "少將軍府的馬廄管事，每天都在跟燎原講道理。" },
+    shizhongshan: { name: "施仲山", intro: "攝政王府的長史，報事從不挑時候，尤其不挑下棋的時候。" },
+    yubojian: { name: "俞伯簡", intro: "攝政王府的老幕僚，沙盤上的小旗大半是他插的。" },
+    fangyucheng: { name: "房玉成", intro: "溫府的管家，記得每一本藏書放在哪一格。" },
+    lianyan: { name: "連嬿", intro: "溫令姝身邊的人，商號的帳一半在她腦子裡。" },
+    baiyan: { name: "柏硯", intro: "觀星臺的弟子，負責把國師叫起來看星星。" },
+    hatu: { name: "哈圖", intro: "赫祈爾的隨從，烏闌人，話少，馬養得極好。" },
+    saina: { name: "賽娜", intro: "西使館的女官，管奶酒，也管赫祈爾的行程。" },
+    zhusha: { name: "朱沙", intro: "西使館的通譯，穆席話說得比不少穆席人還標準。" },
+    gexiaoman: { name: "葛小滿", intro: "南市酒樓的東家，昭京一半的傳聞都是從他的二樓開始的。" },
+    chensihai: { name: "陳四海", intro: "漕運行會的頭人，碼頭上的號子聽他的。" },
+    huoyushu: { name: "霍玉樹", intro: "江南漕運使，開漕節的主持人，看一眼船吃水就知道裝了多少米。" },
+    caimu: { name: "蔡牧", intro: "北境鎮邊校尉，玄嶠的舊部，信寫得比兵書還短。" },
+    shaorong: { name: "邵戎", intro: "西境關務使，守著商道的門，驗貨也驗人。" },
+    atiya: { name: "阿蒂雅", intro: "烏闌王族，赫祈爾的堂姊，騎術比使節團所有人都好。" },
+    nahan: { name: "納罕", intro: "烏闌商隊首領，走過商道上每一座綠洲。" },
+  },
+
+  /* ---------- 宮城 ---------- */
+  palace: {
+    chengming: {
+      name: "承明門", sub: "宮城正門・百官由此入",
+      vibe: ["卯時未到，承明門外已停滿車駕。百官在這裡下車步行，私人車馬一律留在門外。", "三座券門，中門只為陛下而開。誰家的轎子漆得太新，隔天就會在朝房裡被議論。"],
+      people: ["mingye"],
+      day: "天未亮便排起長隊，朝靴把石板踩得咚咚響。",
+      night: "宮門下鑰，只剩門樓上兩盞燈，和換班時低低的口令聲。",
+      fest: "歲元節大朝賀，百官由此魚貫入宮；萬燈節夜裡，陛下若要微服出宮，多半也從這裡溜出去。",
+      exp: [{ label: "看看誰今天遲到", results: [
+        "戶部某侍郎一路小跑，官帽歪了一半，進門前硬是停下來扶正。",
+        "一輛新漆的馬車停在最顯眼的地方，三位御史已經在記車主的名字。",
+        "盛明野騎到門口才想起不能騎進去，把燎原交給門吏時還在叮嚀牠別咬人。",
+        "溫首輔比卯時早到了半刻，站在門邊看條陳，像是從來不用睡覺。",
+      ] }],
+    },
+    chengtian: {
+      name: "承天殿", sub: "外朝・大朝會與朝儀廣場", img: "court",
+      vibe: ["大朝會、登基大典、接見使節，都在這裡舉行。", "廣場上兩列品級山標出百官站位，站錯一步，禮部的人會用眼神提醒你。殿內龍椅高踞九階之上，從那裡往下看，滿朝文武都很小。"],
+      people: ["xuanqiao", "mingye", "ruzhuo", "wenrendu", "buqi", "heqier", "lingshu"],
+      day: "朝會時廣場站滿朱紫，風一吹，袍角整齊地響。",
+      night: "大殿空無一人，月光從殿門斜照進來，停在龍椅前第三階。",
+      fest: "歲元節大朝賀、定鼎節功臣紀念、千秋宴，都在這裡。",
+      exp: [{ label: "看百官站位", results: [
+        "東班第三排，禮部郎中。他在想：今早出門忘了餵貓。",
+        "西班末位，新授的武官。他在想：這雙朝靴好像小了半寸。",
+        "東班首位，溫如琢。他在想：今天三件事，第二件最好別讓陛下當場駁回。",
+        "西班首位，穆席玄嶠。他在想：陛下今天又多睡了一刻。",
+        "東班中段，戶部主事。他在想：昨天帳上差的那三兩銀子，到底去了哪裡。",
+      ] }],
+    },
+    wubei: {
+      name: "武備署", sub: "外廷西・禁衛值房",
+      vibe: ["禁衛的值房。牆上掛著排班表，還有一把誰也不敢動的舊刀。", "屋裡永遠有一壺濃茶，喝起來像在喝鐵。"],
+      people: ["buqi", "@jiangzhe"],
+      day: "換班時一陣甲冑聲，之後又安靜得聽得見毛筆寫字。",
+      night: "值夜的禁衛輪流打盹，只有沈不器那盞燈從來不熄。",
+      fest: "競武節前最忙，要排御前護衛和場邊巡哨。",
+      exp: [{ label: "看排班表", results: [
+        "「今夜明宸宮外：沈不器。」旁邊有人用小字補了一句：又是他自己排的。",
+        "「江折，巡御苑。」備註：勿再與湖裡的鵝爭道。",
+        "「三更換班，東內苑口令『桂花』。」有人寫成「貴花」，已罰抄十遍。",
+        "巡邏筆記：「御膳房後門，貓一隻，形跡可疑，未攜兵器。」",
+      ] }],
+    },
+    chongzheng: {
+      name: "崇政殿", sub: "外廷中・日常議政", img: "desk",
+      vibe: ["日常議政的地方，比承天殿小得多，也實在得多。", "御案上的奏摺堆成兩座小山；屏風後擺著一張小議事桌，真正的事多半在那張桌上談定。"],
+      people: ["xuanqiao", "ruzhuo", "@shangshu"],
+      day: "朝臣進進出出，硯台裡的墨一上午要添三次。",
+      night: "殿內只留一盞燈，奏摺小山還是兩座。",
+      fest: "封印節年終結算，這裡的燈會亮到很晚。",
+      exp: [{ label: "批一份奏摺", type: "memorial", results: [
+        { text: "工部請修承明門外的排水溝，免得雨天百官濕了朝靴。",
+          ok: "工部尚書謝恩，又順口補了一句：「臣再補一份預算。」",
+          no: "玄嶠：「讓他們濕。濕了才記得早點來。」",
+          hold: "溫如琢把這份摺子悄悄挪到小山的最上面。" },
+        { text: "禮部奏請萬燈節御街加掛三百盞燈。",
+          ok: "禮部歡天喜地；戶部尚書在角落嘆了口氣。",
+          no: "禮部尚書沉默良久，改奏：「兩百盞可否？」",
+          hold: "如琢：「臣明白，陛下是想先看看去年的帳。」" },
+        { text: "太醫院奏請陛下每日按時就寢。",
+          ok: "葉清辭派人送來一份作息表，字寫得比奏摺還大。",
+          no: "當晚，明宸宮的燈被人提早吹熄了一盞。",
+          hold: "殿外的沈不器輕咳一聲，像是聽見了。" },
+        { text: "御膳房奏報：庫中糖霜不明短少。",
+          ok: "准予徹查。查了三天，線索一路指向觀星臺。",
+          no: "姜霜當天的點心少放一半糖，以示抗議。",
+          hold: "聞人渡路過，順手把摺子旁那塊糖拿走了。" },
+      ] }],
+    },
+    wenhua: {
+      name: "文華館", sub: "外廷東・內閣值房",
+      vibe: ["內閣值房。書架頂到屋梁，連窗邊都疊著卷宗。", "這裡的人說話都很輕，只有翻紙的聲音很響。"],
+      people: ["ruzhuo", "@linting"],
+      day: "閣臣低頭擬票，偶爾有人起身去對一份舊檔。",
+      night: "首輔的書案常是整座外廷最後熄的一盞燈。",
+      fest: "封印節前後，這裡的燈幾乎不滅；望秋節的秋收報告也從這裡送出。",
+      exp: [{ label: "偷看首輔的書案", results: [
+        "一疊新竹紙，最上面一張寫著「江南漕糧」，後面畫了三個圈。",
+        "一份寫到一半的條陳，停在「臣以為」三個字後面，墨已經乾了。",
+        "一盒桂花糖，盒蓋貼著小字：「令姝送。勿分林渟。」",
+        "一支備用的青玉髮簪，用絹布包得整整齊齊。",
+      ] }],
+    },
+    jingan: {
+      name: "景安門", sub: "內外廷分界",
+      vibe: ["外廷與內廷的分界，門內就是內廷。", "受邀參宴，不等於能進帝寢；明宸宮要入內，須得陛下親口允許。"],
+      people: ["heqier"],
+      day: "傳話的內侍在門兩側來回，比朝臣還忙。",
+      night: "下鑰之後，就連攝政王也得在這裡等通傳。",
+      fest: "千秋宴當晚，宴設門內，賓客由此入。",
+      exp: [{ label: "在門口等通傳", results: [
+        "內侍回報：「陛下說，請攝政王明日再來。」玄嶠站了一會兒，轉身走了。",
+        "聞人渡說他不必通傳，然後真的就這樣走進去了。",
+        "赫祈爾在門外等了半個時辰，跟守門的禁衛學會了三句穆席俗語。",
+        "溫令姝帶了一盒點心來。點心進去了，人還在外面。",
+      ] }],
+    },
+    xineiyuan: {
+      name: "西內苑", sub: "內廷・後宮宮院",
+      vibe: ["後宮宮院之一。男女皆可入，不設定額。", "朝官入宮不必卸任，白天上朝、晚上回宮院也不稀奇。後宮品階與朝廷官階是兩套，誰也不壓誰。"],
+      people: [],
+      day: "院裡有人曬書、有人練字，偶爾傳出琴聲。",
+      night: "宮燈沿著迴廊一盞盞點起，比東苑安靜。",
+      fest: "結緣節時，院門口掛滿香囊與玉結。",
+      exp: [{ label: "在迴廊散步", results: [
+        "有人在廊下晾了一排剛抄好的經，風一吹，滿廊沙沙響。",
+        "一隻鸚鵡學會了說「陛下萬安」，可惜只在沒人的時候說。",
+        "兩位宮院主人在下棋，一盤棋下了三天，還沒人肯先投子。",
+      ] }],
+    },
+    dongneiyuan: {
+      name: "東內苑", sub: "內廷・後宮宮院",
+      vibe: ["另一處後宮宮院，離御膳房近，飯點總比別處熱鬧。", "院中一株老桂樹，誰也說不清是哪一朝種下的。"],
+      people: [],
+      day: "午後有人搬了藤椅到桂樹下，一睡就是一個時辰。",
+      night: "御膳房送宵夜的人，總會先經過這裡。",
+      fest: "望秋節前後桂花開，整座院子都是甜的。",
+      exp: [{ label: "在桂樹下坐一會兒", results: [
+        "一朵桂花落下來，剛好掉進你的茶裡。",
+        "有人從牆那頭遞來一碟點心，沒留名字。",
+        "一位宮院主人正在背明天早朝要奏的事，背錯了三次。",
+      ] }],
+    },
+    mingchen: {
+      name: "明宸宮", sub: "內廷・陛下起居", img: "bedDawn", imgNight: "bedNight",
+      vibe: ["陛下起居之所。寢殿、浴池、更衣間、內書房、小膳房，都在這一進院子裡。", "郭懷信把一切打理得井井有條，唯一管不住的是聞人渡：國師常不請自來，佔著暖榻不走。"],
+      people: ["wenrendu", "buqi", "@guohuaixin"],
+      day: "晨光從格扇透進寢殿，郭懷信已經把今天要穿的衣裳備好了。",
+      night: "燭火低低地燃著，門外的影子一動也不動。",
+      fest: "千秋宴散後，賀禮會先送到這裡，堆滿內書房。",
+      exp: [{ label: "掀開暖榻上的毯子", results: [
+        "半包糖，紙上還留著牙印。",
+        "一隻銅鈴，搖起來沒有聲音。聞人渡說：「是給不在這裡的東西聽的。」",
+        "一張寫了一半的星象筆記，最後一行是「明日宜……」，後面沒了。",
+        "一隻黑貓。牠看了你一眼，又閉上眼睛。",
+        "一本《穆席律例》，書籤是一片銀杏葉。",
+      ] }],
+    },
+    yushan: {
+      name: "御膳房", sub: "內廷一角",
+      vibe: ["從早膳到宵夜，一天要開好幾次火。", "姜霜掌勺，對陛下的口味比誰都清楚，對誰偷吃也比誰都清楚。"],
+      people: ["@jiangshuang"],
+      day: "灶上同時燉著三鍋湯，蒸籠疊得比人高。",
+      night: "只剩一口小灶溫著，等明宸宮隨時傳宵夜。",
+      fest: "歲元節要備百官的賜宴；長陽節前一天，全房吃素。",
+      exp: [{ label: "今日菜單", type: "menu" }],
+    },
+    taiyi: {
+      name: "太醫院", sub: "內廷・院判葉清辭",
+      vibe: ["院裡終年飄著藥香，曬藥的竹匾從廊下一路排到牆根。", "院判葉清辭敢對皇室直言醫囑，連攝政王都被他念過少熬夜。"],
+      people: ["@yeqingci"],
+      day: "院判一早就去各宮請平安脈，回來時袖子裡多了好幾張求藥的條子。",
+      night: "值夜的醫官守著一爐藥，爐火映在藥櫃的小抽屜上。",
+      fest: "結緣節的香囊，裡頭的香料有一半出自這裡。",
+      exp: [{ label: "請個平安脈", results: [
+        "葉清辭：「陛下脈象平穩，就是睡太少。今晚亥時前熄燈，臣會派人去看。」",
+        "「肝火略旺。最近是不是有人一直惹您生氣？……臣不問是誰。」",
+        "「一切安好。不過臣聽說您昨夜吃了三塊糖糕，這個臣得記下來。」",
+        "他開了一帖藥，藥方最後一味寫著：早睡。",
+      ] }],
+    },
+    yuyuan: {
+      name: "御苑・湖心亭", sub: "宮城最北・散步與偶遇", img: "lake",
+      vibe: ["宮城最北的園子。湖心有亭，曲橋可通。", "散步、私宴、偶遇都在這裡發生；不過柳樹後面，仍有禁衛在巡。"],
+      people: ["@jiangzhe"],
+      day: "湖面亮得晃眼，幾隻鵝排著隊巡湖，比禁衛還準時。",
+      night: "亭裡點一盞燈，倒影在水裡碎成好幾片。",
+      fest: "萬燈節，湖面放滿河燈；結緣節，曲橋欄杆繫滿玉結。",
+      exp: [{ label: "在湖心亭等一個人", type: "meet", results: [
+        ["xuanqiao", "「本王路過。」他說，然後在亭裡坐了一個時辰。"],
+        ["mingye", "「陛下！我從北城一路騎過來的——燎原在外面，牠也想見您。」"],
+        ["ruzhuo", "「臣帶了茶。另外……有幾件地方奏事，不急，喝完茶再說。」"],
+        ["wenrendu", "「湖裡的月亮比天上的好看，因為它會晃。」"],
+        ["buqi", "等了很久，沒有人來。直到你起身，才發現他一直站在亭外的柳樹下。"],
+        ["heqier", "「在我們烏闌，等人的時候會唱歌。陛下要聽嗎？」"],
+        ["lingshu", "「陛下，您確定要等的是我？……那就好。」"],
+      ] }],
+    },
+  },
+
+  /* ---------- 昭京 ---------- */
+  city: {
+    huangcheng: {
+      name: "皇城", sub: "昭京偏北・中軸之上", img: "city",
+      vibe: ["皇宮坐落在昭京偏北的中軸線上，紅牆金瓦，城裡哪條大街都望得見。"],
+      people: [],
+      day: "御道上車馬不斷，承明門外的早點攤生意最好。",
+      night: "宮牆上的燈一路連到角樓，整座城都以它認方向。",
+      fest: "萬燈節的燈市，就從皇城前的御街開始。",
+      goto: "palace",
+    },
+    shaojiang: {
+      name: "少將軍府", sub: "北城・武官府邸與軍營",
+      vibe: ["北城的武官府邸裡，少將軍府最好認：馬廄最大，演武場最吵。", "坐騎「燎原」脾氣跟主人一樣直，馬廄管事錢阿禾每天都在跟牠講道理。"],
+      people: ["mingye", "@tangjing", "@qianahe"],
+      day: "演武場上弓弦聲不斷，偏廳的飯總是熱了第二回才有人吃。",
+      night: "馬廄的燈最晚熄，燎原不睡，錢阿禾也不敢睡。",
+      fest: "競武節前一個月，府裡每天練到天黑；歸火節時，北境的舊部會寄信來。",
+      exp: [{ label: "看他射箭", results: [
+        "十箭九中紅心，第十箭射中了靶旁的燈籠。明野：「那個……是燈籠先動的。」",
+        "一箭劈開前一支箭的箭尾。他回頭看你：「陛下看到了嗎？再來一次您就看不到了。」",
+        "蒙眼射三箭，全中。他把布條拉下來，笑得很得意：「北境的風比這難多了。」",
+        "燎原在旁邊打了個響鼻，箭偏了半寸。明野：「牠吃醋。」",
+      ] }],
+    },
+    shezheng: {
+      name: "攝政王府", sub: "西城・王公府第",
+      vibe: ["西城王公府第中最安靜的一座。", "書房擺著一張大沙盤，山川城池都插著小旗；西院是演武場，天不亮就有人在練刀。"],
+      people: ["xuanqiao", "@shizhongshan", "@yubojian"],
+      day: "書房的門總是半掩，進出的人都放輕了腳步。",
+      night: "西院有刀風，書房有燈，兩處都是同一個人。",
+      fest: "定鼎節前，府裡會把功臣名錄重抄一遍。",
+      exp: [{ label: "陪他下一盤棋", results: [
+        "你贏了。玄嶠看了棋盤很久：「……本王讓的。」",
+        "他贏了半目。「陛下這一手，十年前的本王也會這樣下。」",
+        "下到一半，施仲山進來報事，棋盤被收起。玄嶠說：「記住這一手，明天繼續。」",
+        "和棋。他難得笑了一下：「不錯。今晚留下吃飯。」",
+      ] }],
+    },
+    wenfu: {
+      name: "溫府", sub: "東城・書院與世家",
+      vibe: ["東城書院世家聚集，溫府佔了半條街。藏書樓、茶室、桂花庭都在主院。", "南院是溫令姝的院落，種著玉蘭，還有一座小茶亭。"],
+      people: ["ruzhuo", "lingshu", "@fangyucheng", "@lianyan"],
+      day: "藏書樓的窗全開著曬書，茶室裡有人在算帳。",
+      night: "主院的燈先熄，南院的茶亭總會晚一點。",
+      fest: "春禊節溫府家宴，令姝在南院辦茶宴，半個東城都會來。",
+      exp: [{ label: "喝一盞茶", results: [
+        "君山銀針。令姝：「哥哥泡茶要先溫杯三次，一盞茶等到涼。」如琢：「妹妹從不溫杯，所以她的茶燙嘴。」",
+        "龍井。如琢：「這是她去年從江南扛回來說要送我的，結果一半在她的茶亭裡。」令姝：「放我那裡才不會受潮。」",
+        "桂花烏龍。令姝：「陛下別信他說不愛甜，他書案上的糖都是我補的。」如琢低頭喝茶，沒有否認。",
+        "普洱。如琢：「她小時候把這個當藥喝，喝一口哭一次。」令姝：「哥哥小時候背不出書也哭。」",
+      ] }],
+    },
+    guanxing: {
+      name: "觀星臺", sub: "東北高地・國師居所", img: "stars",
+      vibe: ["東北高地上，觀星臺、祭天壇與道觀比鄰。", "臺上有觀星高臺、一間藥房、一間鋪滿軟墊的寢室；院裡一株老銀杏，還有一隻黑貓。國師說，牠比他更懂天象。"],
+      people: ["wenrendu", "@baiyan"],
+      day: "國師多半在睡，柏硯在掃銀杏葉，黑貓在曬太陽。",
+      night: "高臺上擺開儀器，國師終於醒了。",
+      fest: "長陽節，陛下在祭天壇行禮，聞人渡主持觀測。",
+      exp: [{ label: "求一支籤", type: "poem", results: [
+        ["春水初生半尺深，舟橫渡口不須尋。東風若問歸何處，且向花前醉一斟。", "意思是……不用找了，該來的自己會來。陛下今天別出門。"],
+        ["雲開一線月如鉤，照見長街燈未收。莫道夜深無過客，有人遲步為君留。", "上上籤。有人在等您，不過不是我，我要睡了。"],
+        ["北雁南飛不計程，霜天萬里一身輕。弓弦未冷人先到，帶得邊風入帝京。", "北邊有人要回來了。陛下先準備好耳朵，他話很多。"],
+        ["玉案三更燭未殘，紙堆如嶺字如山。誰知筆底千鈞事，一盞清茶便可寬。", "首輔又熬夜了。派人送一盞茶過去，比什麼籤都靈。"],
+        ["貓眠銀杏影參差，夢裡乾坤自轉移。不問天機問晚飯，人間此刻最相宜。", "……這支是我昨天寫著玩的。問晚飯吧。"],
+      ] }],
+    },
+    jinwei: {
+      name: "禁衛別院", sub: "皇城北側",
+      vibe: ["皇城北側一處小而乾淨的院子。", "沈不器休假時就在這裡曬被、煮飯、釣魚——如果他真的有休假的話。"],
+      people: ["buqi"],
+      day: "竹竿上曬著一床被子，拍得平平整整。",
+      night: "院子裡沒點燈。他多半不在，或者不想讓人知道他在。",
+      fest: "萬燈節他從不休假，別院的門上只貼了一張新的門神。",
+      exp: [{ label: "看他怎麼休假", results: [
+        "他在曬被子，拍了三下，每一下的力道都一樣。",
+        "鍋裡煮著粥，旁邊一條剛釣的魚。他說：「陛下若不嫌棄，多一副碗筷。」",
+        "他坐在河邊釣魚，一個時辰沒動。後來你才發現，那個位置剛好看得見宮城北門。",
+        "院子空著，桌上壓著一張紙條：「臨時回宮。粥在灶上。」",
+      ] }],
+    },
+    xishiguan: {
+      name: "西使館", sub: "西南使館區・烏闌使節",
+      vibe: ["西南使館區的異國商館之一，烏闌使節住在這裡。", "屋裡鋪著厚厚的異國地毯，後院有馬廄和一座限定距離的練箭場；門口站著穆席派來的警戒人員，客氣，但一步不讓。"],
+      people: ["heqier", "@hatu", "@saina", "@zhusha"],
+      day: "後院有人刷馬，有人用烏闌話吵架，吵完一起喝奶茶。",
+      night: "地毯上點著銅燈，琴聲是草原的調子。",
+      fest: "競武節，赫祈爾會下場騎射，使館前一晚格外熱鬧。",
+      exp: [{ label: "喝一杯奶酒", type: "lore", results: [
+        ["「慢點喝，這酒的後勁比你們的使臣還難纏。」", "烏闌人敬酒前先彈三滴，敬天、敬地、敬遠方的人。"],
+        ["「第四年了，我終於學會你們的茶要小口喝。」", "烏闌的馬奶酒要在皮囊裡攪上千下，才夠香。"],
+        ["「陛下今天來，明天朝上又要有人說話了。……我不介意，您呢？」", "辮上的金飾數量代表家族的戰功，不代表財富。"],
+        ["「草原的星星比昭京多，但昭京的燈比較暖。」", "綠洲商隊多半夜裡趕路，白天在帳篷裡睡覺。"],
+      ] }],
+    },
+    nanshi: {
+      name: "南市", sub: "市集、酒樓、戲院與工坊", img: "market",
+      vibe: ["市集、酒樓、戲院、工坊擠在一起，昭京人人都會來。", "葛小滿的酒樓在最熱鬧的路口，二樓靠窗的位子，要提前三天訂。"],
+      people: ["@gexiaoman", "lingshu", "heqier"],
+      day: "吆喝聲從東頭傳到西頭，糖畫攤前永遠圍著小孩。",
+      night: "夜市開張，燈籠一路掛到河邊，戲院的鑼鼓敲到二更。",
+      fest: "萬燈節燈市最熱鬧的就是這裡；七夕結緣節，香囊攤擺滿整條街。",
+      exp: [
+        { label: "今天吃什麼", results: [
+          "糖炒栗子，剛出鍋，燙得要換手拿。",
+          "羊肉胡餅，西境的做法，芝麻撒得很大方。",
+          "桂花酒釀圓子，老闆說是溫家南院教的配方。",
+          "甜豆腐腦。（在南市，此事不容爭論。）",
+          "蟹黃湯包，先開窗、後喝湯，第一口最危險。",
+          "冰糖葫蘆，據說烏闌那位使節一次買了一整車。",
+        ] },
+        { label: "茶樓聽八卦", results: [
+          "聽說攝政王府的沙盤上，最近多了一面寫著「明宸宮」的小旗。",
+          "聽說首輔一年只休兩天假，一天是除夕，另一天還在看條陳。",
+          "聽說少將軍的馬又踢翻了錢管事的水桶，這個月第七個了。",
+          "聽說國師算出明日有雨，結果出了大太陽，他說是雨害羞了。",
+          "聽說溫家小姐的商號新出一款月白緞，宮裡已經訂了三匹。",
+        ] },
+      ],
+    },
+    nanhe: {
+      name: "南河港區", sub: "漕運碼頭與倉庫",
+      vibe: ["漕運碼頭與倉庫連成一片，江南的糧、北境的皮貨、西境的香料都在這裡上岸。", "陳四海的漕運行會管著半個碼頭的號子。"],
+      people: ["@chensihai", "lingshu"],
+      day: "號子聲一陣接一陣，卸貨的扁擔壓得彎彎的。",
+      night: "倉庫上鎖，河面只剩幾盞船燈在晃。",
+      fest: "江南開漕節時，第一批漕船進港，碼頭會放鞭炮。",
+      exp: [{ label: "看今天進港的貨", results: [
+        "江南漕糧三十船，船頭還插著開漕節剩下的紅旗。",
+        "北境皮貨兩船，另有一箱寫著「給明野」的醃肉。",
+        "西境香料一船，整條河邊都是胡椒味，碼頭工打了一下午噴嚏。",
+        "溫氏商號絲綢五箱，封條上蓋著令姝的私印。",
+      ] }],
+    },
+  },
+
+  /* ---------- 帝國 ---------- */
+  empire: {
+    bentu: {
+      name: "穆席本土", sub: "帝國腹地・昭京居中",
+      vibe: ["穆席立國百餘年的根本之地。昭京坐落在中央，四方官道從城門一路鋪向江南、北境與西境。", "田畝整齊，驛站每三十里一座；從這裡出發，往哪個方向都有人等著收信。"],
+      people: ["xuanqiao", "ruzhuo"],
+      day: "官道上驛馬來回，田裡的人抬頭看一眼，就知道今天京裡有沒有大事。",
+      night: "昭京的燈火在平原中央亮成一團，遠遠就看得見。",
+      fest: "歲元節與定鼎節，各地官員進京朝賀，官道比平常擠三倍。",
+      exp: [{ label: "攔一匹驛馬問消息", results: [
+        "驛卒勒馬：「江南的漕糧摺子，加急，送內閣。」說完就跑了，馬比人還喘。",
+        "「北境來的，給少將軍府。」他拍拍包袱，「裡頭是醃肉，不是軍情，別緊張。」",
+        "「西境秋馬市的帳，送戶部。」他壓低聲音，「聽說今年烏闌的馬特別好。」",
+        "驛卒停下來喝水，什麼都沒說，只抱怨京城的豆腐腦居然是甜的。",
+      ] }],
+      goto: "city",
+    },
+    jiangnan: {
+      name: "江南", sub: "漕運重鎮・漕運使霍玉樹",
+      vibe: ["河道縱橫，稻田一格一格接到天邊。昭京吃的米、穿的絲，大半從這裡上船。", "漕運使霍玉樹坐鎮於此，每年春天主持開漕節，第一批漕船從這裡啟程北上。"],
+      people: ["@huoyushu", "lingshu", "ruzhuo"],
+      day: "河上船帆一片接一片，岸邊的茶鋪從早到晚都有人在談價錢。",
+      night: "船家在艙裡點燈，水面上一路都是晃動的光點。",
+      fest: "春天的開漕節：第一批漕船披紅掛綵，沿河兩岸放鞭炮送行。",
+      exp: [{ label: "搭一段漕船", results: [
+        "船老大說今年水好，十天就能到京。隔壁船的人說他去年也這樣說。",
+        "艙裡堆滿新米，有人在米袋上睡午覺，被艄公罵起來三次。",
+        "船過石橋，橋上的小孩往下丟了一朵花，剛好落在船頭。",
+        "霍玉樹的巡船從旁邊經過，所有船家同時坐直了身子。",
+      ] }],
+    },
+    beijing: {
+      name: "北境", sub: "邊軍重鎮・鎮邊校尉蔡牧",
+      vibe: ["山高風硬，長城沿著山脊一路蜿蜒。邊軍在這裡守了幾代人。", "鎮邊校尉蔡牧是玄嶠的舊部，少將軍也是在這片風裡長大的。"],
+      people: ["@caimu", "mingye", "xuanqiao"],
+      day: "城牆上的旗被風扯得筆直，操練的喊聲傳到山谷另一頭再傳回來。",
+      night: "烽燧上一盞燈也不能少，值夜的人數著星星換班。",
+      fest: "入冬前的歸火節：家家把灶火續到天亮，給在外的人留一盞燈。",
+      exp: [{ label: "收一封北境來信", results: [
+        "蔡牧寫給攝政王：「一切安好。新兵太吵，請派個話少的來。」",
+        "給少將軍的信：「燎原的母親還健在，脾氣跟牠一樣。」",
+        "一封沒署名的信，只寫了一句：「今年第一場雪，比去年早三天。」",
+        "邊軍伙房寄來的：「京裡的糖若有多，寄一點來。不是給校尉的。」",
+      ] }],
+    },
+    xijing: {
+      name: "西境", sub: "商道關隘・關務使邵戎",
+      vibe: ["群山之間的一道關口，是穆席通往烏闌的商道必經之處。", "關務使邵戎守著這扇門，驗貨、收稅、也看人。停戰第四年，關門開了一半。"],
+      people: ["@shaorong", "heqier"],
+      day: "關前排著長長的駝隊，邵戎的人一箱一箱地開封查驗。",
+      night: "關門下鑰，兩邊的商隊各自生火，隔著城牆聽得見對方在唱歌。",
+      fest: "秋天的秋馬市：烏闌的良馬與穆席的茶、絲在關前交易，是一年最熱鬧的時候。",
+      exp: [{ label: "在關口驗貨", results: [
+        "一箱烏闌的毛氈，夾層裡藏著一包糖。商人說是給小孩的，邵戎放行了。",
+        "一車穆席絲綢，封條上是溫氏商號的印。邵戎看了一眼，揮手讓過。",
+        "一匹馬，沒有主人，自己走到關前就不走了。大家決定先餵牠。",
+        "一位烏闌商人想用一首歌代替關稅。邵戎聽完，還是收了稅。",
+      ] }],
+    },
+    wulan: {
+      name: "烏闌王國", sub: "西方與西北邊境之外",
+      vibe: ["草原、山地、綠洲與商道交錯的國度，騎兵與良馬天下聞名。", "停戰第四年，和約重開了部分商道，但邊境仍然緊繃。赫祈爾的堂姊阿蒂雅是王族，商隊首領納罕走過每一條路。"],
+      people: ["heqier", "@atiya", "@nahan"],
+      day: "草原上的馬群像雲影一樣移動，帳篷前曬著奶皮。",
+      night: "綠洲邊生起篝火，星星多得讓人以為天要垂下來。",
+      fest: "烏闌自有曆法；和約之後，秋馬市成了兩邊都會算進日子裡的一天。",
+      exp: [{ label: "跟商隊走一段", results: [
+        "納罕指著遠方：「看到那座山了嗎？還要走三天。」你看了很久，山一點也沒變近。",
+        "駱駝不肯起身，納罕跟牠講了一刻鐘的道理，牠才勉強站起來。",
+        "夜裡紮營，有人唱起赫祈爾小時候常聽的歌，說他唱得比誰都難聽。",
+        "阿蒂雅騎馬經過商隊，看了你一眼：「穆席人？……替我問候我那個不寫信的堂弟。」",
+      ] }],
+    },
+  },
+
+  /* ---------- 御膳房菜單材料 ---------- */
+  menu: {
+    "早膳": ["雞絲粥配醬瓜", "蟹黃燒賣", "棗泥山藥糕", "蔥油餅與豆漿", "鮮蝦餛飩", "小米粥與鹹鴨蛋"],
+    "午膳": ["清蒸鰣魚", "東坡肉", "龍井蝦仁", "砂鍋獅子頭", "烏闌烤羊排（赫祈爾點的）", "江南春筍燉雞"],
+    "晚膳": ["松茸雞湯", "清炒時蔬", "八寶鴨", "紅燒鹿肉（北境貢品）", "蓮藕排骨湯", "白灼菜心"],
+    "點心": ["桂花糖糕", "杏仁酪", "玫瑰酥", "糖蒸酥酪（國師指定）", "綠豆糕", "核桃酥"],
+    note: ["姜霜備註：甜點已減糖，請勿再向太醫院告狀。", "姜霜備註：糖霜已上鎖。", "姜霜備註：國師若來要宵夜，請說已經睡了。", "姜霜備註：今日魚很新鮮，請務必趁熱。"],
+  },
+
+  /* ---------- 今日穆席 ---------- */
+  today: [
+    "昨夜西城下了一陣小雨，攝政王府門前的石獅子被洗得發亮。",
+    "南市今天有人賣會寫字的鸚鵡，只會寫一個「福」字，寫得還挺好。",
+    "國師說今天宜出門、宜喝茶、不宜批奏摺。內閣沒有採納。",
+    "北城的馬市新到一批烏闌良駒，少將軍去看了三次，一匹也沒買。",
+    "溫氏商號換了新招牌，據說字是首輔寫的，首輔說不是。",
+    "御膳房的桂花糖糕又被偷吃了一盤，姜霜在門口貼了告示。",
+    "南河港來了今年第一船江南新茶，茶樓說明天就開賣。",
+    "禁衛別院的被子又曬出來了，說明沈統領今天休假，或者假裝休假。",
+  ],
+
+  /* ---------- 歲時（之後做地圖變裝用） ---------- */
+  festivals: [
+    ["歲元節", "正月初一至初三", "新年大朝賀。"],
+    ["萬燈節", "正月十五", "昭京徹夜燈市，適合微服出宮。"],
+    ["春禊節", "三月初三", "世家春宴，溫府家宴，令姝辦茶宴。"],
+    ["競武節", "五月初五", "騎射競技，明野與赫祈爾參賽，玄嶠觀武。"],
+    ["結緣節", "七月初七", "互贈香囊與玉結，不限戀人。"],
+    ["望秋節", "八月十五", "秋宴、秋收報告。"],
+    ["定鼎節", "九月初九", "開國紀念，玄嶠主持功臣紀念。"],
+    ["長陽節", "冬至", "皇帝祭天，聞人渡主持觀測。"],
+    ["封印節", "臘月二十三", "年終結算，如琢最忙。"],
+    ["千秋宴", "皇帝生辰", ""],
+  ],
+};
+
+/* ---------- 小體驗擴充（每項補到 8 則以上） ---------- */
+(() => {
+  const add = (map, id, i, list) => DATA[map][id].exp[i].results.push(...list);
+  add("palace", "chengming", 0, [
+    "禮部尚書的轎夫走錯了門，被門吏客客氣氣地請回了側門。",
+    "赫祈爾在門外等人引路，順手教門吏一句烏闌話。門吏學會了「早安」，然後在傍晚用了。",
+    "一位老御史拄著拐杖走得極慢，後面排了一長串人，沒有一個敢超過他。",
+    "攝政王的車駕到了，門口忽然安靜得只剩馬蹄聲。",
+  ]);
+  add("palace", "chengtian", 0, [
+    "西班中段，盛明野。他在想：散朝後要不要直接去御膳房。",
+    "殿角，沈不器。他在想：第三排那位袖子裡多了一樣東西，是摺子還是點心。",
+    "東班末位，新科翰林。他在想：龍椅那麼高，陛下坐上去會不會頭暈。",
+  ]);
+  add("palace", "wubei", 0, [
+    "「沈統領休假：無。」這一欄被人用朱筆圈起來，旁邊畫了一個問號。",
+    "排班表背面畫著一張御苑地圖，鵝的巡邏路線標得比禁衛還仔細。",
+    "「千秋宴當夜加派二十人。」後面補了一行：「沈統領說二十不夠。」",
+    "巡邏筆記：「子時，國師出現在明宸宮屋頂。詢問，答曰看星。放行。」",
+  ]);
+  add("palace", "chongzheng", 0, [
+    { text: "兵部奏請為北境邊軍添置冬衣兩千套。",
+      ok: "盛明野聽說後，在殿外朝北方行了一禮。",
+      no: "玄嶠一言不發，只看了兵部尚書一眼。隔天摺子又遞上來，改成兩千五百套。",
+      hold: "如琢：「臣先去問戶部，冬衣錢從哪裡挪。」" },
+    { text: "鴻臚寺奏：烏闌使節請准於競武節下場騎射。",
+      ok: "赫祈爾聽說後，當天就把馬牽去練了三圈。",
+      no: "鴻臚寺卿鬆了一口氣，看來他也不想排這個場次。",
+      hold: "消息傳到西使館，赫祈爾笑了：「留中，就是還有機會。」" },
+    { text: "工部奏請修繕觀星臺漏雨的屋頂。",
+      ok: "聞人渡道了謝，又說其實不修也行，他喜歡聽雨。",
+      no: "當晚就下雨了。國師搬去明宸宮的暖榻睡。",
+      hold: "工部尚書：「那……臣先送幾個木桶過去？」" },
+    { text: "戶部奏請在南市加設一處官秤，以防短斤缺兩。",
+      ok: "南市的商家一夜之間全都變得非常誠實。",
+      no: "葛小滿在酒樓門口貼了張紙：本店秤準，歡迎來驗。",
+      hold: "戶部尚書：「臣明白，先派人去暗訪。」" },
+  ]);
+  add("palace", "wenhua", 0, [
+    "一張江南水道圖，小楷註滿了水位，角落卻畫了一隻歪歪扭扭的貓。",
+    "一封令姝的信，只有一行：「哥，吃飯。」",
+    "一份給陛下的摺子草稿，同一句話改了七遍，最後改回第一版。",
+    "一個空茶盞，杯底有一圈乾掉的茶痕。他今天又忘了喝。",
+  ]);
+  add("palace", "jingan", 0, [
+    "盛明野一路跑過來，被攔下才想起要通傳，一邊喘一邊說：「那……我等。」",
+    "沈不器沒有通傳。他本來就在門內。",
+    "溫如琢遞了名帖。內侍回報：「陛下請首輔明日早朝再說。」他點點頭，把名帖收回袖中。",
+    "郭懷信親自出來：「陛下說今天誰都不見。……攝政王，陛下說的『誰』，也包括您。」",
+  ]);
+  add("palace", "xineiyuan", 0, [
+    "廊柱上刻著一行小字：「某年某月，在此等雨停。」字跡已經很舊了。",
+    "有人在廊下煮茶，見你經過，多擺了一只杯子。",
+    "一隻貓沿著欄杆走完整條迴廊，比誰都像這裡的主人。",
+    "新來的人在背宮規，背到「後宮品階與朝官分開」那條時，明顯鬆了一口氣。",
+    "迴廊盡頭掛著一串風鈴，據說是哪年結緣節有人掛上的，沒人知道是誰。",
+  ]);
+  add("palace", "dongneiyuan", 0, [
+    "桂樹下埋著一罈酒，樹枝上掛著木牌：「望秋節再開。」",
+    "御膳房送點心的人經過，盤子裡少了一塊，剛好是你手上這塊。",
+    "一位宮院主人在樹下抄奏摺，抄到一半睡著了，臉上印著半個「臣」字。",
+    "風一吹，桂花落了你一身。回去之後，整座明宸宮都知道你去過東苑。",
+    "樹上有個鳥窩，裡頭的鳥已經不怕人，正盯著你的點心。",
+  ]);
+  add("palace", "mingchen", 0, [
+    "一張紙條，是沈不器的字：「暖榻上的人，子時前請離開。」下面一行是國師的字：「不要。」",
+    "一件疊好的外袍，袖口繡著金線，看尺寸不是陛下的。",
+    "什麼都沒有，只有還溫著的毯子。剛才有人在這裡。",
+  ]);
+  add("palace", "taiyi", 0, [
+    "「陛下最近常嘆氣。」葉清辭寫下脈案，「臣開不出藥，建議陛下去御苑走走。」",
+    "他按著脈沉默很久：「……陛下，昨晚是不是又熬夜看話本？」",
+    "「沒病。」他收起脈枕，「不過臣還是開一帖安神湯，陛下就當喝甜湯。」",
+    "他順便看了門外的沈不器一眼：「你也過來。三天沒睡了吧。」",
+  ]);
+  add("palace", "yuyuan", 0, [
+    ["mingye", "「我剛在湖邊看到一隻鵝追著江折跑……陛下，您笑什麼？」"],
+    ["ruzhuo", "他帶來的不是奏摺，是一盒點心：「今天不談公事。……臣盡量。」"],
+    ["wenrendu", "他直接在亭裡的長椅躺下：「陛下等的人還沒來，我先幫您佔位置。」"],
+  ]);
+  const M = DATA.menu;
+  M["早膳"].push("酒釀蛋花", "鮮肉生煎包");
+  M["午膳"].push("荷葉粉蒸肉", "北境燉羊肉");
+  M["晚膳"].push("火腿冬瓜盅", "醋溜白菜");
+  M["點心"].push("桂花藕粉", "芝麻湯圓");
+  M.note.push("姜霜備註：昨夜的宵夜碗是誰洗的？洗得很乾淨，謝謝。", "姜霜備註：少將軍若來要第三碗飯，請直接給。",
+    "姜霜備註：首輔今日只吃了早膳，請陛下過問。", "姜霜備註：烏闌使館送來的奶皮，已做成酥餅。");
+
+  add("city", "shaojiang", 0, [
+    "他教你射一箭。你中了靶，他比你還高興，差點把你整個人舉起來。",
+    "唐靖在場邊喊：「少將軍，飯熱第三次了！」明野：「最後一箭！」那是今天第十二個最後一箭。",
+    "他在燎原背上回身一箭，正中紅心。落地時，燎原叼走了錢阿禾的帽子。",
+    "他把弓遞給你：「陛下的手比我想的穩。北境要是缺人，您可以來。」",
+  ]);
+  add("city", "shezheng", 0, [
+    "下到一半，他抬頭看你：「這手是誰教的？」你說：「你。」他沒接話，低頭繼續下。",
+    "俞伯簡在旁邊觀棋，咳了三聲。玄嶠頭也不抬：「伯簡，出去。」",
+    "你悔了一步。他看了你很久，最後把棋子推回原位：「只此一次。」",
+    "收棋時他把棋子一顆顆放好：「下回讓陛下三子。不是讓，是本王想看陛下撐得了多久。」",
+  ]);
+  add("city", "wenfu", 0, [
+    "白毫銀針。令姝：「哥哥喝茶要先聞三次，聞完茶也涼了。」如琢：「妹妹從來不聞，所以不知道這泡是陳茶。」令姝：「……房管家！」",
+    "鐵觀音。如琢：「她十歲那年想把藏書樓改成茶室。」令姝：「哥哥十歲那年把茶室的茶全拿去磨墨。」",
+    "碧螺春。令姝：「陛下，這是哥哥親手炒的。炒糊了一鍋，這是第二鍋。」如琢：「第三鍋。」",
+    "茉莉香片。如琢：「這是她第一次自己做生意進的貨，賠了一半，剩下的她自己喝了三年。」令姝：「現在賣得很好。」",
+  ]);
+  add("city", "guanxing", 0, [
+    ["風過簷鈴三兩聲，誰家燈火到天明。案頭莫怪文書亂，夜半清風替翻經。", "……替他翻頁的不是風，是沈不器。陛下今晚早點睡。"],
+    ["草色連天馬自肥，金鈴辮上映斜暉。遠人慣把鄉愁藏，一盞奶茶醉不歸。", "西邊那位想家了，但他不會說。陛下找他喝一杯吧。"],
+    ["錦緞千匹換金銀，算盤聲裡見人心。莫嫌商賈多言利，一句真言抵萬金。", "溫家小姐的籤。問她什麼，她都會說實話——只是您得先開口問。"],
+  ]);
+  add("city", "jinwei", 0, [
+    "他在磨刀。磨完刀，又去磨菜刀，說是順手。",
+    "他坐在門檻上剝豆子，一顆一顆剝得極整齊。看見你，他站起來：「陛下怎麼……臣去燒水。」",
+    "院子裡晾著一排衣服，全是黑的，只有一件深藍。他說那件是休假穿的。",
+    "他在睡覺，真的在睡。你才走到院門口，他就睜開了眼睛。",
+  ]);
+  add("city", "xishiguan", 0, [
+    ["「你們的酒太清了，像在喝水。……不過陛下倒的，我喝。」", "烏闌孩子學騎馬比學走路早，第一匹馬通常是長輩送的。"],
+    ["「哈圖說我在昭京胖了。我說是穆席的點心太好吃，這也算外交成果。」", "烏闌人說「願你的馬永遠找得到水」，是最誠心的祝福。"],
+    ["「阿蒂雅寫信罵我不寫信。我回了一個字：在。」", "烏闌的帳篷門一律朝東，迎接第一道日光。"],
+    ["「賽娜不讓我喝第三杯。陛下，您是皇帝，您說呢？」", "奶酒宴上，主人會把最好的一塊肉留給最遠來的客人。"],
+  ]);
+  add("city", "nanshi", 0, [
+    "烏闌烤奶皮，酥酥脆脆，配穆席的茶意外地合。",
+    "炙羊肉串，攤主說是西境來的手藝，辣得剛剛好。",
+  ]);
+  add("city", "nanshi", 1, [
+    "聽說沈統領在禁衛別院釣到一條大魚，隔天就出現在御膳房的菜單上。",
+    "聽說戲院新排了一齣《攝政王下棋》，首演當晚被西城包了場，全場沒有人敢笑。",
+    "聽說御膳房的糖又少了，這次國師有不在場證明。",
+  ]);
+  add("city", "nanhe", 0, [
+    "南方鮮果一船。船家說路上吃掉了一成，剩下的都很甜。",
+    "一船石料，要送去修觀星臺的屋頂。工部的人站在碼頭上算了半天。",
+    "烏闌毛氈三車，繞遠路從西境運來，陳四海說今年頭一回見。",
+    "一箱寫著「御膳房・姜霜親收」的貨，封得嚴嚴實實，聽說是糖。",
+  ]);
+
+  add("empire", "bentu", 0, [
+    "驛卒說京裡最近流行一種「首輔糕」，問他為什麼叫這個，他說因為只在半夜出爐。",
+    "一匹快馬從北邊來，驛卒只喊了一句「北境無事！」就過去了。",
+    "驛卒在路邊換馬，抱怨江南的路太泥、北境的路太硬，只有昭京的路剛好。",
+    "他從懷裡掏出一封信：「這封寫著陛下親啟……您就是？那正好。」信裡只夾了一片楓葉。",
+  ]);
+  add("empire", "jiangnan", 0, [
+    "船娘一邊搖櫓一邊唱歌，唱到第三段，整條河的船都跟著唱。",
+    "溫氏商號的絲綢船從旁邊經過，連嬿站在船頭，正在對帳。",
+    "岸邊有人賣米糕，船停了三刻鐘，因為艄公也想吃。",
+    "開漕節剩下的紅綢還綁在桅杆上，風一吹，像一面小旗。",
+  ]);
+  add("empire", "beijing", 0, [
+    "伙長寫的：「少將軍小時候偷吃軍糧被罰站，站到一半睡著了。此事請勿外傳。」",
+    "一封很短的信：「蔡牧安。將軍的舊刀，仍掛在帳中。」",
+    "信封裡夾著一枝北境的松針，信上寫：「京城沒有這種味道吧。」",
+    "邊軍的孩子寫的：「聽說皇帝住在很大的房子裡，冬天會冷嗎？」",
+  ]);
+  add("empire", "xijing", 0, [
+    "一位烏闌老人帶孫子過關，孫子問邵戎為什麼不笑。邵戎想了很久，笑了一下。",
+    "一箱香料，開箱時整個關口的人都打了噴嚏，包括邵戎。",
+    "一封寄往西使館的家書，邵戎照例要看。看完，他默默把封口重新黏好。",
+    "商隊裡有隻駱駝死活不肯過關，最後是一個小孩把牠牽過去的。",
+  ]);
+  add("empire", "wulan", 0, [
+    "草原上下起雨，商隊裡沒有人躲。納罕說：「雨是天在給草喝水。」",
+    "一個烏闌小孩送你一顆風乾奶疙瘩，硬得像石頭，他說要含半天。",
+    "夜宿綠洲，納罕說：「穆席的星星跟這裡是同一片，只是你們的城太亮了。」",
+    "路過一處石堆，每個人都添上一塊石頭。納罕說，是給還在路上的人指方向的。",
+  ]);
+})();
+
+/* ============================================================
+   畫圖引擎：等角投影的墨線浮島。x 向東、y 向北、z 向上；北在右上。
+   ============================================================ */
+const Ink = (() => {
+  const C30 = Math.cos(Math.PI / 6), K = 10, U = 1.37; // U：把「樣張像素」換成視圖單位
+  let buf = [], R = null, bounds = null, OFF = [0, 0];
+
+  function rng(seed) {
+    let a = seed >>> 0;
+    return () => {
+      a = (a + 0x6D2B79F5) | 0;
+      let t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  const g = () => (R() + R() + R() - 1.5) * 0.8;   // 近似常態
+  const uni = (a, b) => a + (b - a) * R();
+
+  function P(x, y, z = 0) {
+    x += OFF[0]; y += OFF[1];
+    const u = (x + y) * C30 * K, v = ((x - y) * 0.5 - z) * K;
+    if (bounds) {
+      if (u < bounds[0]) bounds[0] = u; if (u > bounds[2]) bounds[2] = u;
+      if (v < bounds[1]) bounds[1] = v; if (v > bounds[3]) bounds[3] = v;
+    }
+    return [u, v];
+  }
+  const f = (n) => Math.round(n * 10) / 10;
+  const emit = (s) => buf.push(s);
+
+  function jit(pts, amp = 0.45, seg = 8) {
+    const res = [];
+    for (let i = 0; i < pts.length - 1; i++) {
+      const [x0, y0] = pts[i], [x1, y1] = pts[i + 1];
+      const n = Math.max(1, Math.floor(Math.hypot(x1 - x0, y1 - y0) / seg));
+      for (let k = 0; k < n; k++) {
+        const t = k / n;
+        res.push([x0 + (x1 - x0) * t + g() * amp, y0 + (y1 - y0) * t + g() * amp]);
+      }
+    }
+    res.push(pts[pts.length - 1]);
+    return res;
+  }
+  const dOf = (pts, close) => "M" + pts.map(p => f(p[0]) + "," + f(p[1])).join("L") + (close ? "Z" : "");
+
+  // 單一路徑：cls 決定填色（見 CSS），w 為線寬（樣張像素）
+  function path(pts, o = {}) {
+    const { w = 1.2, cls = "nf", close = false, amp = 0.45, op = 1, extra = "" } = o;
+    let p = close ? pts.concat([pts[0]]) : pts;
+    if (amp) p = jit(p, amp * U);
+    emit(`<path d="${dOf(p, close)}" class="${cls}" stroke-width="${f(w * U)}"${op < 1 ? ` opacity="${op}"` : ""}${extra}/>`);
+  }
+  // 多段細線合併成一條路徑（省效能）
+  function lines(segs, w = 0.6, op = 0.7, amp = 0.2, cls = "nf") {
+    if (!segs.length) return;
+    let d = "";
+    for (const s of segs) d += dOf(amp ? jit(s, amp * U, 12) : s);
+    emit(`<path d="${d}" class="${cls}" stroke-width="${f(w * U)}"${op < 1 ? ` opacity="${op}"` : ""}/>`);
+  }
+  const face = (p3, cls = "fp", w = 1.3) => path(p3.map(p => P(...p)), { w, cls, close: true });
+  const lerp3 = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, (a[2] || 0) + ((b[2] || 0) - (a[2] || 0)) * t];
+
+  /* ---------------- 地塊 ---------------- */
+  function island(x0, y0, x1, y1, z = 0, o = {}) {
+    const { thick = 5, ground = "fg", e = 0.22, wob = 0.025 } = o;
+    const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2, rx = (x1 - x0) / 2, ry = (y1 - y0) / 2, N = 64;
+    const pts = [];
+    for (let i = 0; i < N; i++) {
+      const a = 2 * Math.PI * i / N, ca = Math.cos(a), sa = Math.sin(a);
+      const k = 1 + uni(-wob, wob);
+      pts.push([cx + rx * Math.sign(ca) * Math.abs(ca) ** e * k, cy + ry * Math.sign(sa) * Math.abs(sa) ** e * k]);
+    }
+    { const [sx, sy] = P(cx, cy, z - thick * 3.2), rw = (rx + ry) * C30 * K * 0.95;
+      emit(`<ellipse class="ishadow" cx="${f(sx)}" cy="${f(sy)}" rx="${f(rw)}" ry="${f(rw * 0.32)}"/>`); }
+    const top = pts.map(([x, y]) => P(x, y, z));
+    const bots = pts.map(([x, y]) => P(x, y, z - thick * uni(0.75, 1.25)));
+    const sides = [];
+    for (let i = 0; i < N; i++) {
+      const j = (i + 1) % N, q = [top[i], top[j], bots[j], bots[i]];
+      sides.push([Math.max(...q.map(p => p[1])), q]);
+    }
+    sides.sort((a, b) => a[0] - b[0]);
+    for (const [, q] of sides) emit(`<path d="${dOf(q, true)}" class="frk" stroke="none"/>`);
+    let iL = 0, iR = 0;
+    top.forEach((p, i) => { if (p[0] < top[iL][0]) iL = i; if (p[0] > top[iR][0]) iR = i; });
+    const arc = (a, b) => { const r = []; let i = a; for (;;) { r.push(i); if (i === b) break; i = (i + 1) % N; } return r; };
+    const A = arc(iL, iR), B = arc(iR, iL);
+    const avg = (s) => s.reduce((t, i) => t + top[i][1], 0) / s.length;
+    const front = avg(A) > avg(B) ? A : B;
+    const under = front.map((i, k) => {
+      const t = k / (front.length - 1);
+      const sag = Math.sin(t * Math.PI) ** 1.5 * thick * 1.6 * K;
+      return [bots[i][0] + uni(-1, 1) * U, bots[i][1] + sag + uni(-2, 2) * U];
+    });
+    path(front.map(i => top[i]).concat(under.slice().reverse()), { w: 1.3, cls: "frk", close: true, amp: 0.5 });
+    path(under, { w: 1.4, amp: 0.9 });
+    const hatch = [];
+    front.slice(2, -2).forEach((i, k) => {
+      if (R() < 0.55) {
+        const [x, y] = top[i];
+        const L = (under[k + 2][1] - y) * uni(0.25, 0.8);
+        hatch.push([[x, y + 3 * U], [x + uni(-1.5, 1.5) * U, y + 3 * U + L]]);
+      }
+    });
+    for (let s = 0; s < 5; s++) {
+      const k = Math.floor(uni(3, front.length - 8)), seg = [];
+      for (let kk = k; kk < k + 5; kk++) {
+        const i = front[kk];
+        seg.push([top[i][0], top[i][1] + (under[kk][1] - top[i][1]) * uni(0.35, 0.6)]);
+      }
+      hatch.push(seg);
+    }
+    lines(hatch, 0.7, 0.65, 0.4);
+    path(top, { w: 1.5, cls: ground, close: true, amp: 0.35 });
+    return pts;
+  }
+
+  /* ---------------- 建築元件 ---------------- */
+  function box(x0, y0, x1, y1, z0, z1, cs = ["fp", "fp", "fp"], w = 1.2) {
+    face([[x0, y0, z0], [x1, y0, z0], [x1, y0, z1], [x0, y0, z1]], cs[0], w);
+    face([[x1, y0, z0], [x1, y1, z0], [x1, y1, z1], [x1, y0, z1]], cs[1], w);
+    face([[x0, y0, z1], [x1, y0, z1], [x1, y1, z1], [x0, y1, z1]], cs[2], w);
+  }
+  const MAR = ["fms", "fme", "fmt"], WAL = ["fws", "fwe", "fws"];
+
+  function rail(a, b, z, rh = 0.9, step = 1.6) {
+    const L = Math.hypot(b[0] - a[0], b[1] - a[1]), n = Math.max(2, Math.floor(L / step)), segs = [];
+    for (let i = 0; i <= n; i++) {
+      const t = i / n, x = a[0] + (b[0] - a[0]) * t, y = a[1] + (b[1] - a[1]) * t;
+      segs.push([P(x, y, z), P(x, y, z + rh * 1.25)]);
+    }
+    segs.push([P(a[0], a[1], z + rh), P(b[0], b[1], z + rh)]);
+    lines(segs, 0.8, 1, 0.25);
+  }
+  function terrace(x0, y0, x1, y1, z0, h, hasRail = true) {
+    box(x0, y0, x1, y1, z0, z0 + h, MAR);
+    const segs = [];
+    for (const k of [0.35, 0.7]) {
+      segs.push([P(x0, y0, z0 + h * k), P(x1, y0, z0 + h * k)]);
+      segs.push([P(x1, y0, z0 + h * k), P(x1, y1, z0 + h * k)]);
+    }
+    lines(segs, 0.6, 0.55);
+    if (hasRail) {
+      const zt = z0 + h;
+      rail([x0, y1], [x1, y1], zt); rail([x0, y0], [x0, y1], zt);
+      rail([x0, y0], [x1, y0], zt); rail([x1, y0], [x1, y1], zt);
+    }
+  }
+  function walls(x0, y0, x1, y1, z0, h, bs = 5, be = 3, cs = WAL) {
+    box(x0, y0, x1, y1, z0, z0 + h, cs);
+    const cols = [], lat = [], wins = [];
+    for (const [a, b, n] of [[[x0, y0], [x1, y0], bs], [[x1, y0], [x1, y1], be]]) {
+      const at = (t, z) => P(a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, z);
+      for (let i = 0; i <= n; i++) cols.push([at(i / n, z0), at(i / n, z0 + h)]);
+      for (let i = 0; i < n; i++) {
+        const t0 = (i + 0.12) / n, t1 = (i + 0.88) / n;
+        wins.push([at(t0, z0 + h * 0.15), at(t1, z0 + h * 0.15), at(t1, z0 + h * 0.8), at(t0, z0 + h * 0.8)]);
+        for (let j = 1; j < 6; j++) { const tt = t0 + (t1 - t0) * j / 6; lat.push([at(tt, z0 + h * 0.15), at(tt, z0 + h * 0.8)]); }
+        for (const zz of [0.15, 0.48, 0.8]) lat.push([at(t0, z0 + h * zz), at(t1, z0 + h * zz)]);
+      }
+      cols.push([at(0, z0 + h * 0.9), at(1, z0 + h * 0.9)]);
+    }
+    for (const q of wins) emit(`<path d="${dOf(q, true)}" class="win" stroke="none"/>`);
+    lines(lat, 0.5, 0.7, 0.12);
+    lines(cols, 1.25, 1, 0.25);
+  }
+  function eave(a, b, sag, n = 12) {
+    const r = [];
+    for (let i = 0; i <= n; i++) {
+      const t = i / n;
+      r.push([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t - sag * Math.sin(Math.PI * t) ** 0.6]);
+    }
+    return r;
+  }
+  function roof(x0, y0, x1, y1, z, rh, o = {}) {
+    const { over = 1.8, curl = 1.0, pyramid = false, tiles = true, cls = ["frs", "fre", "frn", "frw"] } = o;
+    const a0 = x0 - over, b0 = y0 - over, a1 = x1 + over, b1 = y1 + over;
+    const w = a1 - a0, d = b1 - b0, ins = pyramid ? Math.min(w, d) * 0.5 : Math.min(w, d) * 0.42, zt = z + rh;
+    let R0, R1;
+    if (w >= d) { R0 = [a0 + ins, (b0 + b1) / 2, zt]; R1 = [a1 - ins, (b0 + b1) / 2, zt]; }
+    else { R0 = [(a0 + a1) / 2, b0 + ins, zt]; R1 = [(a0 + a1) / 2, b1 - ins, zt]; }
+    const zc = z + curl, SW = [a0, b0, zc], SE = [a1, b0, zc], NE = [a1, b1, zc], NW = [a0, b1, zc], sag = curl * 0.9;
+    const eS = eave(SW, SE, sag), eE = eave(SE, NE, sag), eN = eave(NE, NW, sag), eW = eave(NW, SW, sag);
+    let F;
+    if (w >= d) F = { N: eN.concat([R0, R1]), W: eW.concat([R0]), E: eE.concat([R1]), S: eS.concat([R1, R0]) };
+    else F = { N: eN.concat([R1]), W: eW.concat([R0, R1]), E: eE.concat([R1, R0]), S: eS.concat([R0]) };
+    face(F.N, cls[2], 1.2); face(F.W, cls[3], 1.2); face(F.E, cls[1], 1.3); face(F.S, cls[0], 1.3);
+    if (tiles) {
+      const segs = [];
+      const sides = [[eS, w >= d ? R0 : R0, w >= d ? R1 : R0], [eE, w >= d ? R1 : R0, w >= d ? R1 : R1]];
+      for (const [e, ra, rb] of sides) {
+        const n = e.length - 1, m = Math.max(4, Math.floor(Math.hypot(e[n][0] - e[0][0], e[n][1] - e[0][1]) * 1.3));
+        for (let i = 1; i < m; i++) {
+          const t = i / m, idx = t * n, k = Math.floor(idx), fr = idx - k;
+          if (k >= n) continue;
+          const ex = lerp3(e[k], e[k + 1], fr), rx = lerp3(ra, rb, t);
+          segs.push([P(...ex), P(...lerp3(ex, rx, 0.96))]);
+        }
+      }
+      lines(segs, 0.5, 0.65, 0.1);
+    }
+    lines([eS.map(p => P(p[0], p[1], p[2] - 0.45)), eE.map(p => P(p[0], p[1], p[2] - 0.45))], 0.9, 1, 0.15);
+    const ridges = [[P(...R0), P(...R1)]];
+    lines(ridges, 2.4, 1, 0.15);
+    lines([[P(...SW), P(...R0)], [P(...SE), P(...(w >= d ? R1 : R0))], [P(...NE), P(...R1)]], 1.6, 1, 0.15);
+    const hooks = [];
+    for (const c of [SW, SE, NE]) { const [x, y] = P(...c); hooks.push(`M${f(x)},${f(y)}q${f(-2 * U)},${f(-5 * U)} ${f(3 * U)},${f(-7 * U)}`); }
+    if (!pyramid) for (const Rr of [R0, R1]) { const [x, y] = P(...Rr); hooks.push(`M${f(x)},${f(y)}q${f(-3 * U)},${f(-7 * U)} ${f(2 * U)},${f(-10 * U)}`); }
+    emit(`<path d="${hooks.join("")}" class="nf" stroke-width="${f(1.4 * U)}"/>`);
+  }
+  function cshadow(x0, y0, x1, y1, z, d = 1.4) {
+    const q = [[x0 + d * 0.3, y0 - d * 0.5], [x1 + d, y0 - d * 0.5], [x1 + d, y1 - d * 0.2], [x1, y1], [x0, y0]].map(([x, y]) => P(x, y, z));
+    emit(`<path d="${dOf(q, true)}" class="cshadow"/>`);
+  }
+  // 完整殿宇：台基層數、牆、屋頂（可重簷）
+  function hall(x0, y0, x1, y1, z, o = {}) {
+    const { base = [], h = 4, rh = 4, dbl = false, bs = 5, be = 3, over = 1.8, curl = 0.9, pyramid = false, upper = null } = o;
+    let zz = z, k = 0;
+    cshadow(x0 - (base.length ? 2 : 0), y0 - (base.length ? 2 : 0), x1 + (base.length ? 2 : 0), y1 + (base.length ? 2 : 0), z, 1.2 + h * 0.25);
+    base.forEach((bh, i) => { terrace(x0 - 2 + k, y0 - 2 + k, x1 + 2 - k, y1 + 2 - k, zz, bh, i === base.length - 1); zz += bh; k += 1.6; });
+    walls(x0, y0, x1, y1, zz, h, bs, be);
+    if (dbl) {
+      roof(x0, y0, x1, y1, zz + h, rh * 0.5, { over, curl });
+      const ix = (x1 - x0) * 0.13, iy = (y1 - y0) * 0.13;
+      walls(x0 + ix, y0 + iy, x1 - ix, y1 - iy, zz + h + rh * 0.28, 1.6, Math.max(2, bs - 2), Math.max(1, be - 1));
+      roof(x0 + ix, y0 + iy, x1 - ix, y1 - iy, zz + h + rh * 0.28 + 1.6, rh, { over: over * 0.9, curl: curl * 1.1, pyramid });
+    } else roof(x0, y0, x1, y1, zz + h, rh, { over, curl, pyramid });
+    return zz;
+  }
+  // 兩層樓閣
+  function tower(x0, y0, x1, y1, z, o = {}) {
+    const { base = [0.8], h1 = 3.4, h2 = 2.8, rh = 3.4, bs = 3, be = 3 } = o;
+    let zz = z, k = 0;
+    cshadow(x0 - 1.5, y0 - 1.5, x1 + 1.5, y1 + 1.5, z, 2.4);
+    base.forEach((bh, i) => { terrace(x0 - 1.5 + k, y0 - 1.5 + k, x1 + 1.5 - k, y1 + 1.5 - k, zz, bh, false); zz += bh; k += 1; });
+    walls(x0, y0, x1, y1, zz, h1, bs, be);
+    roof(x0, y0, x1, y1, zz + h1, 1.4, { over: 1.4, curl: 0.6 });
+    walls(x0 + 0.6, y0 + 0.6, x1 - 0.6, y1 - 0.6, zz + h1 + 0.9, h2, bs, be);
+    roof(x0 + 0.6, y0 + 0.6, x1 - 0.6, y1 - 0.6, zz + h1 + 0.9 + h2, rh, { over: 1.6, curl: 0.9 });
+  }
+  // 小屋（民居、商鋪）：灰瓦
+  function house(x0, y0, x1, y1, z, o = {}) {
+    const { h = 2.4, rh = 2.2, bs = 2, be = 2, roofCls = ["fhs", "fhe", "fhn", "fhw"], wallCls = ["fqs", "fqe", "fqs"] } = o;
+    cshadow(x0, y0, x1, y1, z, 1 + h * 0.3);
+    box(x0, y0, x1, y1, z, z + h, wallCls);
+    const segs = [];
+    for (const [a, b, n] of [[[x0, y0], [x1, y0], bs], [[x1, y0], [x1, y1], be]])
+      for (let i = 0; i <= n; i++) { const t = i / n, x = a[0] + (b[0] - a[0]) * t, y = a[1] + (b[1] - a[1]) * t; segs.push([P(x, y, z), P(x, y, z + h)]); }
+    lines(segs, 0.8, 0.9, 0.2);
+    const wins = [];
+    for (const [a, b, n] of [[[x0, y0], [x1, y0], bs], [[x1, y0], [x1, y1], be]])
+      for (let i = 0; i < n; i++) {
+        const t0 = (i + 0.3) / n, t1 = (i + 0.7) / n;
+        const at = (t, zz) => P(a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, zz);
+        wins.push([at(t0, z + h * 0.35), at(t1, z + h * 0.35), at(t1, z + h * 0.75), at(t0, z + h * 0.75)]);
+      }
+    for (const q of wins) emit(`<path d="${dOf(q, true)}" class="win" stroke-width="${f(0.5 * U)}"/>`);
+    roof(x0, y0, x1, y1, z + h, rh, { over: 0.9, curl: 0.5, cls: roofCls });
+  }
+  // 院牆：沿 x 或 y 的一段
+  function cwall(x0, y0, x1, y1, z, h = 1.8, t = 0.7) {
+    let a, b, c, d;
+    if (Math.abs(y1 - y0) < 1e-6) { a = Math.min(x0, x1); b = y0 - t / 2; c = Math.max(x0, x1); d = y0 + t / 2; }
+    else { a = x0 - t / 2; b = Math.min(y0, y1); c = x0 + t / 2; d = Math.max(y0, y1); }
+    box(a, b, c, d, z, z + h, WAL, 1.0);
+    box(a - 0.25, b - 0.25, c + 0.25, d + 0.25, z + h, z + h + 0.35, ["frs", "fre", "frt"], 0.9);
+  }
+  // 院落：四面牆（後牆先畫、前牆後畫），inner 在中間呼叫
+  function court(x0, y0, x1, y1, z, inner, h = 1.8, gateS = true) {
+    cwall(x0, y1, x1, y1, z, h); cwall(x0, y0, x0, y1, z, h);
+    inner();
+    cwall(x1, y0, x1, y1, z, h);
+    if (gateS) { const m = (x0 + x1) / 2; cwall(x0, y0, m - 1.6, y0, z, h); cwall(m + 1.6, y0, x1, y0, z, h);
+      box(m - 1.8, y0 - 0.5, m + 1.8, y0 + 0.5, z + h, z + h + 0.15, ["frs", "fre", "frt"], 0.8);
+      roof(m - 1.6, y0 - 0.4, m + 1.6, y0 + 0.4, z + h + 0.15, 0.8, { over: 0.5, curl: 0.3, tiles: false }); }
+    else cwall(x0, y0, x1, y0, z, h);
+  }
+
+  /* ---------------- 樹與雜物 ---------------- */
+  const TREE = { pine: ["ft1", "ft2", "ft3"], round: ["ft2", "ft3", "ft1"], osm: ["ft1", "ft3"], mag: ["fmg"], ginkgo: ["fgk"], blossom: ["fbl"], willow: ["fwl"] };
+  function tree(x, y, z, kind = "pine", h = 6, s = 1) {
+    const [bx, by] = P(x, y, z), [tx, ty] = P(x, y, z + h);
+    path([[bx, by], [bx + uni(-4, 4) * U, (by + ty) / 2], [tx + uni(-6, 6) * U, ty]], { w: 1.6, amp: 0.8 });
+    if (kind === "willow") {
+      const segs = [];
+      for (let i = 0; i < 14; i++) {
+        const sx = tx + uni(-14, 14) * U * s, sy = ty + uni(-6, 2) * U * s, L = uni(14, 28) * U * s;
+        segs.push([[sx, sy], [sx + uni(-2, 2) * U, sy + L * 0.5], [sx + uni(-3, 3) * U, sy + L]]);
+      }
+      path([[tx - 16 * U * s, ty + 2 * U], [tx - 8 * U * s, ty - 9 * U * s], [tx + 8 * U * s, ty - 10 * U * s], [tx + 17 * U * s, ty + 2 * U]], { w: 1.1, cls: "fwl", close: true, amp: 0.8 });
+      lines(segs, 0.8, 0.85, 0.5, "nf");
+      return;
+    }
+    const layers = kind === "pine" ? 4 : 3, cls = TREE[kind] || TREE.pine;
+    for (let k = 0; k < layers; k++) {
+      const cy = by + (ty - by) * (kind === "pine" ? 0.45 + k * 0.18 : 0.6 + k * 0.2);
+      const cx = bx + uni(-10, 10) * U * s;
+      const rw = (kind === "pine" ? uni(18, 26) * (1 - k * 0.12) : uni(15, 20)) * U * s;
+      const rh = (kind === "pine" ? uni(5, 7) : uni(9, 12)) * U * s;
+      const pts = [];
+      const bumps = kind === "pine" ? 18 : 22;
+      for (let i = 0; i < bumps; i++) {
+        const a = Math.PI * i / (bumps - 1);
+        const bump = kind === "pine" ? 1 : 1 + (i % 2) * 0.08;
+        pts.push([cx - rw * Math.cos(a) * bump, cy - rh * Math.sin(a) * bump]);
+      }
+      pts.push([cx + rw * 0.85, cy + rh * 0.35]); pts.push([cx - rw * 0.85, cy + rh * 0.35]);
+      path(pts, { w: 1.1, cls: cls[k % cls.length], close: true, amp: 0.6 });
+      const segs = [];
+      for (let i = 0; i < 6; i++) { const xx = cx + uni(-rw * 0.7, rw * 0.7); segs.push([[xx, cy - rh * 0.4], [xx + uni(-2, 2) * U, cy + U]]); }
+      lines(segs, 0.5, 0.6, 0.2);
+      if (kind === "osm" || kind === "ginkgo" || kind === "blossom" || kind === "mag") {
+        let d = "";
+        for (let i = 0; i < 9; i++) { const xx = cx + uni(-rw * 0.75, rw * 0.75), yy = cy + uni(-rh * 0.8, rh * 0.1); d += `M${f(xx)},${f(yy)}h${f(0.6 * U)}`; }
+        emit(`<path d="${d}" class="nf dot-${kind}" stroke-width="${f(2.4 * U)}"/>`);
+      }
+    }
+  }
+  function water(poly, z = 0) {
+    path(poly.map(([x, y]) => P(x, y, z)), { w: 1.2, cls: "fwt", close: true, amp: 0.4 });
+    const xs = poly.map(p => p[0]), ys = poly.map(p => p[1]);
+    const segs = [];
+    for (let i = 0; i < 10; i++) {
+      const x = uni(Math.min(...xs) + 2, Math.max(...xs) - 4), y = uni(Math.min(...ys) + 2, Math.max(...ys) - 2);
+      if (!inPoly([x, y], poly) || !inPoly([x + 3, y], poly)) continue;
+      const a = P(x, y, z), b = P(x + 1.5, y, z), c = P(x + 3, y, z);
+      segs.push([a, [b[0], b[1] - 1.5 * U], c]);
+    }
+    lines(segs, 0.7, 0.55, 0.15);
+  }
+  function inPoly([x, y], poly) {
+    let c = false;
+    for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+      const [xi, yi] = poly[i], [xj, yj] = poly[j];
+      if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) c = !c;
+    }
+    return c;
+  }
+  function grid(x0, y0, x1, y1, z, step = 4) {
+    const segs = [];
+    for (let x = x0; x <= x1 + 1e-6; x += step) segs.push([P(x, y0, z), P(x, y1, z)]);
+    for (let y = y0; y <= y1 + 1e-6; y += step) segs.push([P(x0, y, z), P(x1, y, z)]);
+    lines(segs, 0.4, 0.35, 0.2);
+  }
+  function road(x0, y0, x1, y1, z, alongY = true) {
+    const segs = [];
+    if (alongY) { segs.push([P(x0, y0, z), P(x0, y1, z)], [P(x1, y0, z), P(x1, y1, z)]); for (let y = y0; y <= y1; y += 2) segs.push([P(x0, y, z), P(x1, y, z)]); }
+    else { segs.push([P(x0, y0, z), P(x1, y0, z)], [P(x0, y1, z), P(x1, y1, z)]); for (let x = x0; x <= x1; x += 2) segs.push([P(x, y0, z), P(x, y1, z)]); }
+    lines(segs.slice(0, 2), 1.0, 1, 0.25); lines(segs.slice(2), 0.5, 0.55, 0.15);
+  }
+  // 南北向拱橋
+  function bridgeY(x0, x1, ya, yb, z, arch = 1.4) {
+    const n = 16, top = [], topE = [];
+    for (let i = 0; i <= n; i++) {
+      const t = i / n, y = ya + (yb - ya) * t, zz = z + arch * Math.sin(Math.PI * t);
+      top.push([x0, y, zz]); topE.push([x1, y, zz]);
+    }
+    path(topE.map(p => P(...p)).concat([P(x1, yb, z - 1.5), P(x1, ya, z - 1.5)]), { w: 1.2, cls: "fme", close: true });
+    const ym = (ya + yb) / 2, r = Math.min(2.4, (yb - ya) * 0.3);
+    const ac = []; for (let i = 0; i <= 12; i++) { const a = Math.PI * i / 12; ac.push(P(x1, ym + r * Math.cos(a), z - 1.5 + 1.8 * Math.sin(a))); }
+    path(ac, { w: 1.1 });
+    path(top.map(p => P(...p)).concat(topE.slice().reverse().map(p => P(...p))), { w: 1.2, cls: "fmt", close: true });
+    const segs = [];
+    for (let i = 1; i < n; i++) segs.push([P(...top[i]), P(...topE[i])]);
+    lines(segs, 0.5, 0.5, 0.1);
+    for (const side of [top, topE]) {
+      const s2 = [side.map(([x, y, zz]) => P(x, y, zz + 1.0))];
+      for (let i = 0; i <= n; i += 2) { const [x, y, zz] = side[i]; s2.push([P(x, y, zz), P(x, y, zz + 1.25)]); }
+      lines(s2, 0.8, 1, 0.2);
+    }
+  }
+  // 東西向橋（看得到南側立面）
+  function bridgeX(xa, xb, y0, y1, z, arch = 1.0) {
+    const n = 14, top = [], topN = [];
+    for (let i = 0; i <= n; i++) {
+      const t = i / n, x = xa + (xb - xa) * t, zz = z + arch * Math.sin(Math.PI * t);
+      top.push([x, y0, zz]); topN.push([x, y1, zz]);
+    }
+    path(topN.map(p => P(...p)).concat(top.slice().reverse().map(p => P(...p))), { w: 1.2, cls: "fmt", close: true });
+    path(top.map(p => P(...p)).concat([P(xb, y0, z - 1.4), P(xa, y0, z - 1.4)]), { w: 1.2, cls: "fms", close: true });
+    const xm = (xa + xb) / 2, r = Math.min(2.2, Math.abs(xb - xa) * 0.3), ac = [];
+    for (let i = 0; i <= 12; i++) { const a = Math.PI * i / 12; ac.push(P(xm + r * Math.cos(a), y0, z - 1.4 + 1.6 * Math.sin(a))); }
+    path(ac, { w: 1.1 });
+    for (const side of [topN, top]) {
+      const s2 = [side.map(([x, y, zz]) => P(x, y, zz + 1.0))];
+      for (let i = 0; i <= n; i += 2) { const [x, y, zz] = side[i]; s2.push([P(x, y, zz), P(x, y, zz + 1.25)]); }
+      lines(s2, 0.8, 1, 0.2);
+    }
+  }
+  function stairsY(x0, x1, ya, yb, za, zb, n = 14) {
+    for (let i = 0; i < n; i++) {
+      const t0 = i / n, t1 = (i + 1) / n, y0 = ya + (yb - ya) * t0, y1 = ya + (yb - ya) * t1, z0 = za + (zb - za) * t0, z1 = za + (zb - za) * t1;
+      face([[x0, y0, z0], [x1, y0, z0], [x1, y0, z1], [x0, y0, z1]], "fms", 0.9);
+      face([[x0, y0, z1], [x1, y0, z1], [x1, y1, z1], [x0, y1, z1]], "fmt", 0.7);
+    }
+    face([[x1, ya, za], [x1, yb, za], [x1, yb, zb]], "fme", 1.0);
+    for (const xx of [x0, x1]) {
+      const s = [[P(xx, ya, za + 1.0), P(xx, yb, zb + 1.0)]];
+      for (let i = 0; i <= n; i += 2) { const t = i / n; s.push([P(xx, ya + (yb - ya) * t, za + (zb - za) * t), P(xx, ya + (yb - ya) * t, za + (zb - za) * t + 1.2)]); }
+      lines(s, 0.8, 1, 0.2);
+    }
+  }
+  function stele(x, y, z) { box(x - 0.22, y - 0.22, x + 0.22, y + 0.22, z, z + 1.3, MAR, 0.8); }
+  function vat(x, y, z, r = 1.1) {
+    const [cx, cy] = P(x, y, z), rx = r * 10, ry = r * 4.5;
+    emit(`<path d="M${f(cx - rx)},${f(cy - rx)}q${f(rx * 0.2)},${f(rx * 1.1)} ${f(rx)},${f(rx * 1.1)}q${f(rx * 0.8)},0 ${f(rx)},${f(-rx * 1.1)}" class="fbz" stroke-width="${f(1.2 * U)}"/>`
+      + `<ellipse cx="${f(cx)}" cy="${f(cy - rx)}" rx="${f(rx)}" ry="${f(ry)}" class="fbz" stroke-width="${f(1.2 * U)}"/>`);
+  }
+  function flag(x, y, z, h = 6, cls = "fred") {
+    const [bx, by] = P(x, y, z), [tx, ty] = P(x, y, z + h);
+    path([[bx, by], [tx, ty]], { w: 1.1, amp: 0.2 });
+    path([[tx, ty], [tx + 9 * U, ty + 2 * U], [tx + 7 * U, ty + 5 * U], [tx + 10 * U, ty + 9 * U], [tx, ty + 8 * U]], { w: 0.9, cls, close: true, amp: 0.3 });
+  }
+  function lantern(x, y, z, s = 1) {
+    const [cx, cy] = P(x, y, z);
+    emit(`<ellipse class="halo" cx="${f(cx)}" cy="${f(cy)}" rx="${f(14 * U * s)}" ry="${f(14 * U * s)}"/>`);
+    if (s !== 1) { emit(`<g class="lant"><line x1="${f(cx)}" y1="${f(cy - 5 * U * s)}" x2="${f(cx)}" y2="${f(cy - 2.5 * U * s)}" stroke-width="${f(0.6 * U)}"/><ellipse cx="${f(cx)}" cy="${f(cy)}" rx="${f(2.6 * U * s)}" ry="${f(3.2 * U * s)}" class="flan" stroke-width="${f(0.7 * U)}"/></g>`); return; }
+    emit(`<g class="lant"><line x1="${f(cx)}" y1="${f(cy - 6 * U)}" x2="${f(cx)}" y2="${f(cy - 3 * U)}" stroke-width="${f(0.6 * U)}"/><ellipse cx="${f(cx)}" cy="${f(cy)}" rx="${f(2.6 * U)}" ry="${f(3.2 * U)}" class="flan" stroke-width="${f(0.7 * U)}"/></g>`);
+  }
+  function boat(x, y, z, len = 7) {
+    const a = P(x, y, z), b = P(x + len, y, z), m = P(x + len / 2, y, z - 0.8);
+    path([[a[0], a[1] - 6], [m[0], m[1]], [b[0], b[1] - 6], [b[0] - 3, b[1] - 9], [a[0] + 3, a[1] - 9]], { w: 1.1, cls: "fwood", close: true, amp: 0.3 });
+    const c = P(x + len * 0.45, y, z + 3.5);
+    path([[m[0], m[1] - 10], [c[0], c[1]]], { w: 0.9 });
+    path([[c[0], c[1]], [c[0] + 14 * U, c[1] + 18 * U], [m[0], m[1] - 12]], { w: 0.8, cls: "fp", close: true, amp: 0.3 });
+  }
+  function cat(x, y, z) {
+    const [cx, cy] = P(x, y, z);
+    emit(`<path d="M${f(cx - 4 * U)},${f(cy)}q0,${f(-5 * U)} ${f(4 * U)},${f(-5 * U)}l${f(1 * U)},${f(-2.4 * U)}l${f(1 * U)},${f(2 * U)}l${f(1 * U)},${f(-2 * U)}l${f(0.6 * U)},${f(2.6 * U)}q${f(1.4 * U)},${f(2 * U)} 0,${f(4.4 * U)}z M${f(cx - 4 * U)},${f(cy - 1 * U)}q${f(-4 * U)},${f(-1 * U)} ${f(-3 * U)},${f(-5 * U)}" class="fcat" stroke-width="${f(0.8 * U)}"/>`);
+  }
+  function smoke(x, y, z) {
+    const [cx, cy] = P(x, y, z);
+    emit(`<path d="M${f(cx)},${f(cy)}c${f(-6 * U)},${f(-6 * U)} ${f(6 * U)},${f(-10 * U)} 0,${f(-16 * U)}s${f(6 * U)},${f(-10 * U)} 0,${f(-16 * U)}" class="nf" stroke-width="${f(0.9 * U)}" opacity="0.55"/>`);
+  }
+  function cloud(x, y, s = 1, flip = false) {
+    const k = flip ? -1 : 1, q = (n) => f(n * s * U);
+    emit(`<path d="M${f(x)},${f(y)}c${q(k * 10)},${q(-14)} ${q(k * 30)},${q(-12)} ${q(k * 30)},0c0,${q(8)} ${q(-k * 10)},${q(10)} ${q(-k * 14)},${q(4)}c${q(-k * 3)},${q(-4)} ${q(k * 2)},${q(-8)} ${q(k * 6)},${q(-6)}M${f(x + k * 30 * s * U)},${f(y)}c${q(k * 8)},${q(-10)} ${q(k * 26)},${q(-8)} ${q(k * 24)},${q(4)}c${q(-k * 2)},${q(6)} ${q(-k * 10)},${q(6)} ${q(-k * 10)},0M${f(x - k * 20 * s * U)},${f(y + 6 * s * U)}h${q(k * 110)}M${f(x + k * 10 * s * U)},${f(y + 12 * s * U)}h${q(k * 110)}" class="nf cloud" stroke-width="${f(1.1 * U)}" opacity="0.75"/>`);
+  }
+
+  /* ---------------- 節慶裝飾 ---------------- */
+  function lanternString(a, b, n = 4, sag = 0.8, s = 0.8) {
+    const pts = [];
+    for (let i = 0; i <= 16; i++) { const t = i / 16, p = lerp3(a, b, t); p[2] -= sag * Math.sin(Math.PI * t); pts.push(P(...p)); }
+    lines([pts], 0.6, 0.8, 0.1);
+    for (let i = 1; i <= n; i++) { const t = i / (n + 1), p = lerp3(a, b, t); lantern(p[0], p[1], p[2] - sag * Math.sin(Math.PI * t) - 0.5, s); }
+  }
+  function floatLantern(x, y, z) {
+    const [cx, cy] = P(x, y, z);
+    emit(`<ellipse class="halo" cx="${f(cx)}" cy="${f(cy)}" rx="${f(12 * U)}" ry="${f(7 * U)}"/><path d="M${f(cx - 3 * U)},${f(cy)}l${f(1.5 * U)},${f(-3 * U)}h${f(3 * U)}l${f(1.5 * U)},${f(3 * U)}z" class="flan" stroke-width="${f(0.6 * U)}"/>`);
+  }
+  function knot(x, y, z) {
+    const [cx, cy] = P(x, y, z), r = 1.8 * U;
+    emit(`<path d="M${f(cx)},${f(cy - r)}l${f(r)},${f(r)}l${f(-r)},${f(r)}l${f(-r)},${f(-r)}z" class="fknot" stroke-width="${f(0.5 * U)}"/><path d="M${f(cx)},${f(cy + r)}v${f(3.5 * U)}M${f(cx - 0.8 * U)},${f(cy + r)}v${f(3 * U)}M${f(cx + 0.8 * U)},${f(cy + r)}v${f(3 * U)}" class="nf tassel" stroke-width="${f(0.5 * U)}"/>`);
+  }
+  function canopy(x0, y0, x1, y1, z, h = 2) {
+    lines([[P(x0, y0, z), P(x0, y0, z + h)], [P(x1, y0, z), P(x1, y0, z + h)], [P(x1, y1, z), P(x1, y1, z + h)]], 0.9, 1, 0.1);
+    roof(x0, y0, x1, y1, z + h, 1.4, { over: 0.5, curl: 0.4, pyramid: true, tiles: false, cls: ["fred", "fred2", "fred", "fred2"] });
+  }
+  function banner(x, y, z, h = 3.4, w = 0.9) {
+    face([[x - w / 2, y, z], [x + w / 2, y, z], [x + w / 2, y, z + h], [x - w / 2, y, z + h]], "fred", 0.6);
+    let d = ""; for (let k = 0.2; k < 0.9; k += 0.22) { const [cx, cy] = P(x, y, z + h * k); d += `M${f(cx - 1.4 * U)},${f(cy)}h${f(2.8 * U)}`; }
+    emit(`<path d="${d}" class="nf goldtxt" stroke-width="${f(1.2 * U)}"/>`);
+  }
+  function altarGlow(x, y, z, r = 9) {
+    const [cx, cy] = P(x, y, z);
+    emit(`<rect class="beam" x="${f(cx - r * 4)}" y="${f(cy - 700)}" width="${f(r * 8)}" height="700"/><ellipse class="aglow" cx="${f(cx)}" cy="${f(cy)}" rx="${f(r * 10)}" ry="${f(r * 6)}"/>`);
+  }
+  function fwork() {}
+
+  /* ---------------- 地形 ---------------- */
+  function mountain(x, y, z, h = 10, w = 8, snow = false) {
+    const [bx, by] = P(x, y, z), [px, py] = P(x, y, z + h);
+    const W = w * K * 0.9, sk = uni(-0.25, 0.25) * W;
+    const L = [bx - W, by], Rt = [bx + W, by], F = [bx + W * 0.15, by + W * 0.18], T = [px + sk, py];
+    const s1 = [L, [L[0] + W * 0.35, (L[1] + T[1]) / 2 + uni(-6, 6) * U], [T[0] - W * 0.15, T[1] + W * 0.2], T];
+    const s2 = [T, [T[0] + W * 0.25, T[1] + W * 0.35], [Rt[0] - W * 0.3, (Rt[1] + T[1]) / 2 + uni(-6, 6) * U], Rt];
+    path(s1.concat([F]), { w: 1.2, cls: "fml", close: true, amp: 0.6 });
+    path(s2.concat([F]), { w: 1.2, cls: "fmr", close: true, amp: 0.6 });
+    lines([[T, [T[0] + W * 0.05, T[1] + W * 0.45], F]], 0.9, 0.8, 0.4);
+    const hatch = [];
+    for (let i = 0; i < 7; i++) { const t = uni(0.25, 0.85), a = [T[0] + (Rt[0] - T[0]) * t, T[1] + (Rt[1] - T[1]) * t]; hatch.push([a, [a[0] - W * 0.12, a[1] + W * uni(0.2, 0.45)]]); }
+    lines(hatch, 0.6, 0.55, 0.3);
+    if (snow) path([T, [T[0] + W * 0.16, T[1] + W * 0.26], [T[0] + W * 0.02, T[1] + W * 0.2], [T[0] - W * 0.1, T[1] + W * 0.3], [T[0] - W * 0.17, T[1] + W * 0.22]], { w: 0.9, cls: "fsnow", close: true, amp: 0.3 });
+  }
+  function fields(x0, y0, x1, y1, z, step = 3, cls = "fpad") {
+    face([[x0, y0, z], [x1, y0, z], [x1, y1, z], [x0, y1, z]], cls, 0.9);
+    const segs = [];
+    for (let x = x0 + step; x < x1; x += step) segs.push([P(x, y0, z), P(x, y1, z)]);
+    for (let y = y0 + step; y < y1; y += step) segs.push([P(x0, y, z), P(x1, y, z)]);
+    lines(segs, 0.5, 0.6, 0.25);
+  }
+  function horse(x, y, z, flip = false) {
+    const [cx, cy] = P(x, y, z), k = (flip ? -1 : 1) * U, q = (n) => f(n * k), r = (n) => f(n * U);
+    emit(`<path d="M${f(cx - 6 * k)},${f(cy - 7 * U)}q${q(6)},${r(-3)} ${q(12)},0l${q(3)},${r(-5)}l${q(2)},${r(1)}l${q(-1)},${r(6)}q${q(-1)},${r(2)} ${q(-3)},${r(2)}l0,${r(6)}M${f(cx - 6 * k)},${f(cy - 7 * U)}q${q(-1)},${r(2)} 0,${r(4)}l0,${r(5)}M${f(cx - 3 * k)},${f(cy - 3 * U)}l0,${r(5)}M${f(cx + 3 * k)},${f(cy - 3 * U)}l0,${r(5)}M${f(cx - 6 * k)},${f(cy - 6 * U)}q${q(-4)},${r(1)} ${q(-4)},${r(6)}" class="nf" stroke-width="${f(1.1 * U)}"/>`
+      + `<ellipse cx="${f(cx)}" cy="${f(cy - 5.5 * U)}" rx="${r(6.4)}" ry="${r(2.6)}" class="fhorse" stroke-width="${f(1 * U)}"/>`);
+  }
+
+  /* ---------------- 組裝 ---------------- */
+  // items: [{depth, id?, draw}]；回傳 {svgBody, bounds, anchors}
+  function render(items, seed = 1) {
+    R = rng(seed); buf = []; bounds = [1e9, 1e9, -1e9, -1e9];
+    const sorted = items.slice().sort((a, b) => a.depth - b.depth);
+    for (const it of sorted) {
+      if (it.id) emit(`<g class="loc" data-id="${it.id}" tabindex="0" role="button" aria-label="${it.name || it.id}">`);
+      OFF = it.off || [0, 0];
+      it.draw();
+      OFF = [0, 0];
+      if (it.id) emit("</g>");
+    }
+    const b = bounds; bounds = null;
+    return { body: buf.join(""), bounds: b };
+  }
+
+  return { P, K, U, rng, render, emit, path, lines, face, island, box, terrace, walls, roof, hall, tower, house, cwall, court,
+    tree, water, grid, road, mountain, fields, horse, lanternString, floatLantern, knot, canopy, banner, altarGlow, bridgeY, bridgeX, stairsY, stele, vat, flag, lantern, boat, cat, smoke, cloud,
+    uni: (a, b) => uni(a, b), MAR, WAL };
+})();
+
+/* ============================================================
+   地圖配置：宮城、昭京。每個地點 = 一組浮島與建築。
+   depth 越小越先畫（越遠）。label 是地名標籤的位置 [x, y, z]。
+   ============================================================ */
+const MAPS = (() => {
+  const I = Ink;
+  const Z = 9; // 宮城內廷台地高度
+
+  function gateWall(x0, x1, y0, y1, z, h, arches, towerOpts) {
+    I.box(x0, y0, x1, y1, z, z + h, ["fgs", "fge", "fgt"]);
+    const segs = [];
+    for (const k of [0.25, 0.5, 0.75]) { segs.push([I.P(x0, y0, z + h * k), I.P(x1, y0, z + h * k)]); segs.push([I.P(x1, y0, z + h * k), I.P(x1, y1, z + h * k)]); }
+    I.lines(segs, 0.45, 0.5);
+    for (const [cx, hw, hh] of arches) {
+      const pts = [I.P(cx - hw, y0, z)];
+      for (let i = 0; i <= 10; i++) { const a = Math.PI * i / 10; pts.push(I.P(cx - hw * Math.cos(a), y0, z + hh - hw + hw * Math.sin(a))); }
+      pts.push(I.P(cx + hw, y0, z));
+      I.path(pts, { w: 1.3, cls: "fdoor" });
+    }
+    for (let x = x0 + 0.5; x < x1 - 0.8; x += 2) I.box(x, y0, x + 1, y0 + 0.6, z + h, z + h + 0.8, I.WAL, 0.8);
+    if (towerOpts) {
+      const { tx0, tx1, ty0, ty1 } = towerOpts;
+      I.walls(tx0, ty0, tx1, ty1, z + h, 3.0, 7, 2);
+      I.roof(tx0, ty0, tx1, ty1, z + h + 3.0, 1.6, { over: 1.8, curl: 0.8 });
+      I.walls(tx0 + 2, ty0 + 0.8, tx1 - 2, ty1 - 0.8, z + h + 4.4, 1.4, 5, 1);
+      I.roof(tx0 + 2, ty0 + 0.8, tx1 - 2, ty1 - 0.8, z + h + 5.8, 3.2, { over: 1.8, curl: 0.9 });
+    }
+  }
+  function cylinder(x, y, z, r, h, cls) {
+    const N = 28, top = [], bot = [];
+    for (let i = 0; i < N; i++) { const a = 2 * Math.PI * i / N; top.push(I.P(x + r * Math.cos(a), y + r * Math.sin(a), z + h)); bot.push(I.P(x + r * Math.cos(a), y + r * Math.sin(a), z)); }
+    // 前半側面
+    let iL = 0, iR = 0; top.forEach((p, i) => { if (p[0] < top[iL][0]) iL = i; if (p[0] > top[iR][0]) iR = i; });
+    const front = []; for (let i = iR; ; i = (i + 1) % N) { front.push(i); if (i === iL) break; }
+    I.path(front.map(i => top[i]).concat(front.slice().reverse().map(i => bot[i])), { w: 1.2, cls: cls[0], close: true, amp: 0.3 });
+    I.path(top, { w: 1.2, cls: cls[1], close: true, amp: 0.3 });
+  }
+  function altar(x, y, z) {
+    cylinder(x, y, z, 5.2, 0.9, ["fms", "fmt"]);
+    cylinder(x, y, z + 0.9, 3.9, 0.9, ["fms", "fmt"]);
+    cylinder(x, y, z + 1.8, 2.6, 0.9, ["fms", "faltar"]);
+  }
+  function tent(x, y, z) {
+    cylinder(x, y, z, 2.6, 2.2, ["ftent", "ftent"]);
+    const N = 20, base = [];
+    for (let i = 0; i < N; i++) { const a = 2 * Math.PI * i / N; base.push(I.P(x + 2.9 * Math.cos(a), y + 2.9 * Math.sin(a), z + 2.2)); }
+    const apex = I.P(x, y, z + 5.2);
+    let iL = 0, iR = 0; base.forEach((p, i) => { if (p[0] < base[iL][0]) iL = i; if (p[0] > base[iR][0]) iR = i; });
+    const fr = []; for (let i = iR; ; i = (i + 1) % N) { fr.push(i); if (i === iL) break; }
+    I.path(fr.map(i => base[i]).concat([apex]), { w: 1.2, cls: "ftent2", close: true, amp: 0.3 });
+    I.lines([[apex, base[fr[Math.floor(fr.length / 3)]]], [apex, base[fr[Math.floor(fr.length * 2 / 3)]]]], 0.6, 0.7);
+  }
+  function armillary(x, y, z) {
+    const [cx, cy] = I.P(x, y, z + 3), r = 26;
+    I.emit(`<g class="nf" stroke-width="2"><ellipse cx="${cx}" cy="${cy}" rx="${r}" ry="${r}" /><ellipse cx="${cx}" cy="${cy}" rx="${r}" ry="${r * 0.35}" /><ellipse cx="${cx}" cy="${cy}" rx="${r * 0.35}" ry="${r}" transform="rotate(30 ${cx} ${cy})"/><line x1="${cx}" y1="${cy + r}" x2="${cx}" y2="${cy + r + 22}"/></g>`);
+  }
+  function target(x, y, z) {
+    const [cx, cy] = I.P(x, y, z + 1.6);
+    I.lines([[I.P(x, y, z), I.P(x, y, z + 0.8)]], 1, 1, 0.1);
+    I.emit(`<ellipse cx="${cx}" cy="${cy}" rx="11" ry="13" class="fp" stroke-width="1.6"/><ellipse cx="${cx}" cy="${cy}" rx="7" ry="8.5" class="fred" stroke-width="1.2"/><ellipse cx="${cx}" cy="${cy}" rx="3" ry="3.6" class="fp" stroke-width="1"/>`);
+  }
+  function sand(x0, y0, x1, y1, z) { I.face([[x0, y0, z], [x1, y0, z], [x1, y1, z], [x0, y1, z]], "fsand", 0.9); }
+  function rack(x0, x1, y, z) {
+    const segs = [[I.P(x0, y, z + 2), I.P(x1, y, z + 2)], [I.P(x0, y, z), I.P(x0, y, z + 2.2)], [I.P(x1, y, z), I.P(x1, y, z + 2.2)]];
+    for (let x = x0 + 0.6; x < x1; x += 0.8) segs.push([I.P(x, y, z + 0.3), I.P(x + 0.2, y, z + 3)]);
+    I.lines(segs, 0.9, 1, 0.2);
+  }
+  function cloudsAt(list) { return { depth: -1e9, draw: () => list.forEach(([x, y, s, fl]) => { const [u, v] = I.P(x, y, 0); I.cloud(u, v, s, fl); }) }; }
+
+  /* ======================= 宮城 ======================= */
+  const palace = [
+    cloudsAt([[-50, 40, 1.2], [60, 0, 1.0, true], [-84, 170, 1.1], [90, 230, 1.0, true], [10, 262, 1.0], [-40, -30, 0.9], [80, 100, 0.8, true], [-80, 100, 0.9]]),
+    { id: "chengming", depth: 0 + 17, label: [0, -17, 17], draw() {
+      I.island(-20, -26, 20, -8, 0, { thick: 4.5 });
+      gateWall(-17, 17, -20, -14, 0, 6, [[-7, 1.4, 3.0], [0, 1.8, 3.6], [7, 1.4, 3.0]], { tx0: -9, tx1: 9, ty0: -19, ty1: -15 });
+      for (const x of [-4, 4]) I.box(x - 0.5, -23.5, x + 0.5, -22.5, 0, 1.0, I.MAR, 0.9);
+      I.tree(-17.5, -11, 0, "pine", 6); I.tree(16, -23, 0, "pine", 5.5);
+    } },
+    { depth: 4, draw() { I.bridgeY(-2.5, 2.5, -9, 1, 0); } },
+    { id: "chengtian", depth: -20, label: [0, 64, 30], draw() {
+      I.island(-22, 48, 22, 78, Z, { thick: 6 });
+      I.tree(-18, 75, Z, "pine", 8); I.tree(18, 76, Z, "pine", 7);
+      I.terrace(-16, 54, 16, 74, Z, 1.3); I.terrace(-14, 56, 14, 72, Z + 1.3, 1.2); I.terrace(-12.5, 57.5, 12.5, 70.5, Z + 2.5, 1.1);
+      const zb = Z + 3.6;
+      I.walls(-10, 59, 10, 69, zb, 4.2, 7, 4);
+      I.roof(-10, 59, 10, 69, zb + 4.2, 2.4, { over: 2.4, curl: 1.0 });
+      I.walls(-7.5, 61, 7.5, 67, zb + 5.4, 1.6, 5, 3);
+      I.roof(-7.5, 61, 7.5, 67, zb + 7.0, 4.6, { over: 2.2, curl: 1.1 });
+      I.tree(17, 54, Z, "pine", 6);
+      // 朝儀廣場
+      I.island(-24, 0, 24, 40, 0, { thick: 5, ground: "fpl" });
+      I.grid(-20, 3, 20, 37, 0, 4);
+      I.stairsY(-4, 4, 39.6, 54, 0, Z + 1.3, 18);
+      I.road(-2.5, 1, 2.5, 39, 0, true);
+      I.walls(-21, 6, -16, 34, 0, 2.6, 2, 10); I.roof(-21, 6, -16, 34, 2.6, 2.0, { over: 1.1, curl: 0.6 });
+      for (let y = 9; y <= 33; y += 4) { I.stele(-6, y, 0); I.stele(6, y, 0); }
+      I.vat(-11, 36, 0); I.vat(11, 36, 0);
+      I.walls(16, 6, 21, 34, 0, 2.6, 2, 10); I.roof(16, 6, 21, 34, 2.6, 2.0, { over: 1.1, curl: 0.6 });
+      I.tree(-20, 38, 0, "pine", 6); I.tree(20, 3, 0, "pine", 5);
+    } },
+    { depth: -87, draw() { I.bridgeY(-2.5, 2.5, 77, 97, Z); } },
+    { id: "wubei", off: [-10, 8], depth: -158, label: [-41, 103, Z + 10], draw() {
+      I.island(-52, 88, -28, 112, Z);
+      I.tree(-49, 109, Z, "pine", 6);
+      I.hall(-48, 99, -35, 107, Z, { base: [0.8], h: 3.6, rh: 3.6, bs: 5, be: 3 });
+      I.flag(-31, 108, Z, 9);
+      sand(-50, 90.5, -38, 96, Z);
+      rack(-49, -44, 94, Z);
+      I.house(-36, 90.5, -30, 96, Z, { h: 2.4, roofCls: ["frs", "fre", "frn", "frw"], wallCls: I.WAL });
+    } },
+    { depth: -135, draw() { I.bridgeX(-39, -17, 106, 109, Z); } },
+    { depth: -79, draw() { I.bridgeX(17, 39, 106, 109, Z); } },
+    { id: "chongzheng", off: [0, 8], depth: -108, label: [0, 101, Z + 16], draw() {
+      I.island(-18, 88, 18, 112, Z);
+      I.tree(-15, 109, Z, "pine", 7);
+      I.hall(-11, 96, 11, 106, Z, { base: [1.2, 1.0], h: 4, rh: 4.4, bs: 7, be: 4, over: 2 });
+      I.tree(15, 91, Z, "round", 6);
+    } },
+    { id: "wenhua", off: [10, 8], depth: -58, label: [40, 100, Z + 12], draw() {
+      I.island(28, 88, 52, 112, Z);
+      I.tower(30, 104, 37, 110, Z, { h1: 3, h2: 2.6, rh: 3, bs: 3, be: 2 });
+      I.hall(38, 96, 49, 104, Z, { base: [0.8], h: 3.4, rh: 3.4, bs: 5, be: 3 });
+      I.tree(32, 92, Z, "osm", 6);
+    } },
+    { depth: -128, draw() { I.bridgeY(-2.5, 2.5, 119, 137, Z); } },
+    { id: "jingan", off: [0, 16], depth: -142, label: [0, 126, Z + 10], draw() {
+      I.island(-16, 120, 16, 132, Z, { thick: 4 });
+      I.cwall(-14, 126, -5.5, 126, Z, 2.6);
+      I.hall(-5, 124, 5, 128, Z, { base: [1.0], h: 3.2, rh: 3.0, bs: 3, be: 1 });
+      I.cwall(5.5, 126, 14, 126, Z, 2.6);
+    } },
+    { depth: -172, draw() { I.bridgeX(-45, -15, 141, 144, Z); } },
+    { depth: -112, draw() { I.bridgeX(15, 45, 141, 144, Z); } },
+    { id: "taiyi", off: [-14, 14], depth: -194, label: [-40, 129, Z + 9], draw() {
+      I.island(-48, 120, -30, 134, Z, { thick: 4 });
+      I.hall(-45, 126.5, -34, 132, Z, { base: [0.6], h: 3, rh: 3, bs: 4, be: 2 });
+      for (const x of [-46, -42.5, -39]) I.box(x, 121.5, x + 2.6, 123.5, Z + 0.7, Z + 0.9, ["fwood", "fwood", "fherb"], 0.8);
+      I.tree(-32, 122, Z, "round", 5);
+    } },
+    { id: "yushan", off: [14, 14], depth: -88, label: [39, 129, Z + 11], draw() {
+      I.island(30, 120, 48, 134, Z, { thick: 4 });
+      I.hall(33, 126.5, 45, 132, Z, { base: [0.6], h: 3, rh: 3, bs: 4, be: 2 });
+      I.smoke(36, 129, Z + 7.5); I.smoke(42, 129, Z + 7.5);
+      I.house(31.5, 121, 37, 124.5, Z, { h: 2.2 });
+      I.box(41, 121.5, 43, 123.5, Z, Z + 0.9, I.MAR, 0.9);
+    } },
+    { depth: -156, draw() { I.bridgeY(-2.5, 2.5, 147, 165, Z); } },
+    { depth: -206, draw() { I.bridgeX(-39, -17, 177, 180, Z); } },
+    { depth: -150, draw() { I.bridgeX(17, 39, 177, 180, Z); } },
+    { id: "xineiyuan", off: [-12, 22], depth: -230, label: [-40, 156, Z + 9], draw() {
+      I.island(-54, 142, -26, 170, Z);
+      I.court(-51, 146, -29, 167, Z, () => {
+        I.hall(-48, 159, -32, 164.5, Z, { base: [0.5], h: 2.8, rh: 3, bs: 5, be: 2 });
+        I.tree(-36, 155, Z, "blossom", 5);
+        I.hall(-48.5, 149, -42, 154, Z, { base: [0.4], h: 2.4, rh: 2.6, bs: 3, be: 2 });
+        I.hall(-38, 149, -31.5, 154, Z, { base: [0.4], h: 2.4, rh: 2.6, bs: 3, be: 2 });
+      });
+    } },
+    { id: "mingchen", off: [0, 22], depth: -179, label: [0, 158, Z + 17], draw() {
+      I.island(-18, 142, 18, 172, Z);
+      I.court(-15, 145, 15, 169, Z, () => {
+        I.hall(-10, 165, 10, 167.8, Z, { h: 2.2, rh: 1.8, bs: 6, be: 1, over: 0.8 });
+        I.hall(-9, 154, 9, 162, Z, { base: [1.0, 0.8], h: 3.6, rh: 4.2, dbl: true, bs: 5, be: 3 });
+        I.tree(-4, 150, Z, "blossom", 4.5); I.tree(4, 150, Z, "blossom", 4.5);
+        I.hall(-13, 147.5, -8, 151.5, Z, { base: [0.4], h: 2.2, rh: 2.4, bs: 2, be: 2 });
+        I.hall(8, 147.5, 13, 151.5, Z, { base: [0.4], h: 2.2, rh: 2.4, bs: 2, be: 2 });
+      }, 2.2);
+    } },
+    { id: "dongneiyuan", off: [12, 22], depth: -126, label: [40, 160, Z + 12], draw() {
+      I.island(26, 142, 54, 170, Z);
+      I.court(29, 146, 51, 167, Z, () => {
+        I.hall(32, 159, 48, 164.5, Z, { base: [0.5], h: 2.8, rh: 3, bs: 5, be: 2 });
+        I.tree(40, 155, Z, "osm", 6.5, 1.3);
+        I.hall(31.5, 149, 38, 154, Z, { base: [0.4], h: 2.4, rh: 2.6, bs: 3, be: 2 });
+        I.hall(42, 149, 48.5, 154, Z, { base: [0.4], h: 2.4, rh: 2.6, bs: 3, be: 2 });
+      });
+    } },
+    { depth: -202, draw() { I.bridgeY(-2.5, 2.5, 193, 211, Z); } },
+    { id: "yuyuan", off: [0, 30], depth: -225, label: [-5, 195, Z + 12], draw() {
+      I.island(-30, 180, 30, 210, Z, { thick: 6, ground: "fgd" });
+      for (const [x, y, k] of [[-26, 206, "pine"], [-14, 208, "willow"], [4, 208, "pine"], [24, 207, "round"]]) I.tree(x, y, Z, k, 6);
+      I.hall(16, 196, 24, 202, Z, { base: [0.8], h: 2.6, rh: 2.8, bs: 3, be: 2 });
+      I.water([[-24, 186], [4, 184.5], [12, 191], [11, 202], [-6, 205], [-24, 199]], Z);
+      I.terrace(-8, 192, -2, 198, Z, 0.7, false);
+      I.walls(-7, 193, -3, 197, Z + 0.7, 2, 2, 2);
+      I.roof(-7, 193, -3, 197, Z + 2.7, 3.2, { over: 1.2, curl: 0.8, pyramid: true });
+      I.bridgeY(-6, -4, 183, 192.2, Z, 0.4);
+      I.tree(-26, 184, Z, "willow", 6); I.tree(16, 186, Z, "willow", 6); I.tree(25, 190, Z, "pine", 5.5);
+      I.box(19, 182.5, 21.5, 184.5, Z, Z + 1.4, ["frock", "frock", "frock"], 1); I.box(21, 182, 22.5, 183.4, Z, Z + 2.3, ["frock", "frock", "frock"], 1);
+    } },
+  ];
+
+  /* ======================= 昭京 ======================= */
+  function filler(list) { list.forEach(([x0, y0, x1, y1, h]) => I.house(x0, y0, x1, y1, 0, { h: h || 2.2 })); }
+  const city = [
+    cloudsAt([[-110, 30, 1.2], [90, -10, 1.1, true], [-90, 140, 1.0], [110, 170, 1.0, true], [10, 190, 1.2], [-60, -90, 1.0], [80, -80, 0.9, true]]),
+    { id: "huangcheng", depth: -62, label: [0, 55, 14], draw() {
+      I.island(-22, 40, 22, 84, 0, { thick: 6 });
+      I.court(-19, 43, 19, 81, 0, () => {
+        I.hall(-8, 73, 8, 78, 0, { base: [0.6], h: 2.6, rh: 2.8, bs: 5, be: 2 });
+        I.hall(-9, 63, 9, 69, 0, { base: [0.8], h: 2.8, rh: 3, bs: 5, be: 2 });
+        I.hall(-11, 51, 11, 58, 0, { base: [0.8, 0.8], h: 3.2, rh: 3.8, dbl: true, bs: 6, be: 3 });
+        I.tree(-15, 77, 0, "pine", 4); I.tree(15, 47, 0, "pine", 4);
+      }, 3.2, true);
+    } },
+    { depth: -93, draw() { I.bridgeY(-2, 2, 83, 103, 0); } },
+    { depth: -124, draw() { I.bridgeY(-2, 2, 113, 135, 0); } },
+    { id: "jinwei", off: [0, 10], depth: -108, label: [-3, 99, 8], draw() {
+      I.island(-10, 92, 10, 104, 0, { thick: 3.5 });
+      I.tree(-7, 102, 0, "round", 4.5);
+      I.house(-7, 96.5, 0, 101, 0, { h: 2.2 });
+      I.water([[3, 94], [8, 94.5], [8.5, 99], [3.5, 99.5]], 0);
+      const a = I.P(-6, 94, 0), b = I.P(-1, 94, 0);
+      I.lines([[a, [a[0], a[1] - 30]], [b, [b[0], b[1] - 30]], [[a[0], a[1] - 30], [b[0], b[1] - 30]]], 1, 1, 0.2);
+      I.path([[a[0] + 6, a[1] - 30], [b[0] - 6, b[1] - 30], [b[0] - 6, b[1] - 12], [a[0] + 6, a[1] - 12]], { w: 1, cls: "fquilt", close: true, amp: 0.3 });
+    } },
+    { id: "shaojiang", off: [0, 22], depth: -149, label: [-11, 131, 10], draw() {
+      I.island(-26, 112, 26, 142, 0, { thick: 5 });
+      I.court(-22, 116, 22, 138, 0, () => {
+        I.hall(-18, 128, -4, 135, 0, { base: [0.8], h: 3.2, rh: 3.4, bs: 5, be: 3 });
+        I.house(3, 128.5, 19, 134, 0, { h: 2.4, rh: 2, bs: 6, be: 2 });
+        sand(-19, 118.5, 19, 125.5, 0);
+        target(9, 124, 0); target(14, 124, 0);
+        I.flag(-12, 121, 0, 8); I.tree(18, 120, 0, "pine", 4.5);
+      });
+    } },
+    { depth: -96, draw() { I.bridgeX(-49, -21, 60, 63, 0); } },
+    { depth: -26, draw() { I.bridgeX(21, 49, 60, 63, 0); } },
+    { id: "shezheng", off: [-14, 0], depth: -126, label: [-50, 66, 12], draw() {
+      I.island(-70, 40, -34, 80, 0, { thick: 6 });
+      I.court(-66, 44, -38, 76, 0, () => {
+        I.tree(-62, 72, 0, "pine", 5);
+        I.hall(-58, 62, -42, 71, 0, { base: [1.0], h: 3.4, rh: 3.8, bs: 6, be: 3 });
+        sand(-65, 46.5, -56, 58, 0); rack(-64, -60, 50, 0);
+        I.hall(-52, 48, -42, 55, 0, { base: [0.6], h: 2.6, rh: 2.8, bs: 4, be: 2 });
+      });
+    } },
+    { id: "wenfu", off: [14, 0], depth: 6, label: [48, 67, 12], draw() {
+      I.island(34, 40, 70, 80, 0, { thick: 6 });
+      I.court(37, 44, 67, 76, 0, () => {
+        I.tower(58, 65, 64, 72, 0, { h1: 3, h2: 2.6, rh: 3 });
+        I.hall(41, 63, 55, 71, 0, { base: [0.8], h: 3.2, rh: 3.4, bs: 5, be: 3 });
+        I.tree(48, 58, 0, "osm", 5);
+        I.cwall(37, 55, 67, 55, 0, 1.4);
+        I.tree(44, 49, 0, "mag", 4.5);
+        I.walls(59, 47.5, 63, 51.5, 0.5, 1.8, 2, 2); I.roof(59, 47.5, 63, 51.5, 2.3, 2.6, { over: 1, curl: 0.6, pyramid: true });
+      });
+    } },
+    { depth: -23, draw() { I.stairsY(70, 74, 79, 112, 0, 8, 20); } },
+    { id: "guanxing", off: [16, 14], depth: -54, label: [56, 116, 24], draw() {
+      I.island(40, 96, 72, 128, 8, { thick: 9, ground: "fgd" });
+      I.tree(66, 122, 8, "ginkgo", 8, 1.2);
+      I.terrace(50, 110, 62, 122, 8, 6, true);
+      armillary(56, 116, 14);
+      altar(46, 117, 8);
+      I.hall(44, 99, 51, 105, 8, { base: [0.5], h: 2.6, rh: 2.8, bs: 3, be: 2 });
+      I.hall(60, 99, 68, 105, 8, { base: [0.5], h: 2.6, rh: 2.8, bs: 3, be: 2 });
+      I.cat(56, 100, 8);
+    } },
+    { depth: -32, draw() { I.bridgeY(-2, 2, 23, 41, 0); } },
+    { depth: -30, draw() { I.bridgeX(-55, -25, -12, -9, 0); } },
+    { depth: 39, draw() { I.bridgeY(-2, 2, -59, -19, 0); } },
+    { id: "xishiguan", off: [-20, -22], depth: -56, label: [-55, 11, 11], draw() {
+      I.island(-70, -12, -34, 24, 0, { thick: 5 });
+      I.court(-66, -8, -38, 20, 0, () => {
+        I.hall(-62, 8, -48, 15, 0, { base: [0.8], h: 3.2, rh: 3.2, bs: 5, be: 3 });
+        I.flag(-44, 16, 0, 8, "fgrn");
+        tent(-43, 8, 0);
+        I.house(-64, -5, -56, 1, 0, { h: 2.2, bs: 3 });
+        sand(-53, -6, -40, -1, 0); target(-42, -3.5, 0);
+      });
+    } },
+    { id: "nanshi", off: [0, -6], depth: -2, label: [0, 8, 12], draw() {
+      I.island(-26, -14, 26, 30, 0, { thick: 5, ground: "fgd" });
+      I.road(-2, -12, 2, 28, 0, true);
+      I.road(-24, 7, 24, 11, 0, false);
+      filler([[-23, 22, -15, 27], [-13, 22, -5, 27]]);
+      I.tower(6, 18, 14, 26, 0, { h1: 3.2, h2: 2.8, rh: 3, bs: 3, be: 3 });
+      filler([[17, 21, 23, 27]]);
+      filler([[-23, 13, -15, 18], [-13, 13, -5, 18], [17, 13, 23, 18]]);
+      for (const x of [-20, -12, -4]) I.lantern(x, 12, 4);
+      I.terrace(5, 12.5, 14, 16.5, 0, 0.6, false);
+      for (const [x0, x1] of [[5, 8], [10.5, 13.5]]) { I.box(x0, 13, x1, 16, 0.6, 1.4, ["fwood", "fwood", "fstall"], 0.8); }
+      // 戲臺（西南）
+      I.terrace(-22, -9, -12, 0, 0, 1.4, false);
+      I.walls(-20, -7, -14, -2, 1.4, 2.6, 2, 2);
+      I.roof(-20, -7, -14, -2, 4.0, 3, { over: 1.6, curl: 1.0 });
+      filler([[-10, -10, -4, -5], [-10, -2, -4, 4]]);
+      filler([[5, -10, 12, -5], [15, -10, 22, -5], [5, -2, 12, 4], [15, -2, 22, 4]]);
+      for (const x of [4, 12, 20]) I.lantern(x, 6, 4);
+      I.flag(-1, 2, 0, 6);
+    } },
+    { id: "nanhe", off: [0, -34], depth: 78, label: [0, -30, 9], draw() {
+      I.island(-30, -54, 40, -24, 0, { thick: 5 });
+      I.house(-26, -32, -12, -27, 0, { h: 2.6, rh: 2.2, bs: 5, be: 2 });
+      I.house(-8, -32, 6, -27, 0, { h: 2.6, rh: 2.2, bs: 5, be: 2 });
+      I.house(10, -32, 24, -27, 0, { h: 2.6, rh: 2.2, bs: 5, be: 2 });
+      I.house(28, -32, 36, -27, 0, { h: 2.2, bs: 3, be: 2 });
+      I.water([[-27, -51], [37, -51], [38, -37], [-27, -37.5]], 0);
+      for (const x of [-18, 2, 22]) I.box(x, -46, x + 2, -36.5, 0.2, 0.6, ["fwood", "fwood", "fwood"], 0.9);
+      for (const x of [-20, -2, 14, 26]) I.box(x, -35.5, x + 2.4, -33.6, 0, 1.2, ["fwood", "fwood", "fwood"], 0.8);
+      I.boat(-14, -43, 0, 9); I.boat(6, -47, 0, 9); I.boat(26, -42, 0, 8);
+    } },
+  ];
+
+  /* ======================= 帝國 ======================= */
+  function gateNS(x, y0, y1, z, h) {
+    I.box(x - 1.4, y0, x + 1.4, y1, z, z + h, ["fgs", "fge", "fgt"]);
+    const ym = (y0 + y1) / 2, pts = [I.P(x + 1.4, ym - 1.3, z)];
+    for (let i = 0; i <= 10; i++) { const a = Math.PI * i / 10; pts.push(I.P(x + 1.4, ym - 1.3 * Math.cos(a), z + 2.2 + 1.3 * Math.sin(a))); }
+    pts.push(I.P(x + 1.4, ym + 1.3, z));
+    I.path(pts, { w: 1.2, cls: "fdoor" });
+    I.walls(x - 1, ym - 2.4, x + 1, ym + 2.4, z + h, 1.8, 1, 2);
+    I.roof(x - 1, ym - 2.4, x + 1, ym + 2.4, z + h + 1.8, 1.8, { over: 0.9, curl: 0.6 });
+  }
+  function watchtower(x, y, z) {
+    I.box(x - 1.1, y - 1.1, x + 1.1, y + 1.1, z, z + 4, ["fgt", "fms", "fmt"], 1);
+    I.roof(x - 1.1, y - 1.1, x + 1.1, y + 1.1, z + 4, 1.6, { over: 0.6, curl: 0.4, pyramid: true, tiles: false });
+  }
+  const empire = [
+    cloudsAt([[-120, -40, 1.3], [80, 30, 1.1, true], [-60, 120, 1.2], [90, 120, 1.0, true], [-200, 60, 1.0], [10, -110, 1.1], [-180, 140, 0.9, true]]),
+    { id: "wulan", depth: -195, label: [-128, 62, 14], draw() {
+      I.island(-170, 20, -100, 100, 0, { thick: 7, ground: "fgrass" });
+      for (const [x, y, h, w] of [[-165, 94, 14, 7], [-155, 96, 18, 9], [-142, 97, 13, 7], [-130, 96, 11, 6], [-166, 80, 12, 7]]) I.mountain(x, y, 0, h, w, true);
+      I.water([[-150, 52], [-138, 50], [-134, 58], [-142, 64], [-152, 61]], 0);
+      I.tree(-154, 50, 0, "round", 4); I.tree(-136, 64, 0, "round", 4); I.tree(-133, 52, 0, "round", 4);
+      for (const [x, y] of [[-124, 74], [-116, 70], [-120, 64], [-110, 78]]) tent(x, y, 0);
+      I.flag(-112, 66, 0, 7, "fgrn");
+      for (const [x, y, fl] of [[-150, 38, false], [-144, 33, true], [-138, 40, false], [-160, 30, false], [-128, 30, true]]) I.horse(x, y, 0, fl);
+      for (const [x, y] of [[-118, 42], [-112, 36]]) I.box(x, y, x + 2, y + 1.4, 0, 1.2, ["ftent2", "ftent2", "ftent"], 0.8);
+    } },
+    { depth: -122, draw() { I.bridgeX(-101, -84, 28, 31, 0, 0.6); I.flag(-86, 33, 0, 6, "fred"); I.flag(-99, 33, 0, 6, "fgrn"); } },
+    { id: "xijing", depth: -75, label: [-62, 12, 18], draw() {
+      I.island(-85, -15, -45, 35, 0, { thick: 6 });
+      for (const [x, y, h, w] of [[-80, 31, 13, 7], [-70, 32, 16, 8], [-58, 31, 12, 7], [-50, 30, 9, 5]]) I.mountain(x, y, 0, h, w, true);
+      I.road(-84, 4, -46, 8, 0, false);
+      gateNS(-70, -2, 14, 0, 4.5);
+      tent(-60, -6, 0); tent(-54, -9, 0);
+      I.flag(-57, -2, 0, 7);
+      I.horse(-63, -11, 0); I.horse(-50, -3, 0, true);
+      for (const [x, y, h, w] of [[-82, -12, 9, 6], [-76, -13, 7, 5]]) I.mountain(x, y, 0, h, w);
+    } },
+    { id: "beijing", depth: -65, label: [-8, 74, 18], draw() {
+      I.island(-25, 50, 45, 100, 4, { thick: 9, ground: "fnorth" });
+      for (const [x, y, h, w] of [[-20, 96, 15, 8], [-8, 97, 20, 10], [6, 97, 16, 8], [20, 98, 22, 11], [34, 96, 15, 8], [42, 92, 11, 6]]) I.mountain(x, y, 4, h, w, true);
+      I.cwall(-22, 84, 42, 84, 4, 2.2, 1.2);
+      for (const x of [-20, -4, 12, 28, 40]) watchtower(x, 84, 4);
+      I.court(-4, 58, 24, 76, 4, () => {
+        I.hall(2, 66, 18, 73, 4, { base: [0.6], h: 2.8, rh: 3, bs: 5, be: 2 });
+        I.flag(-1, 62, 4, 8); sand(4, 60, 20, 64, 4);
+      }, 2.6);
+      for (const [x, y] of [[-18, 60], [-14, 74], [34, 62], [38, 74], [30, 54]]) I.tree(x, y, 4, "pine", 6);
+    } },
+    { depth: -40, draw() { I.stairsY(-2, 2, 29, 51, 0, 4, 12); I.bridgeX(-46, -29, 2, 5, 0); } },
+    { id: "bentu", depth: -2, label: [0, 8, 16], draw() {
+      I.island(-30, -25, 30, 30, 0, { thick: 7 });
+      I.fields(-26, 16, -14, 26, 0); I.fields(14, 16, 26, 26, 0);
+      I.court(-12, -6, 12, 16, 0, () => {
+        I.hall(-5, 7, 5, 12, 0, { base: [0.8, 0.6], h: 2.6, rh: 3, dbl: true, bs: 4, be: 2 });
+        I.house(-10, -2, -4, 2, 0, { h: 1.8, rh: 1.6 }); I.house(4, -2, 10, 2, 0, { h: 1.8, rh: 1.6 });
+      }, 2.6);
+      I.road(-1.5, -24, 1.5, -7, 0, true);
+      I.fields(-26, -20, -12, -8, 0); I.fields(12, -20, 26, -8, 0);
+      for (const [x, y] of [[-22, 6], [22, 6], [-6, 22], [8, 24]]) I.tree(x, y, 0, "round", 4.5);
+    } },
+    { depth: 51, draw() { I.bridgeY(18, 22, -39, -24, 0); } },
+    { id: "jiangnan", depth: 99, label: [24, -46, 12], draw() {
+      I.island(10, -80, 70, -38, 0, { thick: 6, ground: "fgd" });
+      I.fields(46, -48, 66, -41, 0, 2.5); I.fields(12, -50, 30, -41, 0, 2.5);
+      I.water([[36, -38.5], [40, -38.5], [40, -55], [36, -55]], 0);
+      I.water([[11, -61], [69, -57], [69, -51], [11, -55]], 0);
+      I.bridgeX(34.5, 41.5, -46, -44, 0, 0.6);
+      for (const [x, y] of [[14, -76], [22, -77], [30, -75], [52, -76], [60, -74]]) I.house(x, y, x + 5, y + 4, 0, { h: 1.8, rh: 1.6, roofCls: ["fhn", "fhe", "fhn", "fhw"], wallCls: ["fqs", "fqe", "fqs"] });
+      I.fields(40, -72, 66, -63, 0, 2.5);
+      I.boat(18, -57, 0, 7); I.boat(48, -56, 0, 8); I.boat(36.5, -50, 0, 3);
+      for (const [x, y] of [[13, -64], [33, -64], [66, -60]]) I.tree(x, y, 0, "willow", 5);
+    } },
+  ];
+
+  return { palace, city, empire };
+})();
+
+/* ============================================================
+   歲時：十個節慶的地圖變裝
+   每個節慶：fx（畫面特效）、tint（換色，見 CSS）、各地圖各地點的裝飾。
+   座標是各地點自己的座標（會自動套用該地點的位移）。
+   ============================================================ */
+const FEST = (() => {
+  const I = Ink, Z = 9;
+  const row = (fn, a, b, step) => { for (let v = a; v <= b + 1e-6; v += step) fn(v); };
+  const L = (x, y, z, s) => I.lantern(x, y, z, s || 0.8);
+
+  // 宮城的橋（不屬於任何地點）
+  const palaceBridgesY = [[-9, 1, 0], [77, 97, Z], [119, 137, Z], [147, 165, Z], [193, 211, Z]];
+  const palaceBridgesX = [[-39, -17, 106], [17, 39, 106], [-45, -15, 141], [15, 45, 141], [-39, -17, 177], [17, 39, 177]];
+  const bridgeLanterns = () => {
+    for (const [a, b, z] of palaceBridgesY) I.lanternString([2.6, a + 1, z + 1.9], [2.6, b - 1, z + 1.9], 3, 0.5);
+    for (const [a, b, y] of palaceBridgesX) I.lanternString([a + 1, y, Z + 1.9], [b - 1, y, Z + 1.9], 3, 0.5);
+  };
+  // 共用：殿前簷下一排燈
+  const eaveRow = (x0, x1, y, z, n) => I.lanternString([x0, y, z], [x1, y, z], n, 0.25);
+
+  const list = [
+    { key: "suiyuan", name: "歲元節", minor: true, fx: "fire",
+      palace: {
+        chengming() { I.banner(-12.5, -20.05, 1.2); I.banner(12.5, -20.05, 1.2); L(-4, -20.6, 4.4, 1); L(4, -20.6, 4.4, 1); },
+        jingan() { L(-4, 123.4, Z + 3.4, 1); L(4, 123.4, Z + 3.4, 1); },
+        mingchen() { L(-2.6, 144.5, Z + 2.2, 1); L(2.6, 144.5, Z + 2.2, 1); },
+        chengtian() { row(y => { I.flag(-14, y, 0, 6); I.flag(14, y, 0, 6); }, 6, 34, 7); },
+      },
+      city: {
+        huangcheng() { L(-3, 42.6, 3, 1); L(3, 42.6, 3, 1); },
+        nanshi() { for (const y of [-6, 18]) I.lanternString([-2.4, y, 3.4], [2.4, y, 3.4], 2, 0.4); },
+        wenfu() { L(50, 43.6, 1.8, 1); L(54, 43.6, 1.8, 1); },
+      },
+      empire: { bentu() { L(-2.6, -6.5, 2.4, 1); L(2.6, -6.5, 2.4, 1); } },
+    },
+    { key: "wandeng", name: "萬燈節", fx: "sky", night: true,
+      palace: {
+        _: bridgeLanterns,
+        chengming() { eaveRow(-8, 8, -20.8, 8.6, 5); row(x => L(x, -20.6, 5.2), -15, 15, 5); },
+        chengtian() { row(y => { L(-3.4, y, 2.2); L(3.4, y, 2.2); }, 3, 37, 4); eaveRow(-9, 9, 56.6, Z + 7.2, 6); },
+        wubei() { eaveRow(-47, -36, 98.2, Z + 4.1, 3); },
+        chongzheng() { eaveRow(-10, 10, 94.2, Z + 5.8, 6); },
+        wenhua() { eaveRow(38.5, 48.5, 95.4, Z + 3.9, 3); },
+        jingan() { eaveRow(-4.5, 4.5, 123.2, Z + 3.9, 3); row(x => L(x, 125.4, Z + 2.4), -13, -7, 3); row(x => L(x, 125.4, Z + 2.4), 7, 13, 3); },
+        taiyi() { eaveRow(-44.5, -34.5, 126, Z + 3.3, 3); },
+        yushan() { eaveRow(33.5, 44.5, 126, Z + 3.3, 3); },
+        xineiyuan() { row(x => L(x, 145.6, Z + 1.7), -49, -31, 4.5); },
+        dongneiyuan() { row(x => L(x, 145.6, Z + 1.7), 31, 49, 4.5); },
+        mingchen() { eaveRow(-8.5, 8.5, 153.4, Z + 5.2, 5); row(x => { if (Math.abs(x) > 2) L(x, 144.6, Z + 2); }, -13, 13, 3.25); },
+        yuyuan() { for (const [x, y] of [[-19, 190], [-13, 201], [0, 188], [6, 198], [-21, 196], [5, 192], [-9, 188.5], [-1, 202]]) I.floatLantern(x, y, Z); L(-6.4, 192.6, Z + 2.5); L(-3.6, 192.6, Z + 2.5); },
+      },
+      city: {
+        huangcheng() { row(x => { if (Math.abs(x) > 2) L(x, 42.6, 3); }, -17, 17, 4); eaveRow(-10, 10, 50.3, 4.5, 5); },
+        jinwei() { L(-3.5, 96, 2); },
+        shaojiang() { row(x => L(x, 115.6, 1.8), -20, 20, 5); },
+        shezheng() { row(x => L(x, 43.6, 1.8), -64, -40, 6); },
+        wenfu() { row(x => L(x, 43.6, 1.8), 39, 65, 6.5); L(59.5, 47.2, 2.0); L(62.5, 47.2, 2.0); },
+        guanxing() { eaveRow(44.5, 50.5, 98.6, 8 + 3, 2); eaveRow(60.5, 67.5, 98.6, 8 + 3, 2); row(x => L(x, 109.8, 8 + 6.8), 51, 61, 2.5); },
+        xishiguan() { row(x => L(x, -8.4, 1.8), -64, -40, 6); },
+        nanshi() {
+          row(y => { if (y < 6 || y > 12) I.lanternString([-2.4, y, 3.6], [2.4, y, 3.6], 2, 0.4); }, -10, 26, 4);
+          row(x => { if (Math.abs(x) > 3) I.lanternString([x, 6.6, 3.6], [x, 11.4, 3.6], 2, 0.4); }, -22, 22, 4);
+        },
+        nanhe() { for (const [x, y] of [[-22, -48], [-12, -40], [-4, -49], [8, -41], [18, -50], [28, -45], [33, -39], [-25, -41]]) I.floatLantern(x, y, 0); },
+      },
+      empire: {
+        bentu() { row(x => { if (Math.abs(x) > 2) L(x, -6.4, 2.6); }, -11, 11, 3); },
+        jiangnan() { for (const [x, y] of [[16, -57], [26, -57], [44, -55], [56, -54], [64, -55], [38, -50]]) I.floatLantern(x, y, 0); },
+      },
+    },
+    { key: "chunxi", name: "春禊節", fx: "petal", tint: "spring",
+      palace: {
+        yuyuan() { I.canopy(18, 186, 22, 189, Z, 1.8); },
+        xineiyuan() { I.canopy(-37, 149.5, -33.5, 152.5, Z, 1.6); },
+      },
+      city: {
+        wenfu() {
+          I.canopy(41, 46, 45, 49.5, 0, 2); I.canopy(51, 46, 55, 49.5, 0, 2);
+          for (const x of [42, 52]) I.box(x, 46.8, x + 2, 48.4, 0, 0.9, I.MAR, 0.8);
+          I.lanternString([39, 53.5, 2.6], [57, 53.5, 2.6], 5, 0.5);
+          I.flag(38.5, 45.5, 0, 6); I.flag(65.5, 45.5, 0, 6);
+        },
+        nanshi() { for (const [x, y] of [[-20, 12], [20, 12]]) I.flag(x, y, 0, 5, "fbl2"); },
+      },
+      empire: { jiangnan() { for (const [x, y] of [[20, -72], [56, -70]]) I.canopy(x, y, x + 3, y + 3, 0, 1.6); } },
+    },
+    { key: "jingwu", name: "競武節", fx: null,
+      palace: {
+        chengtian() { row(y => { I.flag(-14, y, 0, 7, "fred"); I.flag(14, y, 0, 7, "fgrn"); }, 5, 35, 6); },
+        wubei() { I.flag(-50, 92, Z, 7, "fred"); I.flag(-46, 92, Z, 7, "fgrn"); I.flag(-42, 92, Z, 7, "fred"); },
+      },
+      city: {
+        shaojiang() {
+          row(x => I.flag(x, 115.4, 0, 7, x % 2 ? "fred" : "fgrn"), -20, 20, 5);
+          I.canopy(-18, 119, -12, 123, 0, 2.2);
+          for (const [x, y] of [[-6, 124], [0, 124], [4, 124]]) { const [cx, cy] = I.P(x, y, 1.6); I.emit(`<ellipse cx="${cx}" cy="${cy}" rx="11" ry="13" class="fp" stroke-width="1.6"/><ellipse cx="${cx}" cy="${cy}" rx="7" ry="8.5" class="fred" stroke-width="1.2"/><ellipse cx="${cx}" cy="${cy}" rx="3" ry="3.6" class="fp" stroke-width="1"/>`); }
+        },
+        xishiguan() { row(x => I.flag(x, -8.4, 0, 7, "fgrn"), -64, -40, 6); },
+        shezheng() { I.flag(-60, 45, 0, 8, "fred"); I.flag(-56, 45, 0, 8, "fred"); },
+      },
+      empire: {
+        beijing() { row(x => I.flag(x, 57.5, 4, 7, "fred"), -2, 22, 6); },
+        xijing() { I.flag(-62, 0, 0, 7, "fgrn"); I.flag(-52, 2, 0, 7, "fred"); },
+      },
+    },
+    { key: "jieyuan", name: "結緣節", fx: "petal-red",
+      palace: {
+        yuyuan() { row(y => { I.knot(-4, y, Z + 0.9); I.knot(-6, y + 0.7, Z + 0.9); }, 184, 191, 1.6); for (const [x, y] of [[-26, 184], [16, 186]]) I.knot(x, y, Z + 4.5); },
+        xineiyuan() { row(x => I.knot(x, 145.6, Z + 1.6), -49, -31, 3); I.knot(-36, 155, Z + 3.6); },
+        dongneiyuan() { row(x => I.knot(x, 145.6, Z + 1.6), 31, 49, 3); I.knot(40, 155, Z + 4.4); I.knot(42, 156, Z + 3.8); },
+      },
+      city: {
+        nanshi() {
+          for (const y of [-9, -5, -1, 15, 19, 23]) { I.box(2.6, y, 4.4, y + 1.6, 0, 1.1, ["fwood", "fwood", "fred"], 0.7); I.knot(3.5, y + 0.8, 2.4); }
+          row(x => { if (Math.abs(x) > 3) I.knot(x, 6.4, 3); }, -22, 22, 3);
+        },
+        wenfu() { I.knot(44, 49, 4); I.knot(48, 58, 4.4); },
+      },
+      empire: {},
+    },
+    { key: "wangqiu", name: "望秋節", minor: true, fx: "moon", tint: "autumn",
+      palace: { dongneiyuan() { I.lanternString([35, 152, Z + 3.4], [45, 158, Z + 3.4], 3, 0.6); } },
+      city: { wenfu() { I.lanternString([44, 56, 3.4], [52, 60, 3.4], 3, 0.6); } },
+      empire: {},
+    },
+    { key: "dingding", name: "定鼎節", minor: true, fx: null,
+      palace: {
+        chengtian() { row(y => { I.flag(-14, y, 0, 7, "fyel"); I.flag(14, y, 0, 7, "fyel"); }, 6, 34, 7); I.flag(-15, 54, Z, 8, "fyel"); I.flag(15, 54, Z, 8, "fyel"); },
+      },
+      city: { shezheng() { row(x => I.flag(x, 43.4, 0, 7, "fyel"), -64, -40, 6); } },
+      empire: { bentu() { I.flag(-10, -7, 0, 7, "fyel"); I.flag(10, -7, 0, 7, "fyel"); } },
+    },
+    { key: "changyang", name: "長陽節", fx: "snow", tint: "snow",
+      palace: { chengtian() { I.flag(-15, 54, Z, 8, "fyel"); I.flag(15, 54, Z, 8, "fyel"); } },
+      city: { guanxing() { I.altarGlow(46, 117, 8 + 2.7, 8); row(x => L(x, 109.8, 8 + 6.8), 51, 61, 2.5); } },
+      empire: {},
+    },
+    { key: "fengyin", name: "封印節", minor: true, fx: null,
+      palace: {
+        chongzheng() { for (const [x, y] of [[-14, 92], [-12, 91.5]]) I.box(x, y, x + 1.6, y + 1.2, Z, Z + 0.9, ["fp", "fp", "fp"], 0.7); },
+        wenhua() { for (const [x, y] of [[33, 92.5], [35, 92]]) I.box(x, y, x + 1.6, y + 1.2, Z, Z + 0.9, ["fp", "fp", "fp"], 0.7); },
+      },
+      city: {}, empire: {},
+    },
+    { key: "qianqiu", name: "千秋宴", minor: true, fx: "fire",
+      palace: {
+        jingan() { eaveRow(-4.5, 4.5, 123.2, Z + 3.9, 3); row(x => L(x, 125.4, Z + 2.4), -13, -7, 3); row(x => L(x, 125.4, Z + 2.4), 7, 13, 3); },
+        mingchen() { eaveRow(-8.5, 8.5, 153.4, Z + 5.2, 5); },
+        chengtian() { eaveRow(-9, 9, 56.6, Z + 7.2, 6); },
+      },
+      city: { huangcheng() { eaveRow(-10, 10, 50.3, 4.5, 5); } },
+      empire: {},
+    },
+  ];
+  const byKey = {};
+  list.forEach(f => { const src = DATA.festivals.find(r => r[0] === f.name); f.date = src[1]; f.desc = src[2] || "陛下生辰，宮中設宴，百官獻禮。"; byKey[f.key] = f; });
+
+  function overlay(festKey, mapKey) {
+    const f = byKey[festKey]; if (!f || !f[mapKey]) return "";
+    const items = [];
+    for (const [id, fn] of Object.entries(f[mapKey])) {
+      const it = MAPS[mapKey].find(m => m.id === id);
+      items.push({ depth: it ? it.depth : 0, off: it ? it.off : [0, 0], draw: fn });
+    }
+    if (!items.length) return "";
+    return Ink.render(items, 3).body;
+  }
+  return { list, byKey, overlay };
+})();
+
+/* ============================================================
+   介面：地圖、卷軸面板、人物譜、晝夜、網址定位
+   ============================================================ */
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const esc = (s) => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem("muxi:" + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem("muxi:" + k, JSON.stringify(v)); } catch (e) {} },
+  };
+  const MAPNAME = { palace: "宮城", city: "昭京", empire: "帝國" };
+
+  /* ---------- 隨機、不連續重複 ---------- */
+  const last = {};
+  function pick(key, arr) {
+    if (arr.length === 1) return arr[0];
+    let i; do { i = Math.floor(Math.random() * arr.length); } while (i === last[key]);
+    last[key] = i; return arr[i];
+  }
+
+  /* ---------- 頭像 ---------- */
+  function avatar(id, cls = "av") {
+    const c = DATA.chars[id];
+    if (c) return `<span class="${cls}">${esc(c.name.slice(-1))}<img src="${c.avatar}" alt="" loading="lazy" onerror="this.remove()"></span>`;
+    const n = DATA.npcs[id];
+    return `<span class="${cls}">${esc(n ? n.name[0] : "？")}</span>`;
+  }
+  function pic(key, name) {
+    if (!key) return "";
+    return `<figure class="pic"><img src="${DATA.images[key]}" alt="${esc(name)}" loading="lazy" onerror="this.parentNode.classList.add('fail')"><span class="ph">${esc(name)}</span></figure>`;
+  }
+
+  /* ============ 地圖 ============ */
+  const cache = {};
+  const wrap = $("#mapwrap"), svg = $("#mapsvg");
+  let cur = null, view = null, fit = null, anim = null, hotId = null, selId = null;
+
+  function build(key) {
+    if (cache[key]) return cache[key];
+    const items = MAPS[key];
+    const { body, bounds } = Ink.render(items, { palace: 7, city: 11, empire: 5 }[key]);
+    const labels = {};
+    for (const it of items) if (it.id) {
+      const d = DATA[key][it.id], o = it.off || [0, 0]; const [u, v] = Ink.P(it.label[0] + o[0], it.label[1] + o[1], it.label[2]);
+      labels[it.id] = { u, v, name: d.name.split("・")[0] };
+      it.name = d.name;
+    }
+    const m = 60;
+    const b = [bounds[0] - m, bounds[1] - m - 150, bounds[2] + m, bounds[3] + m];
+    return (cache[key] = { body, bounds: b, labels });
+  }
+  function tagSVG(id, L) {
+    const n = L.name.length, ch = 22, w = 30, h = n * ch + 14;
+    let t = `<g class="tag" data-for="${id}" data-u="${L.u}" data-v="${L.v}"><g class="tg" transform="translate(${-w / 2},${-h})">`
+      + `<rect class="o" width="${w}" height="${h}" stroke-width="1.3"/><rect class="i" x="3" y="3" width="${w - 6}" height="${h - 6}" stroke-width=".6"/>`;
+    [...L.name].forEach((c, i) => { t += `<text x="${w / 2}" y="${27 + i * ch}" font-size="17" text-anchor="middle">${esc(c)}</text>`; });
+    return t + "</g></g>";
+  }
+  function showMap(key, keepView) {
+    const M = build(key);
+    cur = key;
+    svg.innerHTML = `<defs><linearGradient id="rockgrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--rk1)"/><stop offset="1" style="stop-color:var(--rk2)"/></linearGradient>`
+      + `<radialGradient id="halograd"><stop offset="0" stop-color="#ffcf6e" stop-opacity=".8"/><stop offset="1" stop-color="#ffb04a" stop-opacity="0"/></radialGradient>`
+      + `<linearGradient id="g-rs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--rs)"/><stop offset="1" style="stop-color:var(--rsD)"/></linearGradient><linearGradient id="g-re" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--re)"/><stop offset="1" style="stop-color:var(--reD)"/></linearGradient><linearGradient id="g-rn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--rn)"/><stop offset="1" style="stop-color:var(--rsD)"/></linearGradient><linearGradient id="g-rw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--rw)"/><stop offset="1" style="stop-color:var(--rsD)"/></linearGradient><linearGradient id="g-ws" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--ws)"/><stop offset="1" style="stop-color:var(--wsD)"/></linearGradient><linearGradient id="g-we" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--we)"/><stop offset="1" style="stop-color:var(--wsD)"/></linearGradient><linearGradient id="g-hs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--hs)"/><stop offset="1" style="stop-color:var(--hsD)"/></linearGradient><linearGradient id="g-he" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--he)"/><stop offset="1" style="stop-color:var(--hsD)"/></linearGradient><linearGradient id="g-hn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--hn)"/><stop offset="1" style="stop-color:var(--hsD)"/></linearGradient><linearGradient id="g-hw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--hw)"/><stop offset="1" style="stop-color:var(--hsD)"/></linearGradient><radialGradient id="g-g" cx=".45" cy=".4" r=".7"><stop offset="0" style="stop-color:var(--gL)"/><stop offset="1" style="stop-color:var(--g)"/></radialGradient><radialGradient id="g-pl" cx=".45" cy=".4" r=".7"><stop offset="0" style="stop-color:var(--gL)"/><stop offset="1" style="stop-color:var(--pl)"/></radialGradient>`
+      + `<radialGradient id="shadowgrad"><stop offset="0" stop-color="#3b2a1c" stop-opacity=".22"/><stop offset="1" stop-color="#3b2a1c" stop-opacity="0"/></radialGradient>`
+      + `<linearGradient id="beamgrad" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ffe3a0" stop-opacity=".9"/><stop offset="1" stop-color="#ffe3a0" stop-opacity="0"/></linearGradient></defs>`
+      + `<g class="world">${M.body}</g><g class="world festlayer"></g><g class="tags">${Object.entries(M.labels).map(([id, L]) => tagSVG(id, L)).join("")}</g>`;
+    document.querySelectorAll(".tab").forEach(t => t.setAttribute("aria-selected", t.dataset.map === key));
+    $("#mapcorner").textContent = { palace: "宮城平面・南朝北寢", city: "昭京城圖・皇城居北", empire: "穆席帝國全圖・烏闌在西" }[key];
+    drawFest();
+    fitView();
+    if (!keepView) {
+      if (wrap.clientWidth < 600) { // 手機：先放大到中段
+        const w = fit.w * 0.55, h = w * fit.h / fit.w;
+        setView(clampView({ x: fit.x + (fit.w - w) / 2, y: fit.y + (fit.h - h) / 2, w, h }));
+      } else setView(fit);
+    }
+    store.set("tab", key);
+  }
+  function fitView() {
+    const M = cache[cur], W = wrap.clientWidth, H = wrap.clientHeight, a = W / H;
+    let [x0, y0, x1, y1] = M.bounds, w = x1 - x0, h = y1 - y0;
+    if (w / h > a) { const nh = w / a; y0 -= (nh - h) / 2; h = nh; } else { const nw = h * a; x0 -= (nw - w) / 2; w = nw; }
+    fit = { x: x0, y: y0, w, h };
+  }
+  function setView(v) {
+    view = { ...v };
+    svg.setAttribute("viewBox", `${view.x} ${view.y} ${view.w} ${view.h}`);
+    // 地名標籤維持固定螢幕大小
+    const s = view.w / wrap.clientWidth * (wrap.clientWidth < 600 ? 0.55 : 0.72);
+    svg.querySelectorAll(".tag").forEach(t => t.setAttribute("transform", `translate(${t.dataset.u},${t.dataset.v}) scale(${s})`));
+  }
+  function clampView(v) {
+    const minW = fit.w / 7, maxW = fit.w * 1.25;
+    const w = Math.min(maxW, Math.max(minW, v.w)), h = w * fit.h / fit.w;
+    const cx = v.x + v.w / 2, cy = v.y + v.h / 2;
+    let x = cx - w / 2, y = cy - h / 2;
+    x = Math.min(Math.max(x, fit.x - w * 0.5), fit.x + fit.w - w * 0.5);
+    y = Math.min(Math.max(y, fit.y - h * 0.5), fit.y + fit.h - h * 0.5);
+    return { x, y, w, h };
+  }
+  function animateTo(t, ms = 550) {
+    cancelAnimationFrame(anim);
+    const s = { ...view }, t0 = performance.now();
+    const step = (now) => {
+      const k = Math.min(1, (now - t0) / ms), e = 1 - Math.pow(1 - k, 3);
+      setView({ x: s.x + (t.x - s.x) * e, y: s.y + (t.y - s.y) * e, w: s.w + (t.w - s.w) * e, h: s.h + (t.h - s.h) * e });
+      if (k < 1) anim = requestAnimationFrame(step);
+    };
+    anim = requestAnimationFrame(step);
+  }
+  function focusLoc(id) {
+    const L = cache[cur].labels[id]; if (!L) return;
+    const w = fit.w / 2.6, h = w * fit.h / fit.w;
+    const panelOpen = wrap.clientWidth > 720 ? 0.16 : 0; // 桌機：讓出右側卷軸
+    const yShift = wrap.clientWidth <= 720 ? h * 0.22 : 0;
+    animateTo(clampView({ x: L.u - w / 2 + w * panelOpen, y: L.v - h / 2 + h * 0.1 + yShift, w, h }));
+  }
+  function zoomAt(f, px, py) {
+    const r = svg.getBoundingClientRect();
+    const mx = view.x + (px - r.left) / r.width * view.w, my = view.y + (py - r.top) / r.height * view.h;
+    const nw = view.w * f, nh = view.h * f;
+    setView(clampView({ x: mx - (mx - view.x) * f, y: my - (my - view.y) * f, w: nw, h: nh }));
+  }
+
+  /* 拖曳、縮放、點擊 */
+  const ptrs = new Map(); let dragDist = 0, pinch0 = null, downLoc = null;
+  svg.addEventListener("pointerdown", (e) => {
+    cancelAnimationFrame(anim);
+    svg.setPointerCapture(e.pointerId);
+    ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    dragDist = 0; downLoc = e.target.closest(".loc");
+    if (ptrs.size === 2) { const [a, b] = [...ptrs.values()]; pinch0 = { d: Math.hypot(a.x - b.x, a.y - b.y), v: { ...view } }; }
+    svg.classList.add("drag");
+  });
+  svg.addEventListener("pointermove", (e) => {
+    if (!ptrs.has(e.pointerId)) {
+      if (e.pointerType === "mouse") hover(e.target.closest(".loc"));
+      return;
+    }
+    const p = ptrs.get(e.pointerId), dx = e.clientX - p.x, dy = e.clientY - p.y;
+    p.x = e.clientX; p.y = e.clientY;
+    const r = svg.getBoundingClientRect();
+    if (ptrs.size === 1) {
+      dragDist += Math.abs(dx) + Math.abs(dy);
+      setView(clampView({ x: view.x - dx / r.width * view.w, y: view.y - dy / r.height * view.h, w: view.w, h: view.h }));
+    } else if (ptrs.size === 2 && pinch0) {
+      dragDist += 99;
+      const [a, b] = [...ptrs.values()], d = Math.hypot(a.x - b.x, a.y - b.y);
+      const f = pinch0.d / d, cx = (a.x + b.x) / 2, cy = (a.y + b.y) / 2;
+      const v0 = pinch0.v, mx = v0.x + (cx - r.left) / r.width * v0.w, my = v0.y + (cy - r.top) / r.height * v0.h;
+      setView(clampView({ x: mx - (mx - v0.x) * f, y: my - (my - v0.y) * f, w: v0.w * f, h: v0.h * f }));
+    }
+  });
+  const up = (e) => {
+    if (!ptrs.has(e.pointerId)) return;
+    ptrs.delete(e.pointerId);
+    if (ptrs.size < 2) pinch0 = null;
+    if (!ptrs.size) {
+      svg.classList.remove("drag");
+      if (dragDist < 8 && downLoc && e.type === "pointerup") openLoc(cur, downLoc.dataset.id, true);
+      downLoc = null;
+    }
+  };
+  svg.addEventListener("pointerup", up); svg.addEventListener("pointercancel", up);
+  svg.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") hover(null); });
+  svg.addEventListener("wheel", (e) => { e.preventDefault(); zoomAt(Math.exp(e.deltaY * 0.0015), e.clientX, e.clientY); }, { passive: false });
+  svg.addEventListener("keydown", (e) => { const l = e.target.closest && e.target.closest(".loc"); if (l && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openLoc(cur, l.dataset.id, true); } });
+  svg.addEventListener("focusin", (e) => { const l = e.target.closest && e.target.closest(".loc"); if (l) hover(l); });
+  $("#zin").onclick = () => { const r = svg.getBoundingClientRect(); zoomAt(0.7, r.left + r.width / 2, r.top + r.height / 2); };
+  $("#zout").onclick = () => { const r = svg.getBoundingClientRect(); zoomAt(1 / 0.7, r.left + r.width / 2, r.top + r.height / 2); };
+  $("#zfit").onclick = () => animateTo(fit);
+  // 拖到地圖外時避免選取文字
+  window.addEventListener("resize", () => { if (!cur) return; const rel = view.w / fit.w; fitView(); setView(clampView({ ...view, w: fit.w * rel, h: fit.h * rel })); });
+
+  function hover(el) {
+    const id = el ? el.dataset.id : null;
+    if (id === hotId) return;
+    if (hotId) { svg.querySelector(`.loc[data-id="${hotId}"]`)?.classList.remove("hot"); svg.querySelector(`.tag[data-for="${hotId}"]`)?.classList.remove("hot"); }
+    hotId = id;
+    if (id) { el.classList.add("hot"); const t = svg.querySelector(`.tag[data-for="${id}"]`); if (t) { t.classList.add("hot"); t.parentNode.appendChild(t); } }
+  }
+  function select(id) {
+    svg.querySelectorAll(".loc.sel").forEach(n => n.classList.remove("sel"));
+    selId = id;
+    if (id) svg.querySelector(`.loc[data-id="${id}"]`)?.classList.add("sel");
+  }
+
+  /* ============ 卷軸面板 ============ */
+  const scroll = $("#scroll"), sheet = $("#sheet");
+  let openKey = null;
+  function isNight() { return document.documentElement.dataset.time === "night"; }
+  function personName(p) { return p.startsWith("@") ? DATA.npcs[p.slice(1)].name : DATA.chars[p].name; }
+  function personIntro(p) {
+    if (p.startsWith("@")) return DATA.npcs[p.slice(1)].intro;
+    const c = DATA.chars[p]; return `${c.title}。${c.intro}`;
+  }
+  function renderPanel(map, id) {
+    const d = DATA[map][id];
+    const night = isNight();
+    const imgKey = night && d.imgNight ? d.imgNight : d.img;
+    let h = `<h2 class="p-name" id="p-title">${esc(d.name)}</h2><div class="p-sub">${esc(d.sub)}</div>${pic(imgKey, d.name)}`;
+    h += `<div class="p-sec"><h4>風情</h4>${d.vibe.map(t => `<p>${esc(t)}</p>`).join("")}</div>`;
+    h += `<div class="p-sec"><h4>常在這裡的人</h4>`;
+    if (d.people && d.people.length) {
+      h += `<div class="people">${d.people.map(p => `<button class="chip" data-p="${p}" aria-pressed="false">${avatar(p.replace("@", ""))}${esc(personName(p))}</button>`).join("")}</div><div class="who" aria-live="polite"></div>`;
+    } else h += `<p style="color:var(--muted)">${map === "palace" ? "多是宮院裡的人，各有各的日子。" : "往來的人太多，記不清名字。"}</p>`;
+    h += `</div>`;
+    h += `<div class="p-sec"><h4>晝・夜</h4><div class="dn"><div class="${night ? "" : "on"}" data-t="day" title="切換到白天"><b>晝</b><span>${esc(d.day)}</span></div><div class="${night ? "on" : ""}" data-t="night" title="切換到夜晚"><b>夜</b><span>${esc(d.night)}</span></div></div></div>`;
+    if (d.exp) {
+      h += `<div class="p-sec"><h4>小體驗</h4><div class="exp-btns">${d.exp.map((e, i) => `<button class="btn red" data-exp="${i}">${esc(e.label)}</button>`).join("")}</div><div class="result" aria-live="polite"></div></div>`;
+    }
+    if (d.goto) h += `<div class="p-sec goto"><button class="btn" data-goto="${d.goto}">${d.goto === "palace" ? "入宮看看" : "進昭京看看"} →</button></div>`;
+    const fz = FEST.byKey[fest], hit = fz && d.fest.includes(fz.name);
+    h += `<div class="p-sec${hit ? " fest-on" : ""}"><h4>相關節慶${hit ? `<span class="now">正逢${esc(fz.name)}</span>` : ""}</h4><p>${esc(d.fest)}</p></div>`;
+    sheet.innerHTML = h;
+    sheet.scrollTop = 0;
+    sheet.querySelectorAll(".chip").forEach(b => b.onclick = () => {
+      const on = b.getAttribute("aria-pressed") === "true";
+      sheet.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", "false"));
+      const who = sheet.querySelector(".who");
+      if (on) { who.textContent = ""; return; }
+      b.setAttribute("aria-pressed", "true");
+      const p = b.dataset.p;
+      who.innerHTML = esc(personIntro(p)) + (p.startsWith("@") ? "" : ` <a href="#roster" data-char="${p}">看人物譜</a>`);
+      const a = who.querySelector("a"); if (a) a.onclick = (ev) => { ev.preventDefault(); closePanel(); showChar(p, true); };
+    });
+    sheet.querySelectorAll(".dn [data-t]").forEach(d => d.onclick = () => setTime(d.dataset.t));
+    sheet.querySelectorAll("[data-exp]").forEach(b => b.onclick = () => runExp(map, id, +b.dataset.exp));
+    const g = sheet.querySelector("[data-goto]"); if (g) g.onclick = () => { closePanel(); switchTab(g.dataset.goto); };
+  }
+  function runExp(map, id, i) {
+    const e = DATA[map][id].exp[i], box = sheet.querySelector(".result"), key = map + id + i;
+    let h = `<div class="meta">${esc(e.label)}</div>`;
+    if (e.type === "memorial") {
+      const r = pick(key, e.results);
+      h += `<p>${esc(r.text)}</p><div class="row"><button class="btn" data-a="ok">准</button><button class="btn" data-a="no">駁</button><button class="btn" data-a="hold">留中</button></div><div class="react"></div>`;
+      box.innerHTML = h;
+      box.querySelectorAll("[data-a]").forEach(b => b.onclick = () => {
+        box.querySelector(".row").remove();
+        box.querySelector(".react").innerHTML = `<p style="margin-top:8px"><b style="color:var(--red)">${b.textContent}。</b>${esc(r[b.dataset.a])}</p>`;
+      });
+      return;
+    }
+    if (e.type === "menu") {
+      const M = DATA.menu;
+      h += ["早膳", "午膳", "晚膳", "點心"].map(k => `<div><b style="color:var(--red);font-weight:400">${k}</b>　${esc(pick(key + k, M[k]))}</div>`).join("") + `<div class="meta" style="margin-top:8px;letter-spacing:.05em">${esc(pick(key + "n", M.note))}</div>`;
+    } else if (e.type === "meet") {
+      const [cid, line] = pick(key, e.results);
+      h += `<div class="meet">${avatar(cid)}<div><b>${esc(DATA.chars[cid].name)}</b><br>${esc(line)}</div></div>`;
+    } else if (e.type === "poem") {
+      const [poem, note] = pick(key, e.results);
+      h += `<div class="poem">${poem.split("。").filter(Boolean).map(s => s.split("，").map(esc).join("，<br>") + "。").join("<br>")}</div><div><b style="color:var(--red);font-weight:400">聞人渡解籤</b>　${esc(note)}</div>`;
+    } else if (e.type === "lore") {
+      const [line, lore] = pick(key, e.results);
+      h += `<p>赫祈爾：${esc(line)}</p><div class="meta" style="letter-spacing:.05em">烏闌小知識　${esc(lore)}</div>`;
+    } else h += `<p>${esc(pick(key, e.results))}</p>`;
+    box.innerHTML = h;
+  }
+  function openLoc(map, id, fromMap) {
+    if (!DATA[map] || !DATA[map][id]) return;
+    if (cur !== map) switchTab(map, true);
+    renderPanel(map, id);
+    openKey = [map, id];
+    scroll.classList.add("open"); scroll.setAttribute("aria-hidden", "false");
+    select(id); focusLoc(id);
+    const h = `#${map}-${id}`;
+    if (location.hash !== h) history.replaceState(null, "", h);
+    store.set("last", [map, id]);
+    if (!fromMap) $("#close").focus({ preventScroll: true });
+  }
+  function closePanel() {
+    scroll.classList.remove("open"); scroll.setAttribute("aria-hidden", "true");
+    openKey = null; select(null);
+    if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+  }
+  $("#close").onclick = closePanel;
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && openKey) closePanel(); });
+
+  /* ============ 分頁、晝夜、白描 ============ */
+  function switchTab(key, silent) {
+    if (key === cur) return;
+    showMap(key);
+    if (!silent) closePanel();
+  }
+  document.querySelectorAll(".tab").forEach(t => t.onclick = () => switchTab(t.dataset.map));
+  function setTime(t) {
+    document.documentElement.dataset.time = t;
+    document.querySelectorAll("[data-time-btn]").forEach(b => b.setAttribute("aria-pressed", b.dataset.timeBtn === t));
+    store.set("time", t);
+    const gn = document.getElementById("go-night"); if (gn && t === "night") gn.remove();
+    if (openKey) { const st = sheet.scrollTop; renderPanel(...openKey); sheet.scrollTop = st; }
+  }
+  function setMode(m) {
+    wrap.dataset.mode = m;
+    document.querySelectorAll("[data-mode-btn]").forEach(b => b.setAttribute("aria-pressed", b.dataset.modeBtn === m));
+    store.set("mode", m);
+  }
+  document.querySelectorAll("[data-time-btn]").forEach(b => b.onclick = () => setTime(b.dataset.timeBtn));
+  document.querySelectorAll("[data-mode-btn]").forEach(b => b.onclick = () => setMode(b.dataset.modeBtn));
+
+  /* ============ 歲時 ============ */
+  const fsel = $("#festsel"), strip = $("#feststrip"), fx = $("#fx");
+  let fest = "none";
+  const festCache = {};
+  fsel.innerHTML = `<option value="none">平日</option>` + FEST.list.map(f => `<option value="${f.key}">${esc(f.name)}・${esc(f.date)}</option>`).join("");
+  function drawFest() {
+    const layer = svg.querySelector(".festlayer"); if (!layer) return;
+    if (fest === "none") { layer.innerHTML = ""; return; }
+    const k = fest + "|" + cur;
+    if (festCache[k] == null) festCache[k] = FEST.overlay(fest, cur);
+    layer.innerHTML = festCache[k];
+  }
+  function drawFx(type) {
+    let h = "";
+    const R = (a, b) => (a + Math.random() * (b - a)).toFixed(2);
+    if (type === "snow") for (let i = 0; i < 70; i++) h += `<i class="snow" style="left:${R(0, 100)}%;--dx:${R(-40, 40)}px;animation-duration:${R(7, 15)}s;animation-delay:-${R(0, 15)}s;transform:scale(${R(0.5, 1.2)})"></i>`;
+    if (type === "petal" || type === "petal-red") for (let i = 0; i < 34; i++) h += `<i class="petal${type === "petal-red" ? " red" : ""}" style="left:${R(-10, 95)}%;--dx:${R(40, 160)}px;animation-duration:${R(9, 17)}s;animation-delay:-${R(0, 17)}s"></i>`;
+    if (type === "sky") for (let i = 0; i < 18; i++) h += `<i class="sky" style="left:${R(2, 96)}%;--dx:${R(-30, 30)}px;animation-duration:${R(14, 26)}s;animation-delay:-${R(0, 26)}s;transform:scale(${R(0.6, 1.1)})"></i>`;
+    if (type === "fire") for (let i = 0; i < 4; i++) h += `<i class="fw${i % 2 ? " r" : ""}" style="left:${R(8, 80)}%;top:${R(4, 30)}%;animation-delay:${R(0, 3)}s;animation-duration:${R(2.6, 3.6)}s"></i>`;
+    if (type === "moon") h = `<i class="moon"></i>`;
+    fx.innerHTML = h;
+  }
+  function setFest(k) {
+    fest = FEST.byKey[k] ? k : "none";
+    fsel.value = fest;
+    if (fest === "none") delete document.documentElement.dataset.fest; else document.documentElement.dataset.fest = fest;
+    const f = FEST.byKey[fest];
+    if (f) {
+      strip.hidden = false;
+      strip.innerHTML = `<b>${esc(f.name)}</b><span class="d">${esc(f.date)}</span><span>${esc(f.desc)}</span>`
+        + (f.night && !isNight() ? `<button id="go-night">入夜看燈</button>` : "");
+      const gn = $("#go-night"); if (gn) gn.onclick = () => setTime("night");
+    } else strip.hidden = true;
+    drawFx(f ? f.fx : null);
+    drawFest();
+    store.set("fest", fest);
+    if (openKey) { const st = sheet.scrollTop; renderPanel(...openKey); sheet.scrollTop = st; }
+  }
+  fsel.onchange = () => setFest(fsel.value);
+
+  /* ============ 人物譜 ============ */
+  const roster = $("#roster-row"), pcard = $("#pcard");
+  roster.innerHTML = Object.entries(DATA.chars).map(([id, c]) =>
+    `<button class="person" data-c="${id}" aria-pressed="false"><div class="ring">${avatar(id)}</div><div class="nm">${esc(c.name)}</div><div class="tt">${esc(c.title)}</div></button>`).join("");
+  function showChar(id, scrollTo) {
+    const c = DATA.chars[id];
+    roster.querySelectorAll(".person").forEach(p => p.setAttribute("aria-pressed", p.dataset.c === id));
+    pcard.hidden = false;
+    pcard.innerHTML = `<div class="big">${esc(c.name.slice(-1))}<img src="${c.avatar}" alt="${esc(c.name)}" loading="lazy" onerror="this.remove()"></div>
+      <div><h3>${esc(c.name)}</h3><div class="t">${esc(c.title)}・${esc(c.age)}</div>
+      <p class="q">「${esc(c.quote)}」</p><p style="margin:0">${esc(c.intro)}</p><p class="m">${esc(c.look)}</p>
+      <div class="haunts">常出沒：${c.haunts.map(([m, l]) => `<button class="btn" data-m="${m}" data-l="${l}">${esc(DATA[m][l].name)}<small style="color:var(--muted)">・${MAPNAME[m]}</small></button>`).join("")}</div></div>`;
+    pcard.querySelectorAll("[data-m]").forEach(b => b.onclick = () => jump(b.dataset.m, b.dataset.l));
+    if (scrollTo) $("#roster").scrollIntoView({ behavior: "smooth" });
+  }
+  roster.querySelectorAll(".person").forEach(p => p.onclick = () => {
+    if (p.getAttribute("aria-pressed") === "true") { p.setAttribute("aria-pressed", "false"); pcard.hidden = true; return; }
+    showChar(p.dataset.c);
+  });
+  function jump(map, id) {
+    $("#maps").scrollIntoView({ behavior: "smooth" });
+    setTimeout(() => openLoc(map, id), 350);
+  }
+
+  /* ============ 首屏、今日穆席 ============ */
+  document.querySelectorAll("[data-enter]").forEach(b => b.onclick = () => { switchTab(b.dataset.enter); $("#maps").scrollIntoView({ behavior: "smooth" }); });
+  const today = $("#today-text");
+  const nextToday = () => { today.textContent = pick("today", DATA.today); };
+  nextToday(); $("#today-more").onclick = nextToday;
+
+  /* ============ 啟動 ============ */
+  setTime(store.get("time", "day"));
+  setMode(store.get("mode", "color"));
+  setFest(store.get("fest", "none"));
+  const m = location.hash.match(/^#(palace|city|empire)-(\w+)/);
+  showMap(m ? m[1] : store.get("tab", "palace"));
+  if (m) setTimeout(() => { $("#maps").scrollIntoView(); openLoc(m[1], m[2]); }, 50);
+  window.addEventListener("hashchange", () => { const mm = location.hash.match(/^#(palace|city|empire)-(\w+)/); if (mm) openLoc(mm[1], mm[2]); });
+})();
+
+</script>
+</body>
+</html>
